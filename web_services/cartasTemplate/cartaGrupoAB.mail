@@ -1,0 +1,24 @@
+<meta http-equiv="Content-Type"  content="text/html charset=UTF-8" />
+<p style="font-size: 24px;"><img style="float: right;" src="@LOGO_ESCUELA" alt="" width="555" height="147" /></p>
+<p style="font-size: 24px;">&nbsp;</p>
+<p style="font-size: 24px;">&nbsp;</p>
+<p style="font-size: 24px;">&nbsp;</p>
+<p style="font-size: 24px; text-align: right;">Tlaquepaque, Jalisco @FECHA_DICTAMEN &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>
+<p class="western" style="font-size: 24px;" lang="en-US" align="justify"><span style="font-family: Cambria, serif;"><span style="font-family: Arial, serif;"><span><span lang="es-MX">Estimado (a) Docente @NOMBRE_DOCENTE</span></span></span></span></p>
+<p class="western" style="font-size: 24px;" lang="en-US" align="justify">&nbsp;</p>
+<p style="font-size: 24px;">&nbsp;</p>
+<p style="font-size: 24px;">Hacemos de su conocimiento que en el reporte de asistencia del dia <span style="text-decoration: underline;">@FECHA_DICTAMEN</span> se registr&oacute; un dictamen de <strong>@RESULTADO_DICTAMEN&nbsp;</strong> para las clases:</span></span></p>
+<p style="font-size: 24px; text-align: center;">@TABLA_DICTAMEN<span style="font-size: 10px;">&nbsp;</span></p>
+<p><span style="font-size: x-large;">En la tabla siguiente se muestran los registros detallados de entrada y salida que fueron usados para generar el dictamen&nbsp;</span><span style="font-size: x-large;">anterior.</span></p>
+<p style="text-align: center;"><span style="font-size: x-large;"><span>@TABLA_INCIDENCIAS</span></span></p>
+<p>&nbsp;<span style="font-size: 24px;">Le recuerdo que el no registrar puntualmente su asistencia a clase, afectar&aacute; su evaluaci&oacute;n docente.&nbsp;</span><span style="font-size: 24px;">Le invito salir puntual de su clase, de esta manera generaremos gran credibilidad y compromiso con nuestros alumnos.</span></p>
+<p style="font-size: 24px;">En caso de tener alguna duda con las reglas para dictaminar su materia, lo invito a ver el siguiente video:&nbsp;<a href="http://youtu.be/RMzGxUbWUUU">http://youtu.be/RMzGxUbWUUU</a></p>
+<p style="font-size: 24px;">&nbsp;</p>
+<p style="font-size: 24px;">&nbsp;</p>
+<p style="font-size: 24px; text-align: center;">&ldquo;Por siempre responsable de lo que se ha cultivado&rdquo;</p>
+<p style="font-size: 24px; text-align: center;">@NOMBRE_RESP</p>
+<p style="font-size: 24px; text-align: center;">@PUESTO_RESP</p>
+<p style="font-size: 24px; text-align: center;">Universidad Del Valle De M&eacute;xico</p>
+<p style="font-size: 24px; text-align: center;">&nbsp;</p>
+<p style="font-size: 24px;">&nbsp;</p>
+<p style="font-size: 24px;">&nbsp;</p>

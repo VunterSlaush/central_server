@@ -1,0 +1,99 @@
+/*Estilos customizados propios de la aplicacion*/
+
+#doors .title{
+  color: dimgray;
+  margin: 10px 0 10px 0;
+}
+
+#doors .status{
+  margin: 10px 0 10px 0;
+}
+
+#doors a.btn.btn-success {
+  width: 50%;
+}
+
+#doors .device-wrapper{
+  padding: 15px 0 15px 0;
+}
+
+#doors .btnConfig {
+    color: #446e9b;
+}
+
+.toggle {
+    width: 100px !important;
+}
+
+.image-frame img{
+    width: 90%;
+}
+
+
+/*TODO cambiar los estilos segun los estados para adaptarlo al front! ?*/
+
+#doors .status[estado="cerrado"]
+{
+  color: red;
+}
+
+#doors .status[estado="abierto"]
+{
+  color: green;
+}
+
+#doors .status[estado="inhabilitado"]
+{
+  color: gray;
+}
+
+.navbar-brand img {
+    height: 100px;
+    width: auto;
+    margin-top: -12px;
+    margin-left: 15px;
+}
+
+#videoOutput {
+  display: inline-block;
+  width: 450px;
+  height: 450px;
+  border: solid 2px #333;
+  border-radius: 5px;
+}
+
+video#video {
+  border-radius: 5px;
+  margin-right: 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+#productDescription > h2{
+  font-weight: 600;
+}
+h2#uploadMsg {
+  zoom: 2;
+}
+
+.chosen-container {
+    width: 100% !important;
+}
+
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn {
+    background-image: linear-gradient(#797777, #969595 50%, #797777);
+    background-color: #797777 !important;
+    border-color: #797777 !important;
+}
+
+.selected {
+    background-image: linear-gradient(#42c32b, #37a224 50%, #2b7b1d) !important;
+    border-color: #37a224 !important;
+}
+
+.selected:hover {
+    background-image: linear-gradient(#42c32b, #37a224 50%, #2b7b1d) !important;
+    border-color: #37a224 !important;
+}

@@ -1,0 +1,316 @@
+<html>
+<!--
+<table id="tabla-temas">
+   <tbody>
+      <tr>
+         <td>
+            <table width="100%">
+               <tbody>
+			   <tr>
+			   <td style="text-align:center;vertical-align:middle"><b>Registro de Temas</b></td>
+			   </tr>
+                  <tr>
+                     <td style="text-align:center;vertical-align:middle"><b>ACTUALIZACION EN EL SOPORTE</b></td>
+                  </tr>
+                  <tr>
+                     <td></td>
+                  </tr>
+                  <tr>
+                     <td><textarea style="resize:none" cols="50" rows="3" maxlength="400" placeholder="Ingresa descripcion"></textarea></td>
+                  </tr>
+               </tbody>
+            </table>
+         </td>
+      </tr>
+   </tbody>
+</table>
+-->
+
+<head>
+    <meta charset="utf-8">
+    <!-- TODO: Cambio nueva instancia. Modificar titulo de pestaña  -->
+    <title>Control de Puerta</title>
+
+    <script type="text/javascript" src="js/jquery/jquery-2.1.3.min.js"></script>
+    <script type="text/javascript" src="js/FlipClock-master/compiled/flipclock.min.js"></script>
+    <script type="text/javascript" src="js/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/MaxImage-master/lib/js/jquery.maximage.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/MaxImage-master/lib/js/jquery.cycle.all.js" charset="utf-8"></script>
+
+    <script type="text/javascript" src="js/websql/asigDB.js"></script>
+    <script type="text/javascript" src="js/websql/database.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
+    <script type="text/javascript" src= "js/socket.js"></script>
+    <script type="text/javascript" src="js/sitio.js"></script>
+    <script type="text/javascript" src="js/puerta.js"></script>
+    <link rel="stylesheet" type="text/css" href="js/FlipClock-master/compiled/flipclock.css">
+    <link rel="stylesheet" type="text/css" id="bs-css" href="css/bootstrap-cerulean.min.css">
+    <link rel="stylesheet" type="text/css" href="css/keyboard.css">
+    <link rel="stylesheet" type="text/css" href="js/MaxImage-master/lib/css/jquery.maximage.css" media="screen"
+          charset="utf-8"/>
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.2.0/jquery-confirm.min.css">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.2.0/jquery-confirm.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="js/MaxImage-master/lib/css/screen.css" media="screen" charset="utf-8"/>
+    <style type="text/css">
+        body {
+            margin-top: 150px;
+            font: 20px arial;
+            background: white no-repeat center center;
+        }
+
+        #reloj
+        {
+          margin: 20px;
+        }
+
+        div#contenedor-checador {
+            margin: 0;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+        }
+
+        div#semaforo {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
+
+        div#huellas {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background-color: #1f84b8;
+            border-radius: 500px;
+            border: 4px solid black;
+        }
+
+        div#puerta {
+            position: absolute;
+            bottom: 10px;
+            left: 110px;
+            background-color: #1f84b8;
+            border-radius: 500px;
+            border: 4px solid black;
+        }
+
+        .publicidad {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            background: rgba(51, 51, 51, 0.7);
+            z-index: 10;
+        }
+
+        .banner-publicidad {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            z-index: 2000;
+        }
+
+        .text-publicidad {
+            position: fixed;
+            font-size: 32px;
+            font-weight: bold;
+            width: 100%;
+            bottom: 17px;
+            z-index: 2001;
+            vertical-align: middle;
+            text-align: center;
+            color: #000000;
+        }
+
+        table#tabla-temas {
+            width: 100%;
+            color: #000000;
+        }
+    </style>
+</head>
+
+<body>
+<div id="login" style="display:none; color: #000000;"> <!-- style="display: none;" -->
+    <div align="center" id="sesion">
+        <b> Registro de Sesión </b>
+        <table border='1' id="tabla" align="center">
+            <tr>
+                <td><label for="nameHost" style="color: #000000;">Host:</label></td>
+                <td><input type='text' name='nameHost' id='nameHost'></td>
+            </tr>
+            <tr>
+                <td><label for="passHost" style="color: #000000;">Contraseña:</label></td>
+                <td><input type='password' name='passHost' id='passHost'></td>
+            </tr>
+            <tr>
+                <td>
+                    <button id='btnLogin'>Iniciar sesión</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<!-- Inicia contenedor con todos los elementos del checador	-->
+<div id="contenedor-checador" style="display: none;">
+    <div id="contenido" class="row">
+        <div id="reloj" class="clock" style="position: fixed;"></div>
+        <div id="checador" class="jumbotron col-xs-6 col-sm-4 col-md-3"
+             style="background: #323434; position: fixed;  top: 15px; right: 15px; padding-top: 15px; padding-bottom: 15px; border-radius: 6px; margin-right:10px;">
+             <div class="col-xs-1">
+             </div>
+             <div class="col-xs-10">
+               <div class="row">
+                   <div class="col-xs-12">
+                     <label for="nss" style="color: #ffffff;">Ingresa tu código:</label>
+                   </div>
+                     <div class="row  col-xs-7">
+                       <input type="text" class="form-control" id="nss" placeholder="NSS"  maxlength="12" disabled>
+                     </div>
+                     <div class="col-xs-5">
+                       <button id="btnEntrar" type="submit" class="btn btn-danger btn-md">...</button>
+                     </div>
+               </div>
+               <div class="row">
+                 <ul id="keyboard" hidden>
+                   <li class="letter">1</li>
+                   <li class="letter">2</li>
+                   <li class="letter">3</li>
+                   <li class="letter clearl">4</li>
+                   <li class="letter">5</li>
+                   <li class="letter">6</li>
+                   <li class="letter clearl">7</li>
+                   <li class="letter ">8</li>
+                   <li class="letter">9</li>
+                   <li class="clearl"></li>
+                   <li class="letter ">0</li>
+                   <li class="letter ">del</li>
+               </ul>
+             </div>
+        </div>
+        </div>
+    </div>
+    <!-- Fin contenedorpara ingresar número de nómina -->
+
+    <!-- Inicia contendor de semaforos	-->
+    <div id="semaforo">
+        <div id="verde"><img src="img/semaforo/semaforo-verde.png"></div>
+        <div id="amarillo" style="display: none;"><img src="img/semaforo/semaforo-amarillo.png"></div>
+        <div id="rojo" style="display: none;"><img src="img/semaforo/semaforo-rojo.png"></div>
+    </div>
+    <!-- Fin contendor de semaforos	-->
+
+    <!-- Inicia contendor de estado huellas -->
+    <div id="huellas" style="display: none;" ondblclick="toggleHuellas()">
+        <div id="fpOk" style="display: none;"><img src="img/huellas/fpOk.png"></div>
+        <div id="fpBad" style="display: none;"><img src="img/huellas/fpBad.png"></div>
+    </div>
+    <!-- Fin contendor de estado huellas -->
+
+    <div id="puerta" ondblclick="modalPuerta()">
+        <div id="door_open" style="display: none;"><img src="img/puertas/open.png"></div>
+        <div id="door_close" style="display: none;"><img src="img/puertas/close.png"></div>
+    </div>
+
+    <!-- Inicia Carrusel -->
+    <div id="maximage" style="display: none;"></div>
+</div>
+
+<!-- Inicio de modal generico-->
+<div class="modal fade normal" id="myModal" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true" data-backdrop="static" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modal-temas">
+            <div class="modal-body" id="temas">
+            </div>
+            <div class="modal-body" id="temas-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade normal" id="puertaModal" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true" data-backdrop="static" style="display: none;">
+
+     <div class="modal-dialog" role="document">
+         <div class="modal-content">
+           <div class="modal-header">
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+             <h4 class="modal-title">Configuracion de Puerta!</h4>
+           </div>
+           <div class="modal-body">
+             <div class="form-group">
+               <label for="bauds">Estado del Puerto</label>
+               <input type="text" class="form-control" id="estado_puerto"  disabled value="Desconectado">
+               <label for="puertos">Puertos Disponibles</label>
+               <select id="puertos" class="form-control">
+               </select>
+              <label for="bauds">Velocidad</label>
+              <input type="number" class="form-control" id="bauds" placeholder="Velocidad de Conexion" required="true">
+             </div>
+             <button type="button" id="puertaButton" data-loading-text="Cargando..." class="btn btn-primary" autocomplete="off" onclick="clickPuertaButton(this)">Conectar</button>
+           </div>
+           <div class="modal-footer">
+             <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+           </div>
+         </div><!-- /.modal-content -->
+       </div>
+
+</div>
+<!-- Fin de modal -->
+
+<div class="modal fade normal" id="checada_success" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true" data-backdrop="static" style="display: none;">
+     <div class="modal-dialog" role="document">
+         <div class="modal-content">
+           <div class="modal-header">
+             <h1 class="modal-title" id="user_name">Nombre!</h1>
+           </div>
+           <div class="modal-body">
+             <div class="row">
+               <div class="col-xs-4">
+
+               </div>
+               <div class="col-xs-6">
+                 <img id="imagen_modal" src="img/base/mujer.png" class="img-rounded">
+               </div>
+             </div>
+             <div class="row">
+               <p id="mensaje_modal" style="text-align:center;">Bienvenido!</p>
+             </div>
+           </div>
+         </div><!-- /.modal-content -->
+       </div>
+</div>
+
+<div class="modal fade normal" id="modal_puerta_abierta" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true" data-backdrop="static" style="display: none;">
+     <div class="modal-dialog" role="document">
+         <div class="modal-content">
+           <div class="modal-body">
+             <div class="row">
+               <p id="mensaje_modal" style="text-align:center; font-size:50px;">Bienvenido!</p>
+               <p id="puerta_mensaje" style="text-align:center; font-size:40px;">Puerta Abierta</p>
+             </div>
+           </div>
+         </div><!-- /.modal-content -->
+       </div>
+</div>
+
+
+<script type="text/javascript">
+  $('#keyboard li').click(function()
+  {
+      if($(this).text() != 'del')
+        $('#nss').val($('#nss').val() + $(this).text());
+      else {
+        $('#nss').val($('#nss').val().substr(0, $('#nss').val().length - 1));
+      }
+  });
+</script>
+</body>
+</html>

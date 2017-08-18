@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>SICH - Club Campestre Celaya</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- The styles -->
+    <link id="bs-css" href="css/bootstrap-cerulean.min.css" rel="stylesheet">
+    <link href="css/charisma-app.css" rel="stylesheet">
+    <link href='bower_components/chosen/chosen.min.css' rel='stylesheet'>
+    <link href='bower_components/colorbox/example3/colorbox.css' rel='stylesheet'>
+    <link href='bower_components/responsive-tables/responsive-tables.css' rel='stylesheet'>
+    <link href='css/elfinder.min.css' rel='stylesheet'>
+    <link href='css/elfinder.theme.css' rel='stylesheet'>
+    <link href='css/jquery.iphone.toggle.css' rel='stylesheet'>
+    <link href='css/uploadify.css' rel='stylesheet'>
+    <link href='css/animate.min.css' rel='stylesheet'>
+
+    <!-- jQuery -->
+    <script src="bower_components/jquery/jquery.min.js"></script>
+
+    <script src="js/objetos/Requester.js"></script>
+
+    <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- The fav icon -->
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <script type="application/javascript" language="javascript">
+        $(document).ready(function () {
+            $(document).on("click", "#login", function (e) {
+                var usu = $('#usuario').val();
+                var pass = $('#password').val();
+                var datatbs = {usuario: usu, password: pass, ws: "login"};
+                $.post(WS_PRIVADOS_URL, datatbs, function (data) {
+                    if (data.s == 0) {
+                        $('div#msjError').html(data.m).attr('class', 'alert alert-danger');
+                    }
+                    else {
+                        window.location.href = "";
+                    }
+
+                }, "json");
+            });
+
+            $('.form-control').keypress(function (event) {
+                if (event.which == 13)
+                    document.getElementById("login").click();
+            });
+
+
+        });
+    </script>
+
+</head>
+
+<body>
+<div class="ch-container">
+    <div class="row">
+        <div class="row">
+            <div class="col-md-12 center login-header">
+                <h2>Módulo de Administración <br> Sistema Inteligente de Control de Horarios</h2>
+            </div>
+            <!--/span-->
+        </div>
+        <!--/row-->
+        <div class="row">
+            <div class="well col-md-5 center login-box">
+                <div id="msjError" class="alert alert-info">
+                    Por favor, ingresa tu usuario y contraseña para iniciar sesión
+                </div>
+                <fieldset>
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user red"></i></span>
+                        <input type="text" class="form-control" id="usuario" placeholder="Usuario"
+                               autofocus="autofocus">
+                    </div>
+                    <div class="clearfix"></div>
+                    <br>
+
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock red"></i></span>
+                        <input type="password" class="form-control" id="password" placeholder="Contraseña">
+                    </div>
+                    <div class="clearfix"></div>
+                    <p class="center col-md-5">
+                        <button class="btn btn-primary" id="login">Iniciar Sesión</button>
+                    </p>
+                </fieldset>
+            </div>
+            <!--/span-->
+        </div>
+        <!--/row-->
+    </div>
+    <!--/fluid-row-->
+</div>
+<!--/.fluid-container-->
+
+<!-- external javascript -->
+
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<!-- library for cookie management -->
+<script src="js/jquery.cookie.js"></script>
+<!-- data table plugin -->
+<script src='js/jquery.dataTables.min.js'></script>
+
+<!-- select or dropdown enhancer -->
+<script src="bower_components/chosen/chosen.jquery.min.js"></script>
+<!-- plugin for gallery image view -->
+<script src="bower_components/colorbox/jquery.colorbox-min.js"></script>
+<!-- notification plugin -->
+<script src="bower_components/noty/js/packaged/jquery.noty.packaged.min.js"></script>
+<!-- library for making tables responsive -->
+<script src="bower_components/responsive-tables/responsive-tables.js"></script>
+<!-- star rating plugin -->
+<script src="js/jquery.raty.min.js"></script>
+<!-- for iOS style toggle switch -->
+<script src="js/jquery.iphone.toggle.js"></script>
+<!-- autogrowing textarea plugin -->
+<script src="js/jquery.autogrow-textarea.js"></script>
+<!-- multiple file upload plugin -->
+<script src="js/jquery.uploadify-3.1.min.js"></script>
+<!-- history.js for cross-browser state change on ajax -->
+<script src="js/jquery.history.js"></script>
+<!-- application script for Charisma demo -->
+<script src="js/charisma.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,425 @@
+<!-- TODO: Crear catálogo de titulos para personas  -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>SICH - Club Campestre Celaya</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,  maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Sistema Inteligente de Control de.">
+
+    <!-- jQuery -->
+    <script src="js/jquery/jquery-2.1.1.min.js"></script>
+    <script src="js/jquery-ui/jquery-ui.js"></script>
+    <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!-- [if lt IE 9]>
+    <![endif] -->
+
+    <!-- The styles -->
+    <!--<link id="bs-css" href="css/bootstrap-cerulean.min.css" rel="stylesheet">-->
+    <link rel="stylesheet" href="js/jquery-ui/jquery-ui.css">
+    <link id="bs-css" href="css/bootstrap-spacelab.min.css" rel="stylesheet">
+    <link href="css/charisma-app.css" rel="stylesheet">
+    <link href='bower_components/chosen/chosen.min.css' rel='stylesheet'>
+    <link href='bower_components/colorbox/example3/colorbox.css' rel='stylesheet'>
+    <link href='bower_components/responsive-tables/responsive-tables.css' rel='stylesheet'>
+    <link href='css/elfinder.min.css' rel='stylesheet'>
+    <link href='css/elfinder.theme.css' rel='stylesheet'>
+    <link href='css/jquery.iphone.toggle.css' rel='stylesheet'>
+    <link href='css/uploadify.css' rel='stylesheet'>
+    <link href='css/animate.min.css' rel='stylesheet'>
+    <link href='css/bootstrap-timepicker.min.css' rel='stylesheet'>
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link href='bower_components/datatables/extensions/TableTools/css/dataTables.tableTools.min.css' rel='stylesheet'>
+    <!--   <link href='bower_components/datatables/examples/resources/bootstrap/3/dataTables.bootstrap.css' rel='stylesheet'>-->
+
+    <!-- custom css -->
+    <link href="css/styles.css" rel="stylesheet">
+
+    <!-- chrome shim -->
+    <script src="js/lib/adapter-latest.js"></script>
+
+    <!-- CHARTS -->
+    <script src="js\charts\dist\Chart.js"></script>
+
+    <!-- external javascript -->
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap-tour.min.js"></script>
+    <script src="js/bootstrap-timepicker.js"></script>
+    <script src="js/jquery.blockUI.js"></script>
+    <!-- library for cookie management -->
+    <script src="js/jquery.cookie.js"></script>
+    <!-- data table plugin -->
+    <script src='bower_components/datatables/media/js/jquery.dataTables.js'></script>
+    <link rel="stylesheet" type="text/css" href="bower_components/datatables/media/css/datatables.min.css"/>
+    <!--<script src='bower_components/datatables/extensions/TableTools/js/dataTables.tableTools.min.js'></script>-->
+    <script src="bower_components/datatables/examples/resources/bootstrap/3/dataTables.bootstrap.js"></script>
+    <script type="text/javascript" src="js/data-tables/datatables.min.js"></script>
+    <script src='bower_components/datatables/media/js/buttons.html5.min.js'></script>
+    <script src='bower_components/datatables/media/js/dataTables.buttons.min.js'></script>
+    <script src='bower_components/datatables/media/js/pdfmake.min.js'></script>
+    <script src='bower_components/datatables/media/js/vfs_fonts.js'></script>
+
+    <!-- datatable select -->
+    <link rel="stylesheet" type="text/css" href="css/data-tables/select.dataTables.min.css"/>
+    <script src='js/data-tables/dataTables.select.min.js'></script>
+
+
+
+    <!-- select or dropdown enhancer -->
+    <script src="bower_components/chosen/chosen.jquery.min.js"></script>
+    <!-- plugin for gallery image view -->
+    <script src="bower_components/colorbox/jquery.colorbox-min.js"></script>
+    <!-- notification plugin -->
+    <script src="bower_components/noty/js/packaged/jquery.noty.packaged.min.js"></script>
+    <!-- library for making tables responsive -->
+    <script src="bower_components/responsive-tables/responsive-tables.js"></script>
+    <!-- star rating plugin -->
+    <script src="js/jquery.raty.min.js"></script>
+    <!-- for iOS style toggle switch -->
+    <script src="js/jquery.iphone.toggle.js"></script>
+    <!-- autogrowing textarea plugin -->
+    <script src="js/jquery.autogrow-textarea.js"></script>
+    <!-- multiple file upload plugin -->
+    <script src="js/jquery.uploadify-3.1.min.js"></script>
+    <!-- history.js for cross-browser state change on ajax -->
+    <script src="js/jquery.history.js"></script>
+    <!-- application script for Charisma demo -->
+    <script src="js/charisma.js"></script>
+
+    <!-- bootstrap toggle -->
+    <script src="js/bootstrap-toggle.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-toggle.min.css"/>
+
+    <!-- Seleccionador de imagenes -->
+    <script src="js/image-picker/image-picker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="js/image-picker/image-picker.css"/>
+
+    <!-- Seleccionador de fechas -->
+    <script src="js/picker.js"></script>
+    <script src="js/picker.time.js"></script>
+    <script src="js/picker.date.js"></script>
+    <script src="js/legacy.js"></script>
+    <link rel="stylesheet" href="js/themes/default.css" id="theme_base">
+    <link rel="stylesheet" href="js/themes/default.date.css" id="theme_date">
+    <link rel="stylesheet" href="js/themes/default.time.css" id="theme_time">
+
+    <!-- sentry -->
+    <script src="js/raven/raven.min.js"></script>
+    <script type="text/javascript" src="js/raven_config.js"></script>
+    <script>
+      initRaven(); //inicaliza raven
+    </script>
+
+    <!-- Objetos propios del sistema -->
+    <script src="js/objetos/Requester.js"></script>
+    <script src="js/objetos/Espacios.js"></script>
+    <script src="js/objetos/Administradores.js"></script>
+    <script src="js/objetos/Servicios.js"></script>
+    <script src="js/objetos/Roles.js"></script>
+    <script src="js/objetos/Personas.js"></script>
+    <script src="js/objetos/Grupos.js"></script>
+    <script src="js/objetos/Asignacion.js"></script>
+    <script src="js/objetos/sitio.js"></script>
+    <script src="js/objetos/Dispositivos.js"></script>
+    <script src="js/objetos/DiasNoLaborales.js"></script>
+    <script src="js/objetos/parserFIGPO.js"></script>
+    <script src="js/objetos/ControlAccesos.js"></script>
+    <script src="js/objetos/CamaraControl.js"></script>
+    <script src="js/objetos/ControlHuellas.js"></script>
+    <script src="js/objetos/ControlRfdi.js"></script>
+    <script src="js/objetos/ControlSocios.js"></script>
+    <script src="js/objetos/ControlEmpleados.js"></script>
+
+    <!-- PapaParser -->
+    <script src="js/PapaParse/papaparse.min.js"></script>
+
+    <!-- TimeAgo -->
+    <script src="js/jquery.timeago.js"></script>
+
+    <!-- Archivo js principal -->
+    <script src="js/main.js"></script>
+
+    <!-- Socket.io Client Library -->
+    <script type="text/javascript" src="js/socket.io/socket.io.js"></script>
+
+    <!-- Eventos Puerta -->
+    <script src="js/devices.js"></script>
+
+    <!-- The fav icon -->
+    <link rel="shortcut icon" href="img/favicon.ico?v=2">
+    <style type="text/css">
+        .modal.modal-wide .modal-dialog {
+            width: 80%;
+        }
+
+        .modal-wide .modal-body {
+            overflow-y: auto;
+        }
+
+        .noty_text {
+            font-size: 17px;
+        }
+    </style>
+<!--headers-->
+
+</head>
+<body>
+    <!-- topbar starts -->
+    <div class="navbar navbar-default" role="navigation">
+        <div class="navbar-inner">
+            <button type="button" class="navbar-toggle pull-left animated flip">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="">
+                <img src="img/logo_club.png">
+            </a>
+            <!-- user dropdown starts -->
+            <div class="btn-group pull-right">
+                <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="width:100%;">
+                    <i class="glyphicon glyphicon-user"></i><span id="persona" class="hidden-sm hidden-xs">@Persona</span>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a id="logout" href="#">Salir</a></li>
+                </ul>
+                <div class="hora-actual" style="text-align:right;">
+                  <i class="glyphicon glyphicon-time"></i><span id="texto-hora"></span>
+                </div>
+                <div class="fecha-actual" style="text-align:right;">
+                  <i class="glyphicon glyphicon-calendar"></i><span id="texto-fecha"></span>
+                </div>
+            </div>
+            <!-- user dropdown ends -->
+        </div>
+    </div>
+    <!-- topbar ends -->
+    <div class="ch-container">
+        <div class="row">
+            <!-- left menu starts -->
+            <div class="col-sm-2 col-lg-2">
+                <div class="sidebar-nav">
+                    <div class="nav-canvas">
+                        <div class="nav-sm nav nav-stacked">
+                        </div>
+                        <ul class="nav nav-pills nav-stacked main-menu">
+                            <li class="nav-header">Men&uacute; Principal</li>
+
+                        <!-- ****************NAV MENU**************** -->
+
+                            <li class="active">
+                                <a class="ajax-link" href="#" id="btnDashboard">
+                                    <i class="glyphicon glyphicon-home"></i>
+                                    <span> Inicio</span>
+                                </a>
+                            </li>
+                            <li class="accordion">
+                              <a href="#">
+                                <i class="glyphicon glyphicon-dashboard"></i>
+                                <span> Control Acceso</span>
+                              </a>
+                              <ul class="nav nav-pills nav-stacked">
+                                <li>
+                                  <a class="ajax-link" href="#" id="btnAccesos">
+                                    Puertas
+                                  </a>
+                                </li>
+                                <li>
+                                  <a class="ajax-link" href="#" id="btnControlReportes">
+                                    Reportes
+                                  </a>
+                                </li>
+                              </ul>
+                            </li>
+                            <li class="accordion">
+                              <a class="ajax-link" href="#" id="btnComunicados">
+                                  <i class="glyphicon glyphicon-bullhorn"></i>
+                                  <span> Comunicados</span>
+                              </a>
+                              <ul class="nav nav-pills nav-stacked">
+                                <li>
+                                  <a class="ajax-link" href="#" id="btnNoticias">
+                                    Noticias
+                                  </a>
+                                </li>
+                                <li>
+                                  <a class="ajax-link" href="#" id="btnNotPush">
+                                    Notificaciones
+                                  </a>
+                                </li>
+                              </ul>
+                            </li>
+                            <li class="accordion">
+                              <a class="ajax-link" href="#">
+                                <i class="glyphicon glyphicon-bookmark"></i>
+                                <span> Socios</span>
+                              </a>
+                              <ul class="nav nav-pills nav-stacked">
+                                <li>
+                                  <a class="ajax-link" href="#" id="btnSocios">
+                                    Socios
+                                  </a>
+                                </li>
+                                <li>
+                                  <a class="ajax-link" href="#" id="btnSociosReportes">
+                                    Reportes
+                                  </a>
+                                </li>
+                                <li>
+                                  <a class="ajax-link" href="#" id="btnPagos">
+                                    Pagos
+                                  </a>
+                                </li>
+                              </ul>
+                            </li>
+                            <li>
+                                <a class="ajax-link" href="#" id="btnEmpleados">
+                                    <i class="glyphicon glyphicon-user"></i>
+                                    <span> Empleados</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="ajax-link" href="#" id="btnRestaurante">
+                                    <i class="glyphicon glyphicon-fire"></i>
+                                    <span> Restaurante</span>
+                                </a>
+                            </li>
+                            <!-- <li class="accordion">
+                              <a class="ajax-link" href="#" id="btnAlberca">
+                                  <i class=" glyphicon glyphicon-leaf"></i>
+                                  <span> Alberca</span>
+                              </a>
+                              <ul class="nav nav-pills nav-stacked">
+                                <li>
+                                  <a class="ajax-link" href="#" id="btnAlbercaReportes">
+                                    Reportes
+                                  </a>
+                                </li>
+                              </ul>
+                            </li> -->
+                            <li>
+                                <a class="ajax-link" href="#" id="btnSoporte">
+                                    <i class="glyphicon glyphicon-briefcase"></i>
+                                    <span> Soporte</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="ajax-link" href="#" id="btnCatalogo">
+                                    <i class="glyphicon glyphicon-list-alt"></i>
+                                    <span> Catálogo Servicios</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- left menu ends -->
+            <div id="content" class="col-lg-10 col-sm-10">
+                <!-- content starts -->
+                <div class="row">
+                    <div class="box col-md-12">
+                        <div class="box-inner">
+                            <div class="box-header well">
+                                <h2 id="titulo"><i class="glyphicon glyphicon-info-sign"></i> Inicio </h2>
+
+                                <div class="box-icon">
+                                    <!--<a href="#" class="btn btn-setting btn-round btn-default" id="btnAgregar" style="display: none;">-->
+                                    <a href="#" id="btnFigpo" class="btn btn-round btn-default" style="display: none;">
+                                        <!--  -->
+                                        <i class="glyphicon glyphicon-file"></i>
+                                    </a>
+                                    <a href="#" id="btnAgregar" class="btn btn-round btn-default" style="display: none;">
+                                        <i class="glyphicon glyphicon-plus-sign"></i>
+                                    </a>
+                                    <a href="#" id="btnMinimize" class="btn btn-minimize btn-round btn-default">
+                                        <i class="glyphicon glyphicon-chevron-up"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="box-content">
+                                <div id="contenido">
+                                    <!-- Contenido va aqui -->
+                                    <div style="text-align: center"><img src="img/logofinal.jpg" width="847px"
+                                                                         height="622px"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Inicio de modal normal-->
+            <div class="modal fade normal" id="myModal" role="dialog" aria-labelledby="myModalLabel"
+                 aria-hidden="true" data-backdrop="static" data-keyboard="false" style="display: none;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                            <h3>Settings</h3>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
+                            <a href="#" class="btn btn-primary" data-dismiss="modal">Save changes</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Fin de modal normal -->
+
+            <!-- modal para tomar foto y enviarla -->
+              <div class="modal fade normal" id="cameraModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header" style="text-align: center;">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                      <div id="description"></div>
+                    </div>
+                    <div class="modal-body" style="text-align: center;">
+                      <div style="overflow: auto;">
+                        <div style="">
+                          <label for="devices" style="">Camara:</label>
+                          <select id="devices" name="devices" style=""></select>
+                        </div>
+                      </div>
+                      <div id="videoConstraints" style="text-align:center;margin:5px 0px 5px 0px">
+          	             <a href="#" id="qvga" class="btn btn-primary"> QVGA </a>
+           	             <a href="#" id="vga" class="btn btn-primary"> VGA </a>
+           	             <a href="#" id="hd" class="btn btn-primary"> HD </a>
+           	             <a href="#" id="fullHd" class="btn btn-primary"> Full HD </a>
+                         <p id="actualRes"> </p>
+                      </div>
+                      <div id="videoOutput">
+                        <video id="video" autoplay></video>
+                        <canvas id="canvas" style="display:none;"></canvas>
+                      </div>
+                    </div>
+                    <div class="modal-footer" style="text-align:center">
+                      <button id="takeSnap" type="button" class="btn btn-primary" style="zoom: 1.5;width: 70%;height: 40px;">
+                        <p><img src="img/thefullreflexcamera_slr_camera_4626.png" alt="" width="20px" height="20px" style="vertical-align:middle">
+                          Capturar
+                        </p>
+                      </button>
+                      <h2 id="uploadMsg" style="display:none;"> </h2>
+                      <img id="uploadAnim"src="img/ajax-loader.gif" style="display:none;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- fin modal -->
+            <!-- content ends -->
+        </div>
+    </div>
+    <!--/fluid-row-->
+    <footer>
+      <div class="footer-content" style="text-align: center;">
+        Powered By: <br> <a href="http://www.jalisoft.com" target="_blank">www.jalisoft.com</a> <br>
+                     <a href="http://www.torquedynamics.mx/" target="_blank">www.torquedynamics.mx</a> <br>
+        Copyright © 2016 Jalisoft S de RL de CV, All rights reserved
+      </div>
+    </footer>
+
+</body>
+</html>

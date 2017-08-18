@@ -1,0 +1,1 @@
+serverSMTP => mail.jalisoft.com; usuarioSMTP => ivan@jalisoft.com; claveSMTP => 7352; puertoSMTP => 26; emailHost =>ivan@jalisoft.com; security =>;
