@@ -1790,7 +1790,7 @@ var sitio = {
               '<th> Acciones </th></tr>'+
               '</thead><tbody>';
 
-              //Crear datos ficticeos
+              /*//Crear datos ficticeos
               tablaHTML += ''+
               '<tr>'+
               '<td> 001 </td>'+
@@ -1815,7 +1815,7 @@ var sitio = {
               '<a class="btn btn-success btn-setting" id="btnVerNoticia" href="#" id-tipo="002"  fecha-tipo="05-Marzo" titulo-tipo="Torneo de Golf" estatus-tipo="Activo" vigencia-tipo="15 Días" ><i class="glyphicon glyphicon-barcode icon-white"></i>  Ver </a> ' +
               '<a class="btn btn-info btn-setting" id="btnModificar" href="#" tipo="noticias" id-tipo="002"  fecha-tipo="05-Marzo" titulo-tipo="Torneo de Golf" estatus-tipo="Activo" vigencia-tipo="15 Días" ><i class="glyphicon glyphicon-edit icon-whitecon"></i>   Editar  </a> ' +
               '<a class="btn btn-danger" id="btnEliminar" href="#" tipo="noticias" id-tipo="002"><i class="glyphicon glyphicon-trash icon-white"></i> Eliminar    </a> '+
-              '</td></tr>';
+              '</td></tr>';*/
 
               tablaHTML+='</tbody></table>';
               $('#contenido').html(tablaHTML);
@@ -1863,7 +1863,7 @@ var sitio = {
               '</thead><tbody>';
 
               //Crear datos ficticeos
-              tablaHTML += ''+
+              /*tablaHTML += ''+
               '<tr>'+
               '<td> 001 </td>'+
               '<td> 04-Feb</td>'+
@@ -1881,7 +1881,7 @@ var sitio = {
               '<td> Programada 20-mayo </td>'+
               '<td>'+
               '<a class="btn btn-success btn-setting" id="btnVerNoticia" href="#" id-tipo="002"  fecha-tipo="05-Mayo" titulo-tipo="Recordatorio de pago Febrero" estatus-tipo="Programada 20-mayo" ><i class="glyphicon glyphicon-barcode icon-white"></i>  Ver </a> ' +
-              '</td></tr>';
+              '</td></tr>';*/
 
               tablaHTML+='</tbody></table>';
               $('#contenido').html(tablaHTML);

@@ -3552,11 +3552,11 @@ function pAccesos($data,$dataInJson){
                                     'del' => false);
                 if(intval($access[$i]) > 0){
                     $menuAccess['leer'] = true;
-                    if (in_array(intval($data[$i]), array(4,6,7)))
+                  //  if (in_array(intval($data[$i]), array(4,6,7)))
                         $menuAccess['esc'] = true;
-                    if (in_array(intval($data[$i]), array(3,6,7)))
+                  //  if (in_array(intval($data[$i]), array(3,6,7)))
                         $menuAccess['mod'] = true;
-                    if (in_array(intval($data[$i]), array(2,7)))
+                  //  if (in_array(intval($data[$i]), array(2,7)))
                         $menuAccess['del'] = true;
                 }
                 $accesos[$menuDashboard[$i]] = $menuAccess;
