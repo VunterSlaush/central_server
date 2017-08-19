@@ -1,4 +1,4 @@
-var socketPuerta = io('http://localhost:1234');
+var socketPuerta = io('http://localhost:1234'); // TODO CAMBIAR ESTO SI ES NECESARIO!
 const ESPERA_TIMEOUT = 10000;
 
 socketPuerta.on('puertoAbierto', function(data)

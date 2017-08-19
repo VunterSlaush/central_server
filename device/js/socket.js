@@ -1,4 +1,4 @@
-var socket = io('http://159.203.83.182:443');
+var socket = io('https://devicescontroller.herokuapp.com');
 
 socket.on('connect', function()
 {
