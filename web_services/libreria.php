@@ -4,7 +4,7 @@ header("Content-Type: text/html; charset=utf-8");
 // header("Content-Type: application/json; charset=utf-8");
 ini_set('max_execution_time', 0);
 include_once('./utilities/helpers.php');
-/* Funciones utilitarias SQL 
+/* Funciones utilitarias SQL
    Deben ser declaradas las variables
     global $servidor;
     global $base;
@@ -14,17 +14,26 @@ include_once('./utilities/helpers.php');
 */
 
 /*Valores de Accesos para los catalogos del Dashboard
-    
+
     Lectura     1       1       1       1       1       1
     Escritura   2       2       2       0       0       0
-    Modificar   3       3       0       3       0       0    
+    Modificar   3       3       0       3       0       0
     Delete      1       0       0       0       1       0
-    _____________________________________________________                          
+    _____________________________________________________
     Total       7       6       3       4       2       1
 
 */
 
-$menuDashboard = array('Administradores','Roles','Grupos','Personas','Espacios','Servicios','Asignaciones','Reportes','Dias_no_laborales','Dispositivos');
+$menuDashboard = array('Administradores',
+                       'Roles',
+                       'Grupos',
+                       'Personas',
+                       'Espacios',
+                       'Servicios',
+                       'Asignaciones',
+                       'Reportes',
+                       'Dias_no_laborales',
+                       'Dispositivos');
 $bannedRomms = array();
 
 function ejecutaSQL($sql)
@@ -259,12 +268,12 @@ function analizar_imp($nss, $fecha)
         $h=ejecutaSQL($qry);
         $nFeriados=array();
         if (mysqli_num_rows($h)!=0) {
-            while ($fi = mysql_fetch_assoc($h)){                
+            while ($fi = mysql_fetch_assoc($h)){
                 array_push($nFeriados, $fi['nivel']);
             }
         }
         $b=0;
-        $t=0;                
+        $t=0;
         if ($r = ejecutaSQL($sql)) {
             //echo "<BR>" . $sql;
             echo "Lista de asignaciones <br> ";
@@ -282,7 +291,7 @@ function analizar_imp($nss, $fecha)
                         $Ri = strtotime(date("Y-m-d", $fecha) . " " . $ll['HoraInicio']);
                         $Rs = strtotime(date("Y-m-d", $fecha) . " " . $ll['HoraFin']);
                         array_push($Ps, array("ID" => $ll['ID_SERVICIO'], "NOMBRE" => $ll['Titulo'], "NIVEL" => $ll['Nivel'], "Ri" => $Ri, "Rs" => $Rs, "Salon"=>$ll['salon']));
-                    }                    
+                    }
             }
         }
         if ($b==$t) {
@@ -308,8 +317,8 @@ function analizar_imp($nss, $fecha)
                         echo "<b>RESULTADO = AUSENCIA</b>";
                     }else{
                         echo "<br> Asignaci&oacute;n: ";
-                        print_r($serv);                    
-                        echo "<b>RESULTADO = ASISTENCIA</b>";                         
+                        print_r($serv);
+                        echo "<b>RESULTADO = ASISTENCIA</b>";
                     }
                 }
                 echo "<br>////////////////////////////**********************//////////////////////////////<br><br>";
@@ -1093,7 +1102,7 @@ function analizar_db($nss, $fecha)
         $h=ejecutaSQL($qry);
         $nFeriados=array();
         if (mysqli_num_rows($h)!=0) {
-            while ($fi = mysql_fetch_assoc($h)){                
+            while ($fi = mysql_fetch_assoc($h)){
                 array_push($nFeriados, $fi['nivel']);
             }
         }
@@ -1108,7 +1117,7 @@ function analizar_db($nss, $fecha)
                 if (in_array($ll['Nivel'], $nFeriados)){
                     error("WARNING analizar_db($nss, $fecha) DIA NO LABORAL -".$ll['Titulo']."-".$ll['Nivel'], "W");
                     $b++;
-                }else{               
+                }else{
                     $Ri = strtotime(date("Y-m-d", $fecha) . " " . $ll['HoraInicio']);
                     $Rs = strtotime(date("Y-m-d", $fecha) . " " . $ll['HoraFin']);
                     array_push($Ps, array("ID" => $ll['ID_SERVICIO'], "ASIGNACION" => $ll['ID_ASIGNACION'], "NOMBRE" => $ll['Titulo'], "NIVEL" => $ll['Nivel'], "Ri" => $Ri, "Rs" => $Rs, "Salon"=>$ll['salon']));
@@ -1132,7 +1141,7 @@ function analizar_db($nss, $fecha)
             $h=ejecutaSQL($qry);
             $nFeriados=array();
             if (mysqli_num_rows($h)!=0) {
-                while ($fi = mysql_fetch_assoc($h)){                
+                while ($fi = mysql_fetch_assoc($h)){
                     array_push($nFeriados, $fi['nivel']);
                 }
             }
@@ -1144,12 +1153,12 @@ function analizar_db($nss, $fecha)
                     //reportar servicio como falta CON EL ID ASIGNACION
                     if(in_array($serv['NIVEL'], $nFeriados)){
                         $resultado = "A";
-                        dictamenHoras($resultado, $revision, $fechaEvaluada, $serv['ASIGNACION'], ID_USUARIO_MAQUINA, "Dia no laboral", "Dia no laboral");                        
+                        dictamenHoras($resultado, $revision, $fechaEvaluada, $serv['ASIGNACION'], ID_USUARIO_MAQUINA, "Dia no laboral", "Dia no laboral");
                     }else{
                         if(!in_array($serv['Salon'], $bannedRomms)) {
                             $resultado = "AU";
                             error("Resultado para " . $serv['NOMBRE'] . " :" . $resultado, "I");
-                            dictamenHoras($resultado, $revision, $fechaEvaluada, $serv['ASIGNACION'], ID_USUARIO_MAQUINA, "Sin Checada", "Sin Checada");                        
+                            dictamenHoras($resultado, $revision, $fechaEvaluada, $serv['ASIGNACION'], ID_USUARIO_MAQUINA, "Sin Checada", "Sin Checada");
                         }else{
                             $resultado = "A";
                             dictamenHoras($resultado, $revision, $fechaEvaluada, $serv['ASIGNACION'], ID_USUARIO_MAQUINA, "EXC. Aula externa", "EXC. Aula externa");
@@ -1164,8 +1173,8 @@ function analizar_db($nss, $fecha)
                 foreach ($Ps as $asignacion) {
                     if (in_array($asignacion['NIVEL'], $nFeriados)) {
                         $resultado = "A";
-                        dictamenHoras($resultado, $revision, $fechaEvaluada, $serv['ASIGNACION'], ID_USUARIO_MAQUINA, "Dia no laboral", "Dia no laboral");                        
-                    }else{                    
+                        dictamenHoras($resultado, $revision, $fechaEvaluada, $serv['ASIGNACION'], ID_USUARIO_MAQUINA, "Dia no laboral", "Dia no laboral");
+                    }else{
                         if(in_array($asignacion['Salon'], $bannedRomms)) {
                             $resultado = "A";
                             dictamenHoras($resultado, $revision, $fechaEvaluada, $asignacion['ASIGNACION'], ID_USUARIO_MAQUINA, "EXC. Aula externa", "EXC. Aula externa");
@@ -1749,7 +1758,7 @@ function nss_por_asignacion_por_dia_asignatura($diaI, $diaF, $diaS)
     $result = array();
     $sql = "SELECT DISTINCT(p.NSS) FROM asignaciones a , detalle_asignacion d, personas p
              WHERE a.FechaInicio <= '$diaI'
-             AND a.FechaFin >= '$diaF' 
+             AND a.FechaFin >= '$diaF'
              AND d.ID_Asignacion = a.id
              AND d.Dia = '$diaS'
              AND a.ID_Persona = p.id
@@ -1833,7 +1842,7 @@ function aRol($nombre)
         if($idRol == 0){
             echo json_encode(array("s" => 0, "m" => "Error al a&ntilde;adir el roles"));
             $hacerGrupo = false;
-        }        
+        }
     }
     if($hacerGrupo){
         $sql = " SELECT Activo FROM grupos WHERE Nombre LIKE '$nombre' ";
@@ -1844,19 +1853,19 @@ function aRol($nombre)
                 if(!ejecutaSQL($sql))
                     echo json_encode(array("s" => 1, "m" => "Rol y grupo de rol a&ntilde;adidos con &eacute;xito"));
                 else $goBack = true;
-            }      
+            }
         }else{
             $sql = "INSERT INTO grupos (Nombre) VALUES ('$nombre') ";
             if(insertaSQL($sql) != 0)
                 echo json_encode(array("s" => 1, "m" => "Rol y grupo de rol a&ntilde;adidos con &eacute;xito"));
-            else $goBack = true;                
+            else $goBack = true;
         }
         if($goBack){
             $sql = "UPDATE roles SET Activo = 0 WHERE ID = '$idRol'";
             updateSQL($sql);
             echo json_encode(array("s" => 0, "m" => "Error al a&ntilde;adir el rol"));
         }
-    }   
+    }
 }
 
 function mRol($rol, $nombre)
@@ -1874,8 +1883,8 @@ function mRol($rol, $nombre)
             // else{
             //     $sql = "UPDATE roles SET Nombre = '".mysql_result($q, 0,"nombre")."' WHERE ID = '$rol' ";
             //     updateSQL($sql) == 1);
-            //     echo json_encode(array("s" => 0, "m" => "No se modific&oacute; el rol"));         
-            // }            
+            //     echo json_encode(array("s" => 0, "m" => "No se modific&oacute; el rol"));
+            // }
     }else
         echo json_encode(array("s" => 0, "m" => "No se modific&oacute; el rol"));
 }
@@ -1892,7 +1901,7 @@ function eRol($rol,$deleteGrupo)
                 echo json_encode(array("s" => 1, "m" => "Rol y Grupo elimindados con &eacute;xito"));
             }else echo json_encode(array("s" => 1, "m" => "Solo el rol fue elimindado con &eacute;xito"));
         }else echo json_encode(array("s" => 1, "m" => "Rol elimindado con &eacute;xito"));
-    }    
+    }
     else echo json_encode(array("s" => 0, "m" => "No se elimin&oacute; el rol"));
 }
 
@@ -1900,15 +1909,15 @@ function grupos()
 {
     $byID = (isset($_POST["idg"])) ? "AND grupos.ID = ".$_POST["idg"] : "";
     $sql = "SELECT g.ID FROM grupos g, roles r WHERE g.Nombre = r.Nombre AND g.Activo = 1 AND r.Activo = 1";
-    $resp = ejecutaSQL($sql);   
-    $gRol = array(); 
+    $resp = ejecutaSQL($sql);
+    $gRol = array();
     while ($row = mysqli_fetch_array($resp)) {
         $row = array_map('utf8_encode', $row);
         array_push($gRol, $row['ID']);
     }
     $sql = " SELECT grupos.ID, grupos.Nombre as NomGrup FROM grupos WHERE grupos.Activo = 1 $byID ORDER BY NomGrup";
     $r = ejecutaSQL($sql);
-    $j1 = array();    
+    $j1 = array();
     while ($row = mysqli_fetch_array($r)) {
         $row = array_map('utf8_encode', $row);
         if(in_array($row['ID'], $gRol))
@@ -1984,13 +1993,13 @@ function eGrupo($grupo)
             echo json_encode(array("s" => 1, "m" => "Grupo elimindado con &eacute;xito"));
         else
             echo json_encode(array("s" => 0, "m" => "No se elimin&oacute; el grupo"));
-    }    
+    }
 }
 
 function gMiembros($grupo)
 {
-    $sql = " SELECT p.ID, p.NSS, p.Nombre, p.ApellidoP, p.ApellidoM FROM personas p, detalle_grupos dg, grupos g 
-    WHERE g.ID = '$grupo' 
+    $sql = " SELECT p.ID, p.NSS, p.Nombre, p.ApellidoP, p.ApellidoM FROM personas p, detalle_grupos dg, grupos g
+    WHERE g.ID = '$grupo'
     AND dg.ID_Grupo = g.ID
     AND p.ID = dg.ID_Persona
     AND g.Activo = 1 ";
@@ -2051,8 +2060,8 @@ function gruposDispositivo($idDisp)
     $sql = "SELECT ID, Nombre FROM grupos";
     $r = ejecutaSQL($sql);
     while($row = mysqli_fetch_array($r))
-        array_push($out, array("id"=>$row['ID'],"nombre"=>$row['Nombre']));    
-    echo json_encode(array("s" => 1, "m" => "Busqueda con &eacute;xito", "d"=> array("in"=>$in,"out"=>$out))); 
+        array_push($out, array("id"=>$row['ID'],"nombre"=>$row['Nombre']));
+    echo json_encode(array("s" => 1, "m" => "Busqueda con &eacute;xito", "d"=> array("in"=>$in,"out"=>$out)));
 }
 
 function aPsaGrupo ($grupo, $personas){
@@ -2072,7 +2081,7 @@ function aPsaGrupo ($grupo, $personas){
                 insertaSQL($sql);
                 $msg.=$persona." a&ntilde;adida al grupo con &eacute;xito<br>";
             }else $msg.=$persona." no se encontro<br>";
-        }        
+        }
     }
     echo json_encode(array("s" => 1, "m" => $msg));
 }
@@ -2103,7 +2112,7 @@ function lPersonaId($idp)
 {
     $sql = " SELECT pe.*, ID_Rol, ID1, ID2, BioID, ad.ID AS IdAdmin, Username FROM personas AS pe
                 LEFT JOIN identificador AS ide ON pe.ID = ide.ID_Persona
-                LEFT JOIN asignacion_roles AS ar ON pe.ID = ar.ID_Persona 
+                LEFT JOIN asignacion_roles AS ar ON pe.ID = ar.ID_Persona
                 LEFT JOIN administradores AS ad ON pe.ID = ad.ID_Persona
                 WHERE pe.ID = $idp AND pe.Activo = 1 ";
     $r = ejecutaSQL($sql);
@@ -2116,7 +2125,7 @@ function lPersonaId($idp)
         }
         $j2 = array("s" => 1, "m" => "Detalle de persona correcto", "d" => array("persona" => $j1));
     } else $j2 = array("s" => 0, "m" => "Detalle de persona incorrecto");
-    
+
     echo json_encode($j2);
 }
 
@@ -2200,7 +2209,7 @@ function mPersona($persona)
             $idGanterior = mysql_result($rQ, 0,"ID");
             $qry = "SELECT g.ID FROM roles r, grupos g WHERE r.ID = '{$_POST['idr']}' AND g.Nombre = r.Nombre";
             $rQ = ejecutaSQL($qry);
-            $idGnuevo = mysql_result($rQ, 0,"ID");            
+            $idGnuevo = mysql_result($rQ, 0,"ID");
         } else
             $sql = " UPDATE asignacion_roles SET ID_Rol = '1' WHERE ID_Persona = $persona ";
     }
@@ -2270,9 +2279,9 @@ function aPersona()
                 if(mysql_result($r,0,'Activo')==1)
                     echo json_encode(array("s" => 0, "m" => "Persona ya existe"));
                 else
-                    echo json_encode(array("s" => 0, "m" => "No se activo a la persona"));                
+                    echo json_encode(array("s" => 0, "m" => "No se activo a la persona"));
             }
-                
+
         }else {
             //Agrega a la persona a la tabla personas
             $nom = strtoupper(trim(utf8_decode($_POST["nombre"])));
@@ -2459,7 +2468,7 @@ function lAsignacion_Persona()
 function lAsignacionPersona($persona){
 
 
-     //id_asignacion, CRN, Periodo, Servicio, Fecha Inicia, Fecha Fin 
+     //id_asignacion, CRN, Periodo, Servicio, Fecha Inicia, Fecha Fin
 
      $sql = " SELECT asigs.id AS id_asignacion, CRN, Periodo, ser.titulo AS Servicio, FechaInicio AS Finicio, FechaFin AS Ffin FROM asignaciones AS asigs
                 INNER JOIN servicios AS ser ON ser.id = asigs.ID_SERVICIO
@@ -2665,32 +2674,32 @@ function reporte($tipo, $dato, $fi, $ff)
             }
             break;
 
-        case "nivel":                     
+        case "nivel":
             $sql='SELECT  DATE_FORMAT(dictamen.Fecha,"%d.%b") as Fecha, ifnull(retardo.retardo,0) as retardo,ifnull(asistencia.asistencia,0) as asistencia, ifnull(falta.falta,0) as falta, ifnull(abandono.abandono,0) as abandono , ifnull(ausencia.ausencia,0) as ausencia  FROM `dictamen`
-                left join (SELECT COUNT(*) as retardo,    Fecha FROM `dictamen` 
+                left join (SELECT COUNT(*) as retardo,    Fecha FROM `dictamen`
                 join asignaciones on (asignaciones.ID = dictamen.ID_Asignacion)
-                join servicios on (servicios.ID = asignaciones.ID_Servicio) 
-                where Fecha >= "'.$fi.'" and Fecha <= "'.$ff.'"  and Dictamen = "R" and FIND_IN_SET(servicios.Nivel,"'.$dato.'") >0  group by  Fecha) as retardo    on (retardo.Fecha = dictamen.Fecha) 
+                join servicios on (servicios.ID = asignaciones.ID_Servicio)
+                where Fecha >= "'.$fi.'" and Fecha <= "'.$ff.'"  and Dictamen = "R" and FIND_IN_SET(servicios.Nivel,"'.$dato.'") >0  group by  Fecha) as retardo    on (retardo.Fecha = dictamen.Fecha)
 
-                left join (SELECT COUNT(*) as asistencia, Fecha FROM `dictamen` 
+                left join (SELECT COUNT(*) as asistencia, Fecha FROM `dictamen`
                 join asignaciones on (asignaciones.ID = dictamen.ID_Asignacion)
-                join servicios on (servicios.ID = asignaciones.ID_Servicio) 
-                where Fecha >= "'.$fi.'" and Fecha <= "'.$ff.'" and Dictamen = "A"  and FIND_IN_SET(servicios.Nivel,"'.$dato.'") >0  group by  Fecha) as asistencia on (asistencia.Fecha = dictamen.Fecha) 
+                join servicios on (servicios.ID = asignaciones.ID_Servicio)
+                where Fecha >= "'.$fi.'" and Fecha <= "'.$ff.'" and Dictamen = "A"  and FIND_IN_SET(servicios.Nivel,"'.$dato.'") >0  group by  Fecha) as asistencia on (asistencia.Fecha = dictamen.Fecha)
 
-                left join (SELECT COUNT(*) as falta,      Fecha FROM `dictamen` 
+                left join (SELECT COUNT(*) as falta,      Fecha FROM `dictamen`
                 join asignaciones on (asignaciones.ID = dictamen.ID_Asignacion)
-                join servicios on (servicios.ID = asignaciones.ID_Servicio) 
-                where Fecha >= "'.$fi.'" and Fecha <= "'.$ff.'" and Dictamen = "F"  and FIND_IN_SET(servicios.Nivel,"'.$dato.'") >0  group by  Fecha) as falta      on (falta.Fecha = dictamen.Fecha) 
+                join servicios on (servicios.ID = asignaciones.ID_Servicio)
+                where Fecha >= "'.$fi.'" and Fecha <= "'.$ff.'" and Dictamen = "F"  and FIND_IN_SET(servicios.Nivel,"'.$dato.'") >0  group by  Fecha) as falta      on (falta.Fecha = dictamen.Fecha)
 
-                left join (SELECT COUNT(*) as abandono,   Fecha FROM `dictamen` 
+                left join (SELECT COUNT(*) as abandono,   Fecha FROM `dictamen`
                 join asignaciones on (asignaciones.ID = dictamen.ID_Asignacion)
-                join servicios on (servicios.ID = asignaciones.ID_Servicio) 
-                where Fecha >= "'.$fi.'" and Fecha <= "'.$ff.'" and Dictamen = "AB" and FIND_IN_SET(servicios.Nivel,"'.$dato.'") >0  group by  Fecha) as abandono   on (abandono.Fecha = dictamen.Fecha) 
+                join servicios on (servicios.ID = asignaciones.ID_Servicio)
+                where Fecha >= "'.$fi.'" and Fecha <= "'.$ff.'" and Dictamen = "AB" and FIND_IN_SET(servicios.Nivel,"'.$dato.'") >0  group by  Fecha) as abandono   on (abandono.Fecha = dictamen.Fecha)
 
-                left join (SELECT COUNT(*) as ausencia,   Fecha FROM `dictamen` 
+                left join (SELECT COUNT(*) as ausencia,   Fecha FROM `dictamen`
                 join asignaciones on (asignaciones.ID = dictamen.ID_Asignacion)
-                join servicios on (servicios.ID = asignaciones.ID_Servicio) 
-                where Fecha >= "'.$fi.'" and Fecha <= "'.$ff.'" and Dictamen = "AU" and FIND_IN_SET(servicios.Nivel,"'.$dato.'") >0  group by  Fecha) as ausencia   on (ausencia.Fecha = dictamen.Fecha) 
+                join servicios on (servicios.ID = asignaciones.ID_Servicio)
+                where Fecha >= "'.$fi.'" and Fecha <= "'.$ff.'" and Dictamen = "AU" and FIND_IN_SET(servicios.Nivel,"'.$dato.'") >0  group by  Fecha) as ausencia   on (ausencia.Fecha = dictamen.Fecha)
 
                 where dictamen.Fecha >= "'.$fi.'" and dictamen.Fecha <= "'.$ff.'"
                 group by  dictamen.Fecha';
@@ -2705,9 +2714,9 @@ function reporte($tipo, $dato, $fi, $ff)
                     array_push($byDate, array(
                                 "dia"=>$l["Fecha"],
                                 "A"=>intval($l["asistencia"]),
-                                "R"=>intval($l["retardo"]), 
-                                "AB"=>intval($l["abandono"]), 
-                                "AU"=>intval($l["ausencia"]), 
+                                "R"=>intval($l["retardo"]),
+                                "AB"=>intval($l["abandono"]),
+                                "AU"=>intval($l["ausencia"]),
                                 "F"=>intval($l["falta"])
                                 )
                             );
@@ -2716,57 +2725,57 @@ function reporte($tipo, $dato, $fi, $ff)
             $sql = 'SELECT DISTINCT personas.NSS,personas.Nombre,personas.ApellidoP, personas.ApellidoM, ifnull(retardo.retardo,0) as retardo,ifnull(asistencia.asistencia,0) as asistencia, ifnull(falta.falta,0) as falta, ifnull(abandono.abandono,0) as abandono , ifnull(ausencia.ausencia,0) as ausencia FROM `personas`
             left join (
                 SELECT COUNT(*) as retardo,personas.NSS
-                FROM `personas` 
-                LEFT JOIN asignaciones ON ( asignaciones.ID_Persona = personas.ID ) 
-                LEFT JOIN servicios ON ( servicios.ID = asignaciones.ID_Servicio ) 
-                LEFT JOIN dictamen ON ( dictamen.ID_Asignacion = asignaciones.ID ) 
+                FROM `personas`
+                LEFT JOIN asignaciones ON ( asignaciones.ID_Persona = personas.ID )
+                LEFT JOIN servicios ON ( servicios.ID = asignaciones.ID_Servicio )
+                LEFT JOIN dictamen ON ( dictamen.ID_Asignacion = asignaciones.ID )
                 where FIND_IN_SET(servicios.Nivel,"'.$dato.'") >0 and dictamen.dictamen = "R" and dictamen.Fecha >= "'.$fi.'" and dictamen.Fecha <= "'.$ff.'"
                 group by   personas.NSS
-                ORDER BY dictamen.Fecha ASC)as retardo    on (retardo.NSS = personas.NSS) 
+                ORDER BY dictamen.Fecha ASC)as retardo    on (retardo.NSS = personas.NSS)
 
             left join (
                 SELECT COUNT(*) as asistencia,personas.NSS
-                FROM `personas` 
-                LEFT JOIN asignaciones ON ( asignaciones.ID_Persona = personas.ID ) 
-                LEFT JOIN servicios ON ( servicios.ID = asignaciones.ID_Servicio ) 
-                LEFT JOIN dictamen ON ( dictamen.ID_Asignacion = asignaciones.ID ) 
+                FROM `personas`
+                LEFT JOIN asignaciones ON ( asignaciones.ID_Persona = personas.ID )
+                LEFT JOIN servicios ON ( servicios.ID = asignaciones.ID_Servicio )
+                LEFT JOIN dictamen ON ( dictamen.ID_Asignacion = asignaciones.ID )
                 where FIND_IN_SET(servicios.Nivel,"'.$dato.'") >0 and dictamen.dictamen = "A" and dictamen.Fecha >= "'.$fi.'" and dictamen.Fecha <= "'.$ff.'"
                 group by   personas.NSS
-                ORDER BY dictamen.Fecha ASC)as asistencia    on (asistencia.NSS = personas.NSS) 
+                ORDER BY dictamen.Fecha ASC)as asistencia    on (asistencia.NSS = personas.NSS)
 
             left join (
                 SELECT COUNT(*) as falta,personas.NSS
-                FROM `personas` 
-                LEFT JOIN asignaciones ON ( asignaciones.ID_Persona = personas.ID ) 
-                LEFT JOIN servicios ON ( servicios.ID = asignaciones.ID_Servicio ) 
-                LEFT JOIN dictamen ON ( dictamen.ID_Asignacion = asignaciones.ID ) 
+                FROM `personas`
+                LEFT JOIN asignaciones ON ( asignaciones.ID_Persona = personas.ID )
+                LEFT JOIN servicios ON ( servicios.ID = asignaciones.ID_Servicio )
+                LEFT JOIN dictamen ON ( dictamen.ID_Asignacion = asignaciones.ID )
                 where FIND_IN_SET(servicios.Nivel,"'.$dato.'") >0 and dictamen.dictamen = "F" and dictamen.Fecha >= "'.$fi.'" and dictamen.Fecha <= "'.$ff.'"
                 group by   personas.NSS
-                ORDER BY dictamen.Fecha ASC)as falta    on (falta.NSS = personas.NSS) 
+                ORDER BY dictamen.Fecha ASC)as falta    on (falta.NSS = personas.NSS)
 
             left join (
                 SELECT COUNT(*) as abandono,personas.NSS
-                FROM `personas` 
-                LEFT JOIN asignaciones ON ( asignaciones.ID_Persona = personas.ID ) 
-                LEFT JOIN servicios ON ( servicios.ID = asignaciones.ID_Servicio ) 
-                LEFT JOIN dictamen ON ( dictamen.ID_Asignacion = asignaciones.ID ) 
+                FROM `personas`
+                LEFT JOIN asignaciones ON ( asignaciones.ID_Persona = personas.ID )
+                LEFT JOIN servicios ON ( servicios.ID = asignaciones.ID_Servicio )
+                LEFT JOIN dictamen ON ( dictamen.ID_Asignacion = asignaciones.ID )
                 where FIND_IN_SET(servicios.Nivel,"'.$dato.'") >0 and dictamen.dictamen = "AB" and dictamen.Fecha >= "'.$fi.'" and dictamen.Fecha <= "'.$ff.'"
                 group by   personas.NSS
-                ORDER BY dictamen.Fecha ASC)as abandono    on (abandono.NSS = personas.NSS) 
+                ORDER BY dictamen.Fecha ASC)as abandono    on (abandono.NSS = personas.NSS)
 
             left join (
                 SELECT COUNT(*) as ausencia,personas.NSS
-                FROM `personas` 
-                LEFT JOIN asignaciones ON ( asignaciones.ID_Persona = personas.ID ) 
-                LEFT JOIN servicios ON ( servicios.ID = asignaciones.ID_Servicio ) 
-                LEFT JOIN dictamen ON ( dictamen.ID_Asignacion = asignaciones.ID ) 
+                FROM `personas`
+                LEFT JOIN asignaciones ON ( asignaciones.ID_Persona = personas.ID )
+                LEFT JOIN servicios ON ( servicios.ID = asignaciones.ID_Servicio )
+                LEFT JOIN dictamen ON ( dictamen.ID_Asignacion = asignaciones.ID )
                 where FIND_IN_SET(servicios.Nivel,"'.$dato.'") >0 and dictamen.dictamen = "AU" and dictamen.Fecha >= "'.$fi.'" and dictamen.Fecha <= "'.$ff.'"
                 group by   personas.NSS
-                ORDER BY dictamen.Fecha ASC)as ausencia    on (ausencia.NSS = personas.NSS) 
+                ORDER BY dictamen.Fecha ASC)as ausencia    on (ausencia.NSS = personas.NSS)
 
-            JOIN asignaciones ON ( asignaciones.ID_Persona = personas.ID ) 
-            JOIN servicios ON ( servicios.ID = asignaciones.ID_Servicio ) 
-            where asignaciones.Activo = 1 and FIND_IN_SET(servicios.Nivel,"'.$dato.'") >0';            
+            JOIN asignaciones ON ( asignaciones.ID_Persona = personas.ID )
+            JOIN servicios ON ( servicios.ID = asignaciones.ID_Servicio )
+            where asignaciones.Activo = 1 and FIND_IN_SET(servicios.Nivel,"'.$dato.'") >0';
             $r = ejecutaSQL($sql);
             if (mysqli_num_rows($r) == 0){
                 echo json_encode(array("s" => 0, "m" => "No hay personas con dictamen en estas fechas o esos niveles."));
@@ -2778,9 +2787,9 @@ function reporte($tipo, $dato, $fi, $ff)
                                 "nss"=>$l["NSS"],
                                 "nombre"=>mb_convert_encoding($l["Nombre"], "HTML-ENTITIES", "ISO-8859-1")." ".mb_convert_encoding($l["ApellidoP"], "HTML-ENTITIES", "ISO-8859-1")." ".mb_convert_encoding($l["ApellidoM"], "HTML-ENTITIES", "ISO-8859-1"),
                                 "A"=>$l["asistencia"],
-                                "R"=>$l["retardo"], 
-                                "AB"=>$l["abandono"], 
-                                "AU"=>$l["ausencia"], 
+                                "R"=>$l["retardo"],
+                                "AB"=>$l["abandono"],
+                                "AU"=>$l["ausencia"],
                                 "F"=>$l["falta"]
                                 )
                             );
@@ -2820,7 +2829,7 @@ function reporte($tipo, $dato, $fi, $ff)
             }
             break;
 
-        case "dictamen":       
+        case "dictamen":
             $sql = "SELECT * from reportes where dictamen = '$dato' AND fecha >= '$fi' AND fecha <= '$ff' ORDER BY nss ASC ";
             $r = ejecutaSQL($sql);
             if (mysqli_num_rows($r) == 0)
@@ -2860,7 +2869,7 @@ function consultDias()
     else{
         $resulta = array();
         $days=array();
-        while ($f = mysql_fetch_assoc($r)) {          
+        while ($f = mysql_fetch_assoc($r)) {
             if(in_array($f['dia'], $days)){
                 array_push($resulta[$f['dia']],$f['nivel']);
             }else{
@@ -2886,7 +2895,7 @@ function getLevels()
             }
         }
         echo json_encode(array("s" => 1, "m" => "Niveles encontrados", "d" => $resulta));
-    }    
+    }
 }
 
 function deleteDay($date)
@@ -2914,7 +2923,7 @@ function modifyDay($date, $niv)
     }else{
         $c=0;
         $niv = explode(",",$niv);
-        for ($i=0; $i < count($niv) ; $i++) { 
+        for ($i=0; $i < count($niv) ; $i++) {
             $sql = " SELECT Activo FROM dias_no_laborales WHERE dia = '$date' AND nivel = '$niv[$i]'";
             $r = ejecutaSQL($sql);
             if (mysqli_num_rows($r) == 0){
@@ -2925,21 +2934,21 @@ function modifyDay($date, $niv)
                     return;
                 }
             }else{
-                while ($fi = mysql_fetch_assoc($r)) {                    
+                while ($fi = mysql_fetch_assoc($r)) {
                     if ($fi['Activo']==0) {
                         $sql = " UPDATE dias_no_laborales SET Activo = 1 WHERE dia = '$date' AND nivel = '$niv[$i]' ";
                         $up = updateSQL($sql);
                         if ($up == 0){
                             echo json_encode(array("s" => 0, "m" => "Error al insertar fecha."));
                             return;
-                        }   
+                        }
                     }
-                }                  
-            }                  
-        }      
+                }
+            }
+        }
         $sql = "SELECT nivel FROM dias_no_laborales WHERE dia = '$date' AND Activo = 1";
-        $r = ejecutaSQL($sql);    
-        while ($fi = mysql_fetch_assoc($r)) {  
+        $r = ejecutaSQL($sql);
+        while ($fi = mysql_fetch_assoc($r)) {
             $n=$fi['nivel'];
             if (!in_array($n,$niv)) {
                 $sql = " UPDATE dias_no_laborales SET Activo = 0 WHERE dia = '$date' AND nivel = '$n' ";
@@ -2947,19 +2956,19 @@ function modifyDay($date, $niv)
                 if ($up == 0){
                     echo json_encode(array("s" => 0, "m" => "Error al insertar fecha."));
                     return;
-                }   
+                }
             }
-        }               
+        }
     }
- 
-    echo json_encode(array("s" => 1, "m" => "Actualizado con &eacute;xito"));    
+
+    echo json_encode(array("s" => 1, "m" => "Actualizado con &eacute;xito"));
 }
 
 function addDay($date, $niv)
 {
     $niv=explode(",", $niv);
     $c=0;
-    for ($i=0; $i < count($niv) ; $i++) { 
+    for ($i=0; $i < count($niv) ; $i++) {
         $sql = " SELECT Activo FROM dias_no_laborales WHERE dia = '$date' AND nivel = '$niv[$i]' ";
         $r = ejecutaSQL($sql);
         if (mysqli_num_rows($r) == 0){
@@ -2970,17 +2979,17 @@ function addDay($date, $niv)
                 return;
             }
         }else{
-            while ($fi = mysql_fetch_assoc($r)) {                    
+            while ($fi = mysql_fetch_assoc($r)) {
                 if ($fi['Activo']==0) {
                     $sql = " UPDATE dias_no_laborales SET Activo = 1 WHERE dia = '$date' AND nivel = '$niv[$i]' ";
                     $up = updateSQL($sql);
                     if ($up == 0){
                         echo json_encode(array("s" => 0, "m" => "Error al insertar fecha."));
                         return;
-                    }   
+                    }
                 }
-            }                            
-        }                   
+            }
+        }
     }
     echo json_encode(array("s" => 1, "m" => "Fecha a&ntilde;adida con &eacute;xito."));
 }
@@ -3008,12 +3017,12 @@ function getIncidencias($nss,$fecha){
                 array_push($errores["log"], "No se pudo hacer consulta del dia: ".$f);
             } elseif (mysqli_num_rows($r) == 0) {
                 $errores["total"]++;
-                array_push($errores["log"], "No incidencias para el dia: ".$f);                
+                array_push($errores["log"], "No incidencias para el dia: ".$f);
             }else{
                 $Pi[$f]=array();
                 while ($l = mysql_fetch_assoc($r)) {
                     array_push($Pi[$f], array(explode(" ",$l['Periodo'])[1],$l['Descripcion']));
-                }                
+                }
             }
         }
         echo json_encode(array("s"=> 0, "m"=>"","d"=> $Pi, "e"=>$errores));
@@ -3021,14 +3030,14 @@ function getIncidencias($nss,$fecha){
 }
 
 function getDevice(){
-    
+
     if($_POST['type'] == "all")
         $sql="SELECT dispositivos.ID,dispositivos.Maquina, dispositivos.Clave, dispositivos.Descripcion, dispositivos.TimeStamp, espacios.ID AS idEsp, espacios.Nombre AS ubicacion, dispositivos.Activo AS state FROM dispositivos join espacios on (espacios.ID = dispositivos.ID_Espacio)";
     elseif($_POST['type'] == "inactive")
         $sql="SELECT dispositivos.ID,dispositivos.Maquina, dispositivos.Clave, dispositivos.Descripcion, dispositivos.TimeStamp, espacios.ID AS idEsp, espacios.Nombre AS ubicacion, dispositivos.Activo AS state FROM dispositivos join espacios on (espacios.ID = dispositivos.ID_Espacio)  WHERE dispositivos.Activo = 0 ";
     else
         $sql="SELECT dispositivos.ID,dispositivos.Maquina, dispositivos.Clave, dispositivos.Descripcion, dispositivos.TimeStamp, espacios.ID AS idEsp, espacios.Nombre AS ubicacion, dispositivos.Activo AS state FROM dispositivos join espacios on (espacios.ID = dispositivos.ID_Espacio)  WHERE dispositivos.Activo = 1 ";
-    
+
     $r =ejecutaSQL($sql);
     $data=array();
     $dt1=new DateTime();
@@ -3107,13 +3116,13 @@ function aDispositivo(){
             $g=0;
             foreach ($grupos as $grupo) {
                 $sql = "INSERT INTO detalle_dispositivos VALUES ('$id', '$grupo')";
-                if(ejecutaSQL($sql)) $g++;                
-            }                    
+                if(ejecutaSQL($sql)) $g++;
+            }
             if($g == count($grupos))
                 echo json_encode(array("s" => 1, "m" => "Dispositivo agregado con &eacute;xito", "d" => array("idp" => $id)));
         }else{
             echo json_encode(array("s" => 0, "m" => "Error al agregar dispositivo", "d" =>NULL));
-        }        
+        }
     }
 }
 
@@ -3124,7 +3133,7 @@ function acDispositivo()
     if ($r == 1)
         echo json_encode(array("s" => 1, "m" => "Dispositivo activado con &eacute;xito"));
     else
-        echo json_encode(array("s" => 0, "m" => "No se activo el dispositivo"));  
+        echo json_encode(array("s" => 0, "m" => "No se activo el dispositivo"));
 }
 
 function mDispositivo(){
@@ -3137,7 +3146,7 @@ function mDispositivo(){
         $r = updateSQL($sql);
         $sql = "SELECT ID FROM dispositivos WHERE Descripcion ='{$_POST['descripcion']}' AND Clave='{$_POST['clave']}' AND Maquina='{$_POST['maquina']}' AND ID_Espacio='{$_POST['idEsp']}'AND ID ='{$_POST['id_maquina']}' ";
         $r = ejecutaSQL($sql);
-        if (mysqli_num_rows($r) == 1){        
+        if (mysqli_num_rows($r) == 1){
             $grupos =  explode(",",$_POST['grupos']);
             $g=0;
             $gt = count($grupos);
@@ -3146,12 +3155,12 @@ function mDispositivo(){
             while ($row = mysqli_fetch_array($r)) {
                 if(!in_array($row['ID_Grupo'], $grupos)){
                     $sql = "DELETE FROM detalle_dispositivos WHERE ID_Dispositivo = '{$_POST['id_maquina']}' AND ID_Grupo = '{$row['ID_Grupo']}'";
-                    ejecutaSQL($sql);                                 
+                    ejecutaSQL($sql);
                 }else {
                     unset($grupos[array_search($row['ID_Grupo'], $grupos)]);
                     $g++;
-                }   
-            }      
+                }
+            }
             foreach ($grupos as $grupo) {
                 $sql = "INSERT INTO detalle_dispositivos VALUES ('{$_POST['id_maquina']}', '$grupo')";
                 insertaSQL($sql);
@@ -3160,7 +3169,7 @@ function mDispositivo(){
                 if(mysqli_num_rows($r) == 1) $g++;
             }
             if($g == $gt) echo json_encode(array("s" => 1, "m" => "Dispositivo Actualizado"));
-            else echo json_encode(array("s" => 0, "m" => "No se pudo Actualizar Dispositivo, Intentar de nuevo."));                    
+            else echo json_encode(array("s" => 0, "m" => "No se pudo Actualizar Dispositivo, Intentar de nuevo."));
         } else{
             echo json_encode(array("s" => 0, "m" => "No se pudo Actualizar Dispositivo"));
         }
@@ -3178,8 +3187,8 @@ function eDispositivo(){
         if ($r == 1)
             echo json_encode(array("s" => 1, "m" => "Dispositivo elimindado con &eacute;xito"));
         else
-            echo json_encode(array("s" => 0, "m" => "No se elimin&oacute; el dispositivo")); 
-    } 
+            echo json_encode(array("s" => 0, "m" => "No se elimin&oacute; el dispositivo"));
+    }
 }
 
 function rDispositivo()
@@ -3189,7 +3198,7 @@ function rDispositivo()
     if ($r == 1)
         echo json_encode(array("s" => 1, "m" => "Licencia reiniciada con &eacute;xito"));
     else
-        echo json_encode(array("s" => 0, "m" => "No se reinicio la licencia el dispositivo")); 
+        echo json_encode(array("s" => 0, "m" => "No se reinicio la licencia el dispositivo"));
 }
 
 function setImpacto(){
@@ -3298,7 +3307,7 @@ function aAdmin(){
             }else{
                 echo json_encode(array("s"=> 0, "m"=> "Esta persona ya es administrador"));
             }
-        }            
+        }
     }else {
         //Agrega a la persona a la tabla personas
         $nom = strtoupper(trim(utf8_decode($_POST["nombre"])));
@@ -3312,7 +3321,7 @@ function aAdmin(){
         if($id != 0){
             $id1 = (isset($_POST["id1"])) ? $_POST["id1"] : $_POST["nss"];
             $id2 = (isset($_POST["id2"])) ? $_POST["id2"] : "";
-            $id3 = (isset($_POST["id3"])) ? $_POST["id3"] : "";                        
+            $id3 = (isset($_POST["id3"])) ? $_POST["id3"] : "";
 
             $sql = " INSERT INTO identificador VALUES ({$id}, '$id1', '$id2', '$id3' ) ";
             insertaSQL($sql);
@@ -3343,13 +3352,13 @@ function dAdmin(){
         $sql = " UPDATE personas SET Activo = 0  WHERE ID = '{$_POST['idp']}' ";
         $r = updateSQL($sql);
         if($r!=0) $msg = "Persona y ";
-    }    
+    }
     $sql = " DELETE FROM administradores  WHERE ID = '{$_POST['ida']}' ";
     $r = ejecutaSQL($sql);
     if ($r){
         echo json_encode(array("s" => 1, "m" => $msg . "Administrador elimindado con exito"));
     }else{
-        echo json_encode(array("s" => 0, "m" => "No se elimino al administrador"));    
+        echo json_encode(array("s" => 0, "m" => "No se elimino al administrador"));
     }
 }
 
@@ -3451,20 +3460,20 @@ function mAdmin(){
     }
     $sql = "UPDATE administradores SET $values WHERE ID_Persona = $persona ";
     if (updateSQL($sql) == 1) {
-        $mensaje .= ", cuenta de administrador actualizada";        
+        $mensaje .= ", cuenta de administrador actualizada";
     }else
         $mensaje .= ", cuenta de administrador no actualizada";
 
-    echo json_encode(array("s" => 1, "m" => $mensaje));    
+    echo json_encode(array("s" => 1, "m" => $mensaje));
 }
 
 function GetAdmins(){
     $ad_ID = (isset($_POST['id'])) ? $_POST['id'] : "ad.ID_Persona";
     $sql = " SELECT pe.*, ID_Rol, ID1, ID2, BioID, ad.ID AS IdAdmin, ad.Username, ad.Password, ad.Acceso FROM personas AS pe
                 LEFT JOIN identificador AS ide ON pe.ID = ide.ID_Persona
-                LEFT JOIN asignacion_roles AS ar ON pe.ID = ar.ID_Persona 
+                LEFT JOIN asignacion_roles AS ar ON pe.ID = ar.ID_Persona
                 LEFT JOIN administradores AS ad ON pe.ID = ad.ID_Persona
-                WHERE pe.ID = ".$ad_ID." AND pe.Activo = 1 ";        
+                WHERE pe.ID = ".$ad_ID." AND pe.Activo = 1 ";
     if($r = ejecutaSQL($sql)){
         while ($row = mysqli_fetch_array($r)) {
             $row = array_map('utf8_encode', $row);
@@ -3474,7 +3483,7 @@ function GetAdmins(){
         $j2 = array("s" => 1, "m" => "Busqueda de administradores correcta", "d" => array("admins" => $j1));
         echo json_encode($j2);
     }else{
-        echo json_encode(array("s" => 0, "m" => "No se encontro ningun administrador")); 
+        echo json_encode(array("s" => 0, "m" => "No se encontro ningun administrador"));
     }
 }
 
@@ -3485,24 +3494,30 @@ function ConsultAccess(){
             if (isset($_POST['accion'])) {
                 if(isset($_SESSION[$MY_SESSION_ACCESS])){
                     $Acs = pAccesos(strval($_SESSION[$MY_SESSION_ACCESS]),false);
-                    echo json_encode(array("s" => ($Acs[$_POST['menu']][$_POST['accion']]) ? 1 : 0, "m" => "Acceso encontrado", "d"=>$Acs[$_POST['menu']][$_POST['accion']])); 
+                    echo json_encode(array(
+                                           "s" => ($Acs[$_POST['menu']][$_POST['accion']]) ? 1 : 0,
+                                           "m" => "Acceso encontrado",
+                                           "d"=>  $Acs[$_POST['menu']][$_POST['accion']]
+                                           )
+                                         );
                 }else{
-                    echo json_encode(array("s" => 0, "m" => "Sesion caducada, inicia sesion de nuevo")); 
+                    echo json_encode(array("s" => 0, "m" => "Sesion caducada, inicia sesion de nuevo"));
                 }
             }else{
-                echo json_encode(array("s" => 0, "m" => "Accion no especificada"));  
+                echo json_encode(array("s" => 0, "m" => "Accion no especificada"));
             }
         }else{
-            echo json_encode(array("s" => 0, "m" => "Menu no especificado"));  
+            echo json_encode(array("s" => 0, "m" => "Menu no especificado"));
         }
     }else{
-        echo json_encode(array("s" => 0, "m" => "Administrador no especificado."));  
+        echo json_encode(array("s" => 0, "m" => "Administrador no especificado."));
     }
 }
 
 function pAccesos($data,$dataInJson){
     global $menuDashboard;
     global $MY_SESSION_ACCESS;
+    error_log("DATA ACCESOS:".$data, 0);
     if($dataInJson){
         $data = json_decode($data, true);
         $acceso = "";
@@ -3511,19 +3526,22 @@ function pAccesos($data,$dataInJson){
             if($data[$menu]["leer"])
                 $tmp+=1;
             if($data[$menu]["esc"])
-                $tmp+=2;       
+                $tmp+=2;
             if($data[$menu]["mod"])
-                $tmp+=3;                   
+                $tmp+=3;
             if($data[$menu]["del"])
                 $tmp+=1;
             $acceso.= strval($tmp);
         }
         return $acceso;
-    }else{    
+    }else{
         $accesos = array();
         // var_dump($_SESSION[$MY_SESSION_ACCESS]);
-        for ($i=0; $i < count($menuDashboard); $i++) { 
-            $menuAccess = array('leer' => false, 'esc' => false, 'mod' => false, 'del' => false);
+        for ($i=0; $i < count($menuDashboard); $i++) {
+            $menuAccess = array('leer' => false,
+                                'esc' => false,
+                                'mod' => false,
+                                'del' => false);
             if(intval($data[$i]) > 0){
                 $menuAccess['leer'] = true;
                 if (in_array(intval($data[$i]), array(4,6,7)))
@@ -3531,10 +3549,11 @@ function pAccesos($data,$dataInJson){
                 if (in_array(intval($data[$i]), array(3,6,7)))
                     $menuAccess['mod'] = true;
                 if (in_array(intval($data[$i]), array(2,7)))
-                    $menuAccess['del'] = true;                
+                    $menuAccess['del'] = true;
             }
             $accesos[$menuDashboard[$i]] = $menuAccess;
         }
+        error_log("ACCESOS:".$accesos, 0);
         return $accesos;
     }
 }
