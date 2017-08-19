@@ -3494,7 +3494,7 @@ function ConsultAccess(){
         if (isset($_POST['menu'])) {
             if (isset($_POST['accion'])) {
                 if(isset($_SESSION[$MY_SESSION_ACCESS])){
-                    $Acs = pAccesos(strval($_SESSION[$MY_SESSION_ACCESS]),false);
+                    $Acs = pAccesos($_SESSION[$MY_SESSION_ACCESS],false);
                     echo json_encode(array(
                                            "s" => ($Acs[$_POST['menu']][$_POST['accion']]) ? 1 : 0,
                                            "m" => "Acceso encontrado",
