@@ -24,6 +24,7 @@ if (!isset($_SESSION[$MY_SESSION_ADMIN])) {
                 $_SESSION[$MY_SESSION_ADMIN] = time();
                 $_SESSION[$MY_SESSION_PERSON] = $estado['person'];
                 $_SESSION[$MY_SESSION_ACCESS] = $estado['access'];
+                error_log("SETEANDO ACCESSOS". $estado['access'],0);
                 $_SESSION[$MY_SESSION_ID] = $estado['id_person'];
                 echo json_encode(array("s" => 1, "m" => "Login Correcto"));
             } else
@@ -57,10 +58,10 @@ else {
             break;
         case "ConsultAdmin":
             GetAdmins();
-            break;                     
+            break;
         case "GetAdmins":
             GetAdmins();
-            break;                                                
+            break;
 
 
         case "roles":
@@ -78,7 +79,7 @@ else {
 
         case "grupos":
             grupos();
-            break;        
+            break;
         case "aGrupo":
             aGrupo($_POST["nuevoGrupo"]);
             break;
@@ -93,22 +94,22 @@ else {
             break;
         case "misGrupos":
             misGrupos($_POST["idp"]);
-            break;            
+            break;
         case "ePdGrupo":
             ePdGrupo($_POST["idg"], $_POST["idp"]);
             break;
-        case "checkDeletePerson": 
+        case "checkDeletePerson":
             checkDeletePerson($_POST["idg"], $_POST["idp"]);
-            break;            
+            break;
         case "aPaGrupo":
             aPaGrupo($_POST["idg"], $_POST["idp"]);
             break;
         case "aPsaGrupo":
             aPsaGrupo($_POST["idg"], $_POST["idps"]);
-            break; 
+            break;
         case "GruposDispositivo":
             gruposDispositivo($_POST["idd"]);
-            break;                        
+            break;
 
         case "lPersona":
             lPersona();
@@ -169,10 +170,10 @@ else {
             break;
         case "addDay":
             addDay($_POST["fecha"], $_POST["niveles"]);
-            break; 
+            break;
         case "deleteDay":
             deleteDay($_POST["fecha"]);
-            break; 
+            break;
 
         case "lAsignacion":
             lAsignacion();
@@ -199,10 +200,10 @@ else {
         case "reporte" :
             reporte($_POST['tipo'], $_POST['dato'], $_POST['fi'], $_POST['ff']);
             break;
-            
+
         case "getIncidencias" :
             getIncidencias($_POST['nss'], $_POST['fecha']);
-            break;  
+            break;
 
         /*case "incidencias":
             dIncidencias($_POST["nss"], $_POST["dia"]);
@@ -247,19 +248,19 @@ else {
 
         case "acDispositivo":
             acDispositivo();
-            break;            
-            
+            break;
+
         case "mDispositivo":
             mDispositivo();
             break;
 
         case "eDispositivo":
             eDispositivo();
-            break; 
+            break;
 
         case "rDispositivo":
             rDispositivo();
-            break;                        
+            break;
 
         case "setImpacto":
             setImpacto();

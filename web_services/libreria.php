@@ -1793,6 +1793,7 @@ function verificarUsuario($user, $pass)
         $info['session'] = true;
         $info['person'] = $row['Persona'];
         $info['access'] = $row['Acceso'];
+        error_log("LOG PERSONA:".$row['Acceso'],0);
         $info['id_person'] = $row['ID'];
 
         //echo var_dump($info);
