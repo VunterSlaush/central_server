@@ -114,6 +114,7 @@ function login(maquina,password,phase)
       dataType: "json",
       success: function (data) {
           if (data.s == 1) {
+              localStorage.setItem("host",maquina);
               auth();
               mostrarChecador();
           }
@@ -408,7 +409,7 @@ function checarOnline(nss, pubId, devId) {
 
     if (onLine == 2) {
         $.ajax({
-            url: "../web_services/serviciosChecador.php?servicio=checadoPubOnlineNew",
+            url: "../web_services/serviciosChecador.php?servicio=checadoPubOnline",
             data: {nss: nss, pub: pubId, devID: devId, hostName: localStorage.getItem('host')},
             type: "POST",
             dataType: "json",
