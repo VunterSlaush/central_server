@@ -3494,7 +3494,7 @@ function ConsultAccess(){
         if (isset($_POST['menu'])) {
             if (isset($_POST['accion'])) {
                 if(isset($_SESSION[$MY_SESSION_ACCESS])){
-                    $Acs = pAccesos($_SESSION[$MY_SESSION_ACCESS],false);
+                    $Acs = pAccesos($_POST['id'],false);
                     echo json_encode(array(
                                            "s" => ($Acs[$_POST['menu']][$_POST['accion']]) ? 1 : 0,
                                            "m" => "Acceso encontrado",
@@ -3517,44 +3517,53 @@ function ConsultAccess(){
 
 function pAccesos($data,$dataInJson){
     global $menuDashboard;
-    global $MY_SESSION_ACCESS;
-    error_log("DATA ACCESOS:".$data, 0);
-    if($dataInJson){
-        $data = json_decode($data, true);
-        $acceso = "";
-        foreach ($menuDashboard as $menu) {
-            $tmp = 0;
-            if($data[$menu]["leer"])
-                $tmp+=1;
-            if($data[$menu]["esc"])
-                $tmp+=2;
-            if($data[$menu]["mod"])
-                $tmp+=3;
-            if($data[$menu]["del"])
-                $tmp+=1;
-            $acceso.= strval($tmp);
-        }
-        return $acceso;
-    }else{
-        $accesos = array();
-        // var_dump($_SESSION[$MY_SESSION_ACCESS]);
-        for ($i=0; $i < count($menuDashboard); $i++) {
-            $menuAccess = array('leer' => false,
-                                'esc' => false,
-                                'mod' => false,
-                                'del' => false);
-            if(intval($data[$i]) > 0){
-                $menuAccess['leer'] = true;
-                if (in_array(intval($data[$i]), array(4,6,7)))
-                    $menuAccess['esc'] = true;
-                if (in_array(intval($data[$i]), array(3,6,7)))
-                    $menuAccess['mod'] = true;
-                if (in_array(intval($data[$i]), array(2,7)))
-                    $menuAccess['del'] = true;
+    $sql = " SELECT Acceso FROM administradores
+             WHERE id = '$data'";
+    $r = ejecutaSQL($sql);
+    $info = array();
+    if (mysqli_num_rows($r) == 1)
+    {
+        $row = mysqli_fetch_array($r);
+        $row = array_map('utf8_encode', $row);
+        $access = $row['Acceso'];
+        if($dataInJson){
+            $access = json_decode($data, true);
+            $acceso = "";
+            foreach ($menuDashboard as $menu) {
+                $tmp = 0;
+                if($data[$menu]["leer"])
+                    $tmp+=1;
+                if($data[$menu]["esc"])
+                    $tmp+=2;
+                if($data[$menu]["mod"])
+                    $tmp+=3;
+                if($data[$menu]["del"])
+                    $tmp+=1;
+                $acceso.= strval($tmp);
             }
-            $accesos[$menuDashboard[$i]] = $menuAccess;
+            return $acceso;
+        }else{
+            $accesos = array();
+            // var_dump($_SESSION[$MY_SESSION_ACCESS]);
+            for ($i=0; $i < count($menuDashboard); $i++) {
+                $menuAccess = array('leer' => false,
+                                    'esc' => false,
+                                    'mod' => false,
+                                    'del' => false);
+                if(intval($access[$i]) > 0){
+                    $menuAccess['leer'] = true;
+                    if (in_array(intval($data[$i]), array(4,6,7)))
+                        $menuAccess['esc'] = true;
+                    if (in_array(intval($data[$i]), array(3,6,7)))
+                        $menuAccess['mod'] = true;
+                    if (in_array(intval($data[$i]), array(2,7)))
+                        $menuAccess['del'] = true;
+                }
+                $accesos[$menuDashboard[$i]] = $menuAccess;
+            }
+            return $accesos;
         }
-        error_log("ACCESOS:".$accesos, 0);
-        return $accesos;
     }
+    return array();
+
 }
