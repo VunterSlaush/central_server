@@ -1,4 +1,4 @@
-const WS_ROOT = "../club-dashboard_ws/"; //URL raiz de los servicios
+const WS_ROOT = "../web_services/"; //URL raiz de los servicios
 const WS_PRIVADOS_URL = WS_ROOT + "serviciosPrivados.php"; //url del ws serviciosPrivados usado en todo el sisteema
 const WS_LECTOR_URL = WS_ROOT + "serviciosLector.php"; //url del ws serviciosLector usado en todo el sisteema
 
