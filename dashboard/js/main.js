@@ -3449,7 +3449,7 @@ $(document).ready(function () {
         $('#btnAgregar').hide();
         $("#titulo").html('<i class="glyphicon glyphicon-briefcase"></i> Soporte');
         //primero borramos el contenido anterior
-        $("#contenido").html('<div style="text-align:center;"> <img src="img/logo_it.png" style="margin-top:10%" width="450px" height="auto"/> <h1 style="text-align: center; margin-top: 5%;margin-bottom: 15%;"> PROXIMAMENTE</h1></div>');
+        $("#contenido").html('<div style="text-align:center;"><h1 style="text-align: center; margin-top: 5%;margin-bottom: 15%;"> PROXIMAMENTE</h1></div>');
       }else{
         notyErrorAcceso();
       }

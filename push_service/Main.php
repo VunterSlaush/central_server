@@ -44,5 +44,6 @@ function logOut()
 }
 function construcUser($json)
 {
+
 }
 ?>
