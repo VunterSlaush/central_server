@@ -8,13 +8,14 @@ socket.on('connect', function()
 
 socket.on('devices_changed', function ()
 {
+    console.log("DEVICES CHANGED");
     socket.emit('devices');
 });
 
 socket.on('devices_list',function (data)
 {
   if ($('#btnAccesos').parent().prop('class') == 'active'){
-    console.log(data);
+    //console.log("LOG DATA!",data);
     var estado;
 
     $("#btnAgregar").attr('tipo', 'cDoor').show();
@@ -23,23 +24,23 @@ socket.on('devices_list',function (data)
     var code="";
     for (var i = 0; i < data.devices.length; i++)
     {
-      if(data.devices[i].status)
+      //console.log("MOTA DEVICES", "STATUS:",data.devices[i].device);
+      if(data.devices[i].status != null )
         estado = 'Activo';
-      else if(data.devices[i].status == null)
+      else
         estado = 'Inactivo';
-      else if(!data.devices[i].status)
-        estado = 'Activo'
+
 
         code +='<div class="col-md-3 col-sm-3 col-xs-6">'+
-        '<div id=dev'+i+' data-toggle="tooltip" title="'+data.devices[i].maquina+'"   class="well top-block device-wrapper" pass="dispositivo'+i+'" des="descripcion dispositivo'+i+'">'+
-          '<a id="dev'+i+'" class="btnConfig" onclick="modifyDevice(this.id) "href="#" style=" width: 30px; height: 30px; position: absolute; right: 10px; ">'+
+        '<div id=dev'+data.devices[i].device.id+' data-toggle="tooltip" title="'+data.devices[i].device.maquina+'"   class="well top-block device-wrapper" pass="'+data.devices[i].device.password+'" des="'+data.devices[i].device.descripcion+'">'+
+          '<a id="dev'+data.devices[i].device.id+'" class="btnConfig" onclick="modifyDevice(this.id) "href="#" style=" width: 30px; height: 30px; position: absolute; right: 10px; ">'+
           '<i class="glyphicon glyphicon-cog" style="margin-right: 15px;"> </i>'+
           '</a>'+
           '</span><img src="img/doorway.png">'+
-          ' <div class="title" align="middle">'+data.devices[i].maquina+'</div>'+
+          ' <div class="title" align="middle">'+data.devices[i].device.maquina+'</div>'+
           ' <div align="middle">Estado:<span class="state" estado="'+estado+'">'+estado+'</span></div>'+
           ' <div style="text-align:center">'+
-              '<a href="#" estado="'+estado+'" id="'+data.devices[i].maquina+'" class="btn btn-success" onclick="cambiarEstado(this)" '+ (estado == "Activo" ? "" : "disabled" ) +'>Abrir</a>'+
+              '<a href="#" estado="'+estado+'" id="'+data.devices[i].device.maquina+'" class="btn btn-success" onclick="cambiarEstado(this)" '+ (estado == "Activo" ? "" : "disabled" ) +'>Abrir</a>'+
            '</div></div></div>';
 
     }
@@ -50,7 +51,7 @@ socket.on('devices_list',function (data)
 
 socket.on('disconnect', function (data) {
     console.log("Socket desconectado");
-    if ($('#btnAccesos').parent().prop('class') == 'active'){
+    /*if ($('#btnAccesos').parent().prop('class') == 'active'){
       console.log(data);
       $.ajax({
         url: WS_PRIVADOS_URL,
@@ -66,7 +67,7 @@ socket.on('disconnect', function (data) {
           for(var i=0;i<data.d.length;i++){
             code +='<div class="col-md-3 col-sm-3 col-xs-6">'+
             '<div id=dev'+i+' data-toggle="tooltip" title="'+data.d[i].maquina+'"   class="well top-block device-wrapper" pass="dispositivo'+i+'" des="descripcion dispositivo'+i+'">'+
-              '<a id="dev'+i+'" class="btnConfig" onclick="modifyDevice(this.id) "href="#" style=" width: 30px; height: 30px; position: absolute; right: 10px; ">'+
+              '<a id="dev'+data.d[i].maquina+'" class="btnConfig" onclick="modifyDevice(this.id) "href="#" style=" width: 30px; height: 30px; position: absolute; right: 10px; ">'+
               '<i class="glyphicon glyphicon-cog" style="margin-right: 15px;"> </i>'+
               '</a>'+
               '</span><img src="img/doorway.png">'+
@@ -84,11 +85,12 @@ socket.on('disconnect', function (data) {
           mensajeCarga(false);
         }
       }); // Fin petición AJAX
-    }
+    }*/
+    showSimpleNoty("Error al Cargar Dispositivos", "center", "error", 0);
 });
 
-    socket.on('status_changed', function(data) // TODO cambiar texto .. si es necesario?
-    {
+socket.on('status_changed', function(data) // TODO cambiar texto .. si es necesario?
+{
       console.log('Status Changed'+data.maquina);
       if(data.status)
         $('#'+data.maquina).attr('estado','abierto');
@@ -96,7 +98,7 @@ socket.on('disconnect', function (data) {
         $('#'+data.maquina).attr('estado','cerrado');
       else if(data.status == null)
         $('#'+data.maquina).attr('estado','inhabilitado');
-    });
+});
 
 
     function cambiarEstado(id)

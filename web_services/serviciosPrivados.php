@@ -62,8 +62,9 @@ else {
         case "GetAdmins":
             GetAdmins();
             break;
-
-
+        case "noticias":
+            noticias();
+            break;
         case "roles":
             roles();
             break;
