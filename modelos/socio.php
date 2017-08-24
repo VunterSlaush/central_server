@@ -18,6 +18,7 @@ class Socio
     public $contrasena; 
     public $key; 
     public $activado; 
+    public $nombre;
 
     public static function createLogin($correo,$contrasena) {
         $socio = new self();
@@ -25,9 +26,9 @@ class Socio
         return $socio;
     }
 
-    public static function createSocio($membresia,$correo,$contrasena){
+    public static function createSocio($nombre,$membresia,$correo,$contrasena){
         $socio = new self();
-        $socio->setUserData($membresia,$correo,$contrasena);
+        $socio->setUserData($nombre,$membresia,$correo,$contrasena);
         return $socio;
     }
 
@@ -36,8 +37,9 @@ class Socio
         $this->contrasena = $contrasena;
     }
 
-    private function setUserData($membresia,$correo,$contrasena){
+    private function setUserData($nombre,$membresia,$correo,$contrasena){
         $this->membresia = $membresia;
+        $this->nombre = $nombre;
         $this->correo = $correo;
         $this->contrasena = $contrasena;
         $this->key = md5(microtime().rand());
