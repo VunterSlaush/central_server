@@ -8,6 +8,7 @@
 *
 *
 */
+include('config/conf.php');
 class Conexion{
 
     static $conexion;
@@ -26,19 +27,7 @@ class Conexion{
     public static function conectar() {
 
         if(!isset(self::$conexion)) {
-            // TODO!!
-            //$config = parse_ini_file('/config/config.ini',true);
-            //$environment = parse_ini_file('/config/environment.ini')["environment"];
-            //$config = $config[$environment];
-
-            //self::$conexion = mysqli_connect($config['server'],$config['username'],$config['password'],$config['dbname']);
-            /*
-            username = sql3190613
-            password = 2LVh6HbeX8
-            dbname = sql3190613
-            server = 'sql3.freemysqlhosting.net'
-            */
-            self::$conexion = mysqli_connect('sql3.freemysqlhosting.net','sql3190613','2LVh6HbeX8','sql3190613');
+            self::$conexion = mysqli_connect(HOST,USER,PASS,DB);
         }
 
         if(self::$conexion === false) {
