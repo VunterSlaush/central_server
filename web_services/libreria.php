@@ -3098,7 +3098,7 @@ function getPubCarr($idDev){
 }
 
 function aDispositivo(){
-    $sql = " SELECT Activo FROM dispositivos WHERE maquina = '{$_POST['maquina']}' AND ID_Espacio='{$_POST['idEsp']}'";
+    $sql = " SELECT Activo FROM dispositivos WHERE maquina = '{$_POST['maquina']}'";
     $r = ejecutaSQL($sql);
     if (mysqli_num_rows($r) == 1){
         if(mysql_result($r, 0, 'Activo') == 1)
@@ -3109,18 +3109,10 @@ function aDispositivo(){
         $maquina = trim(utf8_decode($_POST["maquina"]));
         $clave = trim(utf8_decode($_POST["clave"]));
         $desc = trim(utf8_decode($_POST["descripcion"]));
-        $idEsp = $_POST['idEsp'];
-        $sql = "INSERT INTO dispositivos (Maquina,Clave, Descripcion, id_Espacio) VALUES ('$maquina', '$clave','$desc', '$idEsp')";
+        $sql = "INSERT INTO dispositivos (Maquina,Clave, Descripcion, id_Espacio) VALUES ('$maquina', '$clave','$desc', '1')";
         $id = insertaSQL($sql);
         if($id!=0){
-            $grupos =  explode(",",$_POST['grupos']);
-            $g=0;
-            foreach ($grupos as $grupo) {
-                $sql = "INSERT INTO detalle_dispositivos VALUES ('$id', '$grupo')";
-                if(ejecutaSQL($sql)) $g++;
-            }
-            if($g == count($grupos))
-                echo json_encode(array("s" => 1, "m" => "Dispositivo agregado con &eacute;xito", "d" => array("idp" => $id)));
+            echo json_encode(array("s" => 1, "m" => "Dispositivo agregado con exito", "d" => array("idp" => $id)));
         }else{
             echo json_encode(array("s" => 0, "m" => "Error al agregar dispositivo", "d" =>NULL));
         }
@@ -3138,39 +3130,17 @@ function acDispositivo()
 }
 
 function mDispositivo(){
-    $sql="SELECT * FROM dispositivos where Maquina='{$_POST['maquina']}' and Clave='{$_POST['clave']}' and ID_Espacio= '{$_POST['idEsp']}'";
+    $sql="SELECT * FROM dispositivos where Maquina='{$_POST['maquina']}'";
     $r=ejecutaSQL($sql);
     if(mysqli_num_rows($r)==0){
       echo json_encode(array("s" => 0, "m" => "No se econtr&oacute; dispositivo."));
     }else{
         $sql = "UPDATE dispositivos SET Descripcion ='{$_POST['descripcion']}', Clave='{$_POST['clave']}', Maquina='{$_POST['maquina']}', ID_Espacio='{$_POST['idEsp']}' WHERE ID = '{$_POST['id_maquina']}' ";
         $r = updateSQL($sql);
-        $sql = "SELECT ID FROM dispositivos WHERE Descripcion ='{$_POST['descripcion']}' AND Clave='{$_POST['clave']}' AND Maquina='{$_POST['maquina']}' AND ID_Espacio='{$_POST['idEsp']}'AND ID ='{$_POST['id_maquina']}' ";
+        $sql = "SELECT ID FROM dispositivos WHERE Descripcion ='{$_POST['descripcion']}' AND Clave='{$_POST['clave']}' AND Maquina='{$_POST['maquina']}' AND ID ='{$_POST['id_maquina']}' ";
         $r = ejecutaSQL($sql);
         if (mysqli_num_rows($r) == 1){
-            $grupos =  explode(",",$_POST['grupos']);
-            $g=0;
-            $gt = count($grupos);
-            $sql = "SELECT * FROM detalle_dispositivos WHERE ID_Dispositivo = '{$_POST['id_maquina']}'";
-            $r = ejecutaSQL($sql);
-            while ($row = mysqli_fetch_array($r)) {
-                if(!in_array($row['ID_Grupo'], $grupos)){
-                    $sql = "DELETE FROM detalle_dispositivos WHERE ID_Dispositivo = '{$_POST['id_maquina']}' AND ID_Grupo = '{$row['ID_Grupo']}'";
-                    ejecutaSQL($sql);
-                }else {
-                    unset($grupos[array_search($row['ID_Grupo'], $grupos)]);
-                    $g++;
-                }
-            }
-            foreach ($grupos as $grupo) {
-                $sql = "INSERT INTO detalle_dispositivos VALUES ('{$_POST['id_maquina']}', '$grupo')";
-                insertaSQL($sql);
-                $sql = "SELECT * FROM detalle_dispositivos WHERE ID_Dispositivo = '{$_POST['id_maquina']}' AND ID_Grupo ='$grupo'";
-                $r = ejecutaSQL($sql);
-                if(mysqli_num_rows($r) == 1) $g++;
-            }
-            if($g == $gt) echo json_encode(array("s" => 1, "m" => "Dispositivo Actualizado"));
-            else echo json_encode(array("s" => 0, "m" => "No se pudo Actualizar Dispositivo, Intentar de nuevo."));
+            echo json_encode(array("s" => 1, "m" => "Dispositivo Actualizado"));
         } else{
             echo json_encode(array("s" => 0, "m" => "No se pudo Actualizar Dispositivo"));
         }
@@ -3183,8 +3153,8 @@ function eDispositivo(){
     if (mysqli_num_rows($r) == 1)
         echo json_encode(array("s" => 1, "m" => "El dispositivo tiene una licencia en uso, para desactivarlo es necesario desactivar la licencia."));
     else{
-        $sql = "UPDATE dispositivos SET Activo = 0  WHERE ID={$_POST['idDisp']}";
-        $r = updateSQL($sql);
+        $sql = "DELETE FROM dispositivos WHERE ID={$_POST['idDisp']}";
+        $r = ejecutaSQL($sql);
         if ($r == 1)
             echo json_encode(array("s" => 1, "m" => "Dispositivo elimindado con &eacute;xito"));
         else
@@ -3566,4 +3536,24 @@ function pAccesos($data,$dataInJson){
     }
     return array();
 
+}
+
+
+function noticias()
+{
+    $sql = "SELECT * FROM notificaciones";
+    $noticias = [];
+    $i = 0;
+    if($r = ejecutaSQL($sql))
+    {
+        while ($row = mysqli_fetch_array($r))
+        {
+            $noticias[$i] = $row;
+            $i++;
+        }
+        echo json_encode(array("s" => 1, "m" => "Noticias encontradas satisfactoriamente", "d" => $noticias));
+    }
+    else {
+        echo json_encode(array("s" => 0, "m" => "Error al buscar las noticias"));
+    }
 }

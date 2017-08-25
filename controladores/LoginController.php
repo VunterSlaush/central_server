@@ -42,19 +42,18 @@ class LoginController{
     */
     private static function dataMatches($socio){
            
-       $query = "SELECT * FROM usuarios AS usr 
+       $query = "SELECT usr.Pass AS hash FROM usuarios AS usr 
                 JOIN personas AS per ON usr.ID_Persona = per.ID 
-                WHERE usr.Pass = ? AND per.Email = ?";
+                WHERE per.Email = ?";
            
         $conexion = Conexion::conectar();
         
         $stmt = $conexion->prepare($query);
-        
-        $stmt->bind_param('ss', $socio->contrasena, $socio->correo);
+        $stmt->bind_param('s', $socio->correo);
         $stmt->execute();
 
         $result = $stmt->get_result();
-        return ($result->num_rows > 0);
+        return (password_verify($socio->contrasena,$result->fetch_assoc()["hash"]));
     }
 
 

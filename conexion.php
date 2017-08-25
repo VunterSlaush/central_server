@@ -4,10 +4,11 @@
 * A class for handling connections to the database
 *
 * It calls mysqli_connect (if it hasn't been already called during the script execution)
-* with configuration params. 
+* with configuration params.
 *
 *
 */
+include('config/conf.php');
 class Conexion{
 
     static $conexion;
@@ -17,7 +18,7 @@ class Conexion{
     * Creates a new mysqli object if not already created
     *
     * The object is created with configuration files parsed config directory
-    *   with values concerning the database environment used. 
+    *   with values concerning the database environment used.
     *
     *
     * @return mysqli $conexion, an adapter object.
@@ -26,20 +27,14 @@ class Conexion{
     public static function conectar() {
 
         if(!isset(self::$conexion)) {
-            
-            $config = parse_ini_file('./config/config.ini',true);
-            $environment = parse_ini_file('./config/environment.ini')["environment"];
-            $config = $config[$environment];
-
-            self::$conexion = mysqli_connect($config['server'],$config['username'],$config['password'],$config['dbname']);
+            self::$conexion = mysqli_connect(HOST,USER,PASS,DB);
         }
 
         if(self::$conexion === false) {
-            return mysqli_connect_error(); 
+            return mysqli_connect_error();
         }
 
         return self::$conexion;
     }
 
 }
-

@@ -26,8 +26,8 @@ class SociosRouter{
 
     public static function enrutar($request,$routes){
      
-        if ($request !== 'POST' && !isset($routes[2])){
-             echo json_encode(array("success" => false, "m" => "Petición incorrecta"));
+        if ($request == 'GET' && !isset($routes[2])){
+            SocioController::findAll();
             return;
         }
 
