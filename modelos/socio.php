@@ -41,7 +41,7 @@ class Socio
         $this->membresia = $membresia;
         $this->nombre = $nombre;
         $this->correo = $correo;
-        $this->contrasena = hash('sha256',$contrasena,false);
+        $this->contrasena = password_hash($contrasena,PASSWORD_BCRYPT);
         $this->key = md5(microtime().rand());
         $this->activado = 0;
     }

@@ -70,12 +70,13 @@ class SocioController
         $conexion = Conexion::conectar();
 
         $query = "SELECT CONCAT(Nombre, ' ', ApellidoP) AS Nombre, Email AS Correo FROM personas AS p
-        JOIN usuarios AS usr ON usr.ID_Persona = p.id";
+        JOIN usuarios AS usr ON usr.ID_Persona = p.id ";
 
         $stmt = $conexion->prepare($query);
 
         if($membresia){
            $query = $query. "WHERE p.id = ?";
+           $stmt = $conexion->prepare($query);
            $stmt->bind_param('s', $membresia);
         }       
         
