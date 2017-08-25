@@ -35,7 +35,7 @@ class SocioController
             return;
         }
 
-        $socio = Socio::createSocio($membresia, $correo, $contrasena);
+        $socio = Socio::createSocio($nombre, $membresia, $correo, $contrasena);
         self::registrarSocio($socio);
     }
 
@@ -49,16 +49,50 @@ class SocioController
         $mail->Body    = $body;
         
         if (!$mail->send()) {
-            echo 'There was an error sending the message';
-            exit;
+           return false;
         }
         
-        echo 'Message was sent successfully';
+        return true;
     }
 
-    public static function findOne($codigo)
+    public static function findOne($membresia)
     {
-        echo json_encode(array("success" => false, "m"=> "Not supported yet"));
+        self::listar($membresia);
+    }
+
+    public static function findAll()
+    {
+        self::listar(false);
+    }
+
+    private static function listar($membresia){
+
+        $conexion = Conexion::conectar();
+
+        $query = "SELECT CONCAT(Nombre, ' ', ApellidoP) AS Nombre, Email AS Correo FROM personas AS p
+        JOIN usuarios AS usr ON usr.ID_Persona = p.id";
+
+        $stmt = $conexion->prepare($query);
+
+        if($membresia){
+           $query = $query. "WHERE p.id = ?";
+           $stmt->bind_param('s', $membresia);
+        }       
+        
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result->num_rows==0){
+            echo json_encode(array("success" => false, "m"=> "No se encontraron registros"));
+            return;
+        }
+
+        while($row = $result->fetch_assoc()){
+            $rows[] = $row;
+        }
+
+        echo json_encode(array("success" => true, "d"=> $rows));
         return;
     }
     
@@ -106,8 +140,17 @@ class SocioController
     }
 
 
-    private function getName(){
-        //TODO
+    private static function getName($membresia){
+        $query = "SELECT CONCAT(Nombre, ' ', ApellidoP) AS Nombre FROM personas where id = ?";
+        $conexion = Conexion::conectar();
+
+        $stmt = $conexion->prepare($query);
+        $stmt->bind_param('s', $membresia);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        return ( $result->num_rows>0 ? $result->fetch_assoc()["Nombre"]: "");
     }
 
 
@@ -163,8 +206,9 @@ class SocioController
         $stmt->bind_param('isss', $socio->activado, $socio->key, $socio->membresia, $socio->contrasena);
         $stmt->execute();
         
-        
-        $mailSent = self::sendMail($body, $socio);
+        $body = "Estimado socio, su código de activación es ".$socio->key;
+        $subject = "Active su cuenta";
+        $mailSent = self::sendMail($body, $subject, $socio);
         if ($conexion->affected_rows==1 && $mailSent) {
             echo json_encode(array("success" => true, "m"=> "Usuario registrado exitosamente"));
             return;

@@ -49,8 +49,8 @@ class LoginController{
         $conexion = Conexion::conectar();
         
         $stmt = $conexion->prepare($query);
-        
-        $stmt->bind_param('ss', $socio->contrasena, $socio->correo);
+        $pass = hash('sha256',$socio->contrasena,false);
+        $stmt->bind_param('ss', $pass, $socio->correo);
         $stmt->execute();
 
         $result = $stmt->get_result();
