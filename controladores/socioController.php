@@ -39,6 +39,7 @@ class SocioController
         self::registrarSocio($socio);
     }
 
+
     public static function sendMail($body, $subject, $socio)
     {
         $mail = new Mailer();
@@ -141,7 +142,7 @@ class SocioController
     }
 
 
-    private static function getName($membresia){
+    public static function getName($membresia){
         $query = "SELECT CONCAT(Nombre, ' ', ApellidoP) AS Nombre FROM personas where id = ?";
         $conexion = Conexion::conectar();
 
@@ -266,7 +267,7 @@ class SocioController
         return ($result->num_rows > 0);
     }
 
-    private static function getMail($membresia)
+    public static function getMail($membresia)
     {
         
         $query = "SELECT Email FROM personas WHERE ID = ? ";
@@ -280,7 +281,7 @@ class SocioController
         return  $result->num_rows>0 ? $result->fetch_assoc()["Email"] : false;
     }
 
-    private static function getMembresia($correo)
+    public static function getMembresia($correo)
     {
         
         $query = "SELECT id FROM personas WHERE Email = ?";

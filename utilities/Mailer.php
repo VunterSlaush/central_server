@@ -15,11 +15,12 @@ class Mailer extends PHPMailer
     public $SMTPDebug = 0;
     public $Debugoutput = 'html';
     public $SMTPSecure = 'tls';
+    public $CharSet = 'UTF-8';
 
     //Extend the send function
     public function send()
     {
-        $this->Subject = '[Bienvenido!] '.$this->Subject;
+        $this->Subject = '[Notificación!] '.$this->Subject;
         return parent::send();
     }
 
