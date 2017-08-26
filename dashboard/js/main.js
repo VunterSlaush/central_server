@@ -316,13 +316,14 @@ $(document).ready(function () {
     var valuesCR=[];
     var isEmpty = false;
     var idDev = $(this).attr('id-tipo');
+    idDev = idDev.substring(3,idDev.length);
     var maquina=$("#Maquina").val();
     var clave=$("#Pass").val();
     var des=$("#info").val();
-    var espacio=$("#selectSpace").chosen().val();
-    var grupos = $('#gruposSelect').chosen().val();
-    grupos = (grupos == null) ? "" : grupos.join();
-    $('#mE3').attr('class', 'form-group has-success');
+    //var espacio=$("#selectSpace").chosen().val();
+    //var grupos = $('#gruposSelect').chosen().val();
+    //grupos = (grupos == null) ? "" : grupos.join();
+    //$('#mE3').attr('class', 'form-group has-success');
     if (maquina == '') {
       $('#mE0').attr('class', 'form-group has-error');
       isEmpty = true;
@@ -332,25 +333,17 @@ $(document).ready(function () {
       $('#mE1').attr('class', 'form-group has-error');
       isEmpty = true;
     }
-    else $('#mE1').attr('class', 'form-group has-success');
-    if (espacio == '') {
-      $('#mE2').attr('class', 'form-group has-error');
-      isEmpty = true;
-    }
-    else $('#mE2').attr('class', 'form-group has-success');
-    if (grupos == '') {
-      $('#mE4').attr('class', 'form-group has-error');
-      isEmpty = true;
-    }
-    else $('#mE4').attr('class', 'form-group has-success');
+
     if (isEmpty){
       showSimpleNoty('Existen campos vacíos', 'center', 'warning', 0);
     } else{
-      Dispositivos.modifyDispositivo(maquina, clave, des, espacio, idDev, grupos).done(function (data) {
+      Dispositivos.modifyDispositivo(maquina, clave, des, null, idDev, null).done(function (data) {
         if (data.s == 1) {
+          socket.emit('devices');
           $("#myModal").modal('hide');
           showSimpleNoty(data.m, 'center', 'success', 5000);
           $('#btnDispositivos').click();
+          socket.emit('devices');
         }
         else{
           showSimpleNoty(data.m, 'center', 'error', 0);
@@ -465,10 +458,10 @@ $(document).ready(function () {
       Administradores.ConsultAccess(id_admin, navMenus[0], 'del').done(function (data) {
         if (data.s == 1) {
           showOptionNoty('¿Seguro que quieres eliminar este dispositivo?', 'center', 'warning', '',
-          "Dispositivos.deleteDispositivo('" + idTipo + "').done(function (data) { " +
+          "Dispositivos.deleteDispositivo('" + idTipo.substring(3,idTipo.length) + "').done(function (data) { " +
           "if(data.s == 1) {" +
-          "document.getElementById('btnDispositivos').click();" +
-          "$('button.close').click();" +
+          "socket.emit('devices');"+
+          "$('#myModal').modal('hide');" +
           "showSimpleNoty(data.m, 'center', 'success', '5000');" +
           "} else showSimpleNoty(data.m, 'center', 'error', '0');}); ");
         }
@@ -1265,11 +1258,12 @@ $(document).ready(function () {
       });
       break;
       case "noticias":
-      Administradores.ConsultAccess(id_admin, navMenus[2], 'esc').done(function (data) {
-        if(data.s == 1){
+      //Administradores.ConsultAccess(id_admin, navMenus[2], 'esc').done(function (data) {
+        //if(data.s == 1){
           sitio.construirModal(tipo, 'add');
-        }else notyErrorAcceso();
-      });
+        //}else notyErrorAcceso();
+      //});
+      break;
       case "notPush":
       Administradores.ConsultAccess(id_admin, navMenus[3], 'esc').done(function (data) {
         if(data.s == 1){
@@ -1753,11 +1747,10 @@ $(document).ready(function () {
       }
       break;
       case "dispositivo":
-      var maquina=$("#Maquina").val();
-      var clave=$("#Password").val();
-      var clave2=$("#CPass").val();
+      var maquina = $("#Maquina").val();
+      var clave = $("#Pass").val();
       var des=$("#info").val();
-      var espacio=$("#selectSpace").chosen().val();
+      //var espacio=$("#selectSpace").chosen().val();
       $('#mE4').attr('class', 'form-group has-success');
       if (maquina == '') {
         $('#mE0').attr('class', 'form-group has-error');
@@ -1769,33 +1762,24 @@ $(document).ready(function () {
         isEmpty = true;
       }
       else $('#mE1').attr('class', 'form-group has-success');
-      if (clave2==''){
-        $('#mE2').attr('class', 'form-group has-error');
-        isEmpty = true;
-      }
-      if (espacio == '') {
-        $('#mE3').attr('class', 'form-group has-error');
-        isEmpty = true;
-      }
-      else $('#mE3').attr('class', 'form-group has-success');
+
+
       if (isEmpty){
         showSimpleNoty('Existen campos vacíos', 'center', 'warning', 0);
       } else{
-        if (clave!=clave2){
-          showSimpleNoty("La contraseñas no coinciden", 'center', 'warning', 2000);
-          $('#mE2').attr('class', 'form-group has-error');
-        }else{
+
           Dispositivos.addDispositivo(maquina, clave, des, espacio).done(function (data) {
             if (data.s == 1) {
               $("#myModal").modal('hide');
               $("#btnDispositivos").click();
               showSimpleNoty(data.m, 'center', 'success', 5000);
-              showSimpleNoty("Recuerda cargar las imagenes para este dispositio", 'center', 'information', 0);
+              socket.emit("devices"); // con esto actualizas los dispositivos
+              //showSimpleNoty("Recuerda cargar las imagenes para este dispositio", 'center', 'information', 0);
             }
             else
             showSimpleNoty(data.m, 'center', 'warning', 0);
           });
-        }
+
       }
       break;
 
@@ -2116,11 +2100,40 @@ $(document).ready(function () {
         }
       break;
       case "catalogo":
-      Administradores.ConsultAccess(id_admin, navMenus[10], 'esc').done(function (data) {
+      /*Administradores.ConsultAccess(id_admin, navMenus[10], 'esc').done(function (data) {
         if(data.s == 1){
           showSimpleNoty("modificar catologo :)","center","success",3000);
         }else notyErrorAcceso();
-      });
+      });*/
+      break;
+
+      case "noticias":
+        var titulo = $('#noticeTitle').val();
+        var imagen = $('#noticeImage').val();
+        if (titulo == '')
+        {
+          $('#mE1').attr('class', 'form-group has-error');
+          isEmpty = true;
+        }
+        else $('#mE1').attr('class', 'form-group has-success');
+        if (imagen == '') {
+          $('#mE2').attr('class', 'form-group has-error');
+          isEmpty = true;
+        }
+        else $('#mE2').attr('class', 'form-group has-success');
+
+        if (isEmpty)
+        {
+          showSimpleNoty('Existen campos obligatorios vacíos', 'center', 'warning', 0);
+        }
+        else
+        {
+          Noticias.add(titulo, imagen).done(function (data) {
+            console.log("PUSH DATA>",data);
+            $("#myModal").modal("hide");
+          });
+        }
+
       break;
     }
   });
@@ -2760,22 +2773,6 @@ $(document).ready(function () {
         $("#contenido").html(' ');
         //despues devolvemos la tabla construida de roles
         sitio.construirTabla("noticias");
-      }else{
-        notyErrorAcceso();
-      }
-    });
-  });
-
-  $(document).on("click", "#btnNotPush", function (e) {
-    Administradores.ConsultAccess(id_admin, navMenus[3], 'leer').done(function (data) {
-      if(data.s == 1){
-        sharedFunction('btnNotPush');
-        $('#btnMinimize').hide();
-        $("#titulo").html('<i class="glyphicon glyphicon-bullhorn"></i> Comunicados - Notificaciones Push');
-        //primero borramos el contenido anterior
-        $("#contenido").html(' ');
-        //despues devolvemos la tabla construida de roles
-        sitio.construirTabla("notPush");
       }else{
         notyErrorAcceso();
       }

@@ -11,13 +11,17 @@ include_once("controladores/LoginController.php");
 
 class LoginRouter{
 
-    public static function enrutar($request){
+    public static function enrutar($request,$routes){
      
         if ($request !== 'POST'){
              echo json_encode(array("success" => false, "m" => "Petición incorrecta"));
             return;
         }
         
-        LoginController::login();
+        if(isset($routes[2]) && $routes[2] == "update"){
+            LoginController::cambiarPass();
+        }else{
+            LoginController::login();
+        }
     }
 }

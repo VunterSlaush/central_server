@@ -33,7 +33,7 @@
             SociosRouter::enrutar($request,$routes);
             break;
         case "login":
-            LoginRouter::enrutar($request);
+            LoginRouter::enrutar($request,$routes);
             break;
         default: 
             sendErrorMessage();

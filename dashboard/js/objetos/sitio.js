@@ -882,11 +882,6 @@ var sitio = {
       '<label for="info">Descripción: </label>' +
       '<textarea class="form-control" id="info" rows="3" style="resize: none" ></textarea>'+
       '</div>' +
-      '<div id="mE3" class="form-group"> ' +
-      '<label for="info">Acceso (*) </label>' +
-      '<select id="selectPer" multiple class="form-control" data-rel="chosen">'+
-      '</select>'+
-      '</div>' +
       '</div>' +
       '</div>');
       Personas.consultPersona('').done(function (data) {
@@ -935,127 +930,25 @@ var sitio = {
     $('#myModal').attr("class", "modal fade modal-normal").modal('show');
     break;
 
-    case "noticias":
-    $(".modal-header").html('<button type="button" class="close" data-dismiss="modal">×</button><h3>' + mensajeH + ' Noticia </h3>');
-    $(".modal-body").html(
-      '<div class="row">' +
-        '<div class="col-xs-7"> ' +
-          '<div id="mE1" class="form-group"> ' +
-            '<label class="control-label" for="titulo">Titulo</label>' +
-            '<input class="form-control" id="titulo" placeholder="Ingresa titulo"> ' +
-          '</div>' +
-          '<div id="mE2" class="form-group"> ' +
-            '<label class="control-label" for="txtFechaIni">Fecha Inicial</label>' +
-            '<input class="form-control" type="text" name="txtFechaIni" id="txtFechaIni" readonly="">'+
-          '</div>' +
-          '<div id="mE3" class="form-group"> ' +
-            '<label class="control-label" for="vigencia">Vigencia: </label>' +
-            '<input class="form-control" type="text" name="vigencia" id="vigencia">'+
-          '</div>'+
-          '<div id="mE4" class="form-group"> ' +
-            '<label class="control-label" for="archivo">Seleccionar Archivo:</label>' +
-            '<input type="file" style="display:none" class="form-control" id="archivo"> ' +
-            '<a id="btnFile" class="btn btn-primary form-control"> Archivo </a>'+
-          '</div>' +
-        '</div>' +
-        '<div class="col-xs-5">'+
-          '<div class="frame-toggle">' +
-            '<div class="checkbox">' +
-              '<input type="checkbox" data-toggle="toggle" class="form-control" id="chkFrame"> ' +
-            '</div>' +
-            '<div class="image-frame"> ' +
-              '<img src="img/device-frame-android.png" alt="device-frame">' +
-            '</div>' +
-          '</div>' +
-        '</div>' +
-      '</div>');
-
-      $('#chkFrame').bootstrapToggle({
-        on: 'Android',
-        off: 'Iphone'
-      });
-
-      $('#chkFrame').change(function() {
-        if ($(this).prop('checked')){
-          $('.image-frame img').prop('src','img/device-frame-android.png');
-        }else{
-          $('.image-frame img').prop('src','img/device-frame-iphone.png');
-        }
-      });
-
-      $('#btnFile').click( function() {
-        $('#archivo').click();
-      });
-
-      $("#txtFechaIni").datepicker();
-      $("#txtFechaIni").change(function(){
-        var f = $(this).val().split('/');
-        $(this).val(f[2]+'-'+f[0]+'-'+f[1]);
-      });
-      $(".modal-footer").html('<a href="#" class="btn btn-default" data-dismiss="modal">Cancelar</a> ' +
-      '<a href="#" class="btn btn-primary" id="btnSaveReg" tipo="rol"  accion="' + accion + '" > Guardar </a>');
-      $('#myModal').attr("class", "modal fade modal-normal").modal('show');
-      break;
-
-      case "notPush":
+   case "noticias":
       $(".modal-header").html('<button type="button" class="close" data-dismiss="modal">×</button><h3>' + mensajeH + ' Noticia </h3>');
       $(".modal-body").html(
         '<div class="row">' +
-          '<div class="col-xs-7"> ' +
+          '<div class="col-xs-10 col-xs-offset-1"> ' +
             '<div id="mE1" class="form-group"> ' +
               '<label class="control-label" for="titulo">Titulo</label>' +
-              '<input class="form-control" id="titulo" placeholder="Ingresa titulo"> ' +
+              '<input class="form-control" id="noticeTitle" placeholder="Ingresa titulo"> ' +
             '</div>' +
             '<div id="mE2" class="form-group"> ' +
-              '<label class="control-label" for="desc">Descripcion: </label>' +
-              '<input class="form-control" type="text" name="desc" id="desc">'+
+              '<label class="control-label" for="desc">Link a la imagen </label>' +
+              '<input class="form-control" type="text" name="img" id="noticeImage" placeholder="Ingrese link a la imagen">'+
             '</div>'+
-            '<div id="mE3" class="form-group"> ' +
-              '<label class="control-label" for="txtFechaEnv">Fecha Envio:</label>' +
-              '<input class="form-control" type="text" name="txtFechaEnv" id="txtFechaEnv" readonly="">'+
-            '</div>'+
-            '<div id="mE4" class="form-group"> ' +
-              '<input id="ligar" type="checkbox">' +
-              '<label class="control-label" for="ligarNoticia" >  Ligar con Noticia: </label>' +
-              '<select class="form-control" id="ligarNoticia" name="ligarNoticia" style="display:none;"> <option value="001">Noticia 001</option><option value="002">Noticia 002</option></select>'+
-            '</div>' +
           '</div>' +
-          '<div class="col-xs-5">'+
-            '<div class="frame-toggle">' +
-              '<div class="checkbox">' +
-                '<input type="checkbox" data-toggle="toggle" class="form-control" id="chkFrame"> ' +
-              '</div>' +
-              '<div class="image-frame"> ' +
-                '<img src="img/device-frame-android.png" alt="device-frame">' +
-            '</div>' +
-            '</div>' +
           '</div>' +
         '</div>');
 
-        $('#ligar').click(function() {
-            $('#ligarNoticia').toggle();
-        });
-
-        $('#chkFrame').bootstrapToggle({
-          on: 'Android',
-          off: 'Iphone'
-        });
-
-        $('#chkFrame').change(function() {
-          if ($(this).prop('checked')){
-            $('.image-frame img').prop('src','img/device-frame-android.png');
-          }else{
-            $('.image-frame img').prop('src','img/device-frame-iphone.png');
-          }
-        });
-
-        $("#txtFechaEnv").datepicker();
-        $("#txtFechaEnv").change(function(){
-          var f = $(this).val().split('/');
-          $(this).val(f[2]+'-'+f[0]+'-'+f[1]);
-        });
         $(".modal-footer").html('<a href="#" class="btn btn-default" data-dismiss="modal">Cancelar</a> ' +
-        '<a href="#" class="btn btn-primary" id="btnSaveReg" tipo="rol"  accion="' + accion + '" > Guardar </a>');
+        '<a href="#" class="btn btn-primary" id="btnSaveReg" tipo="noticias"  accion="' + accion + '" > Guardar </a>');
         $('#myModal').attr("class", "modal fade modal-normal").modal('show');
         break;
 
@@ -1770,7 +1663,7 @@ var sitio = {
           break;
           case "noticias":
           $("#btnAgregar").attr('tipo', 'noticias').show();
-          Administradores.GetAdmins().done(function (data) { //Se deja para simular carga de datos
+          Noticias.getAll().done(function (data) {
             if (data.s == 0) {
               if (data.m == 'No has iniciado sesión') {
                 alert(data.m);
@@ -1785,37 +1678,22 @@ var sitio = {
               '<tr><th> ID </th>'+
               '<th> Fecha </th>'+
               '<th> Titulo </th>'+
-              '<th> Estatus </th>'+
-              '<th> Vigencia </th>'+
               '<th> Acciones </th></tr>'+
               '</thead><tbody>';
 
-              /*//Crear datos ficticeos
-              tablaHTML += ''+
-              '<tr>'+
-              '<td> 001 </td>'+
-              '<td> 24-Feb</td>'+
-              '<td> Torneo de Tenis</td>'+
-              '<td> Activo </td>'+
-              '<td> 10 Días </td>'+
-              '<td>'+
-              '<a class="btn btn-success btn-setting" id="btnVerNoticia" href="#" id-tipo="001" fecha-tipo="24-Feb" titulo-tipo="Torneo de Tenis" estatus-tipo="Activo" vigencia-tipo="10 Días" ><i class="glyphicon glyphicon-barcode icon-white"></i>  Ver </a> ' +
-              '<a class="btn btn-info btn-setting" id="btnModificar" href="#" tipo="noticias"  id-tipo="001" fecha-tipo="24-Feb" titulo-tipo="Torneo de Tenis" estatus-tipo="Activo" vigencia-tipo="10 Días" ><i class="glyphicon glyphicon-edit icon-white"></i>   Editar  </a> ' +
-              '<a class="btn btn-danger" id="btnEliminar" href="#" tipo="noticias" id-tipo="001"><i class="glyphicon glyphicon-trash icon-white"></i> Eliminar    </a> '+
-              '</td></tr>';
+              for (var i = 0; i < data.d.length; i++) {
 
-              tablaHTML += ''+
-              '<tr>'+
-              '<td> 002 </td>'+
-              '<td> 05-Marzo</td>'+
-              '<td> Torneo de Golf</td>'+
-              '<td> Activo </td>'+
-              '<td> 15 Días </td>'+
-              '<td>'+
-              '<a class="btn btn-success btn-setting" id="btnVerNoticia" href="#" id-tipo="002"  fecha-tipo="05-Marzo" titulo-tipo="Torneo de Golf" estatus-tipo="Activo" vigencia-tipo="15 Días" ><i class="glyphicon glyphicon-barcode icon-white"></i>  Ver </a> ' +
-              '<a class="btn btn-info btn-setting" id="btnModificar" href="#" tipo="noticias" id-tipo="002"  fecha-tipo="05-Marzo" titulo-tipo="Torneo de Golf" estatus-tipo="Activo" vigencia-tipo="15 Días" ><i class="glyphicon glyphicon-edit icon-whitecon"></i>   Editar  </a> ' +
-              '<a class="btn btn-danger" id="btnEliminar" href="#" tipo="noticias" id-tipo="002"><i class="glyphicon glyphicon-trash icon-white"></i> Eliminar    </a> '+
-              '</td></tr>';*/
+                tablaHTML += ''+
+                '<tr>'+
+                '<td>'+data.d[i].id+'</td>'+
+                '<td>'+data.d[i].fecha+'</td>'+
+                '<td>'+data.d[i].titulo+'</td>'+
+                '<td>'+
+                '<a class="btn btn-success btn-setting" id="btnVerNoticia" href="#" id-tipo="noti'+data.d[i].id+'" fecha-tipo="'+data.d[i].fecha+'" titulo-tipo="'+data.d[i].titulo+'"><i class="glyphicon glyphicon-barcode icon-white"></i>  Ver </a> ' +
+                '<a class="btn btn-danger" id="btnEliminar" href="#" tipo="noticias" id-tipo="noti'+data.d[i].id+'"><i class="glyphicon glyphicon-trash icon-white"></i> Eliminar    </a> '+
+                '</td></tr>';
+              }
+
 
               tablaHTML+='</tbody></table>';
               $('#contenido').html(tablaHTML);
@@ -3874,10 +3752,13 @@ var sitio = {
               mensajeCarga(true);
             },
             success: function (data) {
+              console.log("MOTA","AQUI?");
               mensajeCarga(false);
               var code="";
+              var devId;
               for(var i=0;i<data.d.length;i++){
-                code +='<div class="col-md-3 col-sm-3 col-xs-6"><a href="#" id=dev'+i+' data-toggle="tooltip" title="'+data.d[i]['timestamp']+'"  onclick="modifyDevice(this.id)" class="well top-block" idDev="'+data.d[i]['id']+'" idEsp="'+data.d[i]['idEsp']+'" state="'+data.d[i]['state']+'" maquina="'+data.d[i]['maquina']+'" ubicacion="'+data.d[i]['ubicacion']+'" pass="'+data.d[i]['pass']+'" des="'+data.d[i]['descripcion']+'"><img src="img/Devicescomputericon.png">  <div align="left" style="color:dimgray">Dispositivo: '+data.d[i]['maquina']+'</div> <div align="left" style="color: dimgray;font-weight:normal;">Conexión: '+jQuery.timeago(data.d[i]['timestamp'])+'</div></a></div>'
+                devId = data.d[i]['ID'];
+                code +='<div class="col-md-3 col-sm-3 col-xs-6"><a href="#" id=dev'+devId+' data-toggle="tooltip" title="'+data.d[i]['timestamp']+'"  onclick="modifyDevice(this.id)" class="well top-block" idDev="'+data.d[i]['id']+'" idEsp="'+data.d[i]['idEsp']+'" state="'+data.d[i]['state']+'" maquina="'+data.d[i]['maquina']+'" ubicacion="'+data.d[i]['ubicacion']+'" pass="'+data.d[i]['pass']+'" des="'+data.d[i]['descripcion']+'"><img src="img/Devicescomputericon.png">  <div align="left" style="color:dimgray">Dispositivo: '+data.d[i]['maquina']+'</div> <div align="left" style="color: dimgray;font-weight:normal;">Conexión: '+jQuery.timeago(data.d[i]['timestamp'])+'</div></a></div>'
               }
               code+='<a class="btn btn-info btn-setting" id="btnModificar" style="display:none;" href="#" tipo="device"></a>';
               $("#devices").html('<div class="row">'+code+'</div>');
