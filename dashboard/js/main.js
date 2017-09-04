@@ -471,17 +471,40 @@ $(document).ready(function () {
       case "noticias":
       Administradores.ConsultAccess(id_admin, navMenus[2], 'del').done(function (data) {
         if (data.s == 1) {
+          console.log("Eliminar>",idTipo);
+          idTipo = idTipo.replace('noti', '');
           showOptionNoty('¿Seguro que quieres eliminar esta noticia?', 'center', 'warning', '',
-          "");
+          "Noticias.delete(" + idTipo + ").done(function (data) { " +
+          "if(data.s == 1) {" +
+          "document.getElementById('btnNoticias').click();" +
+          "showSimpleNoty(data.m, 'center', 'success', '5000');" +
+          " $('#myModal').modal('hide'); } else showSimpleNoty(data.m, 'center', 'error', '0');}); ");
         }
         else notyErrorAcceso();
       });
+      break;
+
+      case "piscina":
+
+          console.log("Eliminar>",idTipo);
+          idTipo = idTipo.replace('noti', '');
+          showOptionNoty('¿Seguro que quieres eliminar este Registro', 'center', 'warning', '',
+          "Piscina.delete(" + idTipo + ").done(function (data) { " +
+          "if(data.s == 1) {" +
+          "document.getElementById('btnPiscina').click();" +
+          "showSimpleNoty(data.m, 'center', 'success', '5000');" +
+          " $('#myModal').modal('hide'); } else showSimpleNoty(data.m, 'center', 'error', '0');}); ");
+
       break;
       case "notPush":
       Administradores.ConsultAccess(id_admin, navMenus[9], 'del').done(function (data) {
         if (data.s == 1) {
           showOptionNoty('¿Seguro que quieres eliminar esta notificación ?', 'center', 'warning', '',
-          "");
+          "Noticias.delete(" + idTipo + ").done(function (data) { " +
+          "if(data.s == 1) {" +
+          "document.getElementById('btnNoticias').click();" +
+          "showSimpleNoty(data.m, 'center', 'success', '5000');" +
+          " $('#myModal').modal('hide'); } else showSimpleNoty(data.m, 'center', 'error', '0');}); ");
         }
         else notyErrorAcceso();
       });
@@ -1264,6 +1287,11 @@ $(document).ready(function () {
         //}else notyErrorAcceso();
       //});
       break;
+
+      case "piscina":
+          sitio.construirModal(tipo, 'add');
+      break;
+
       case "notPush":
       Administradores.ConsultAccess(id_admin, navMenus[3], 'esc').done(function (data) {
         if(data.s == 1){
@@ -2128,9 +2156,48 @@ $(document).ready(function () {
         }
         else
         {
-          Noticias.add(titulo, imagen).done(function (data) {
-            console.log("PUSH DATA>",data);
-            $("#myModal").modal("hide");
+          Noticias.add(titulo, imagen).done(function (data)
+          {
+            if (data.s == 1) {
+              $("#myModal").modal("hide");
+              $("#btnNoticias").click();
+            }
+            else
+            {
+              showSimpleNoty('No se pudo agregar el registro', 'center', 'warning', 0);
+            }
+
+          });
+        }
+
+      break;
+
+
+
+      case "piscina":
+        var temp = $('#temp_piscina').val();
+        if (temp == '')
+        {
+          $('#mE1').attr('class', 'form-group has-error');
+          isEmpty = true;
+        }
+        else $('#mE1').attr('class', 'form-group has-success');
+
+        if (isEmpty)
+        {
+          showSimpleNoty('la temperatura no puede estar vacia', 'center', 'warning', 0);
+        }
+        else
+        {
+          Piscina.add(temp).done(function (data) {
+            if (data.s  == 1) {
+              $("#myModal").modal("hide");
+              $("#btnPiscina").click();
+            }
+            else
+            {
+              showSimpleNoty('No se pudo agregar el registro', 'center', 'warning', 0);
+            }
           });
         }
 
@@ -2766,7 +2833,7 @@ $(document).ready(function () {
   $(document).on("click", "#btnNoticias", function (e) {
     Administradores.ConsultAccess(id_admin, navMenus[2], 'leer').done(function (data) {
       if(data.s == 1){
-        sharedFunction('btnNoticias');
+        sharedFunction('btnPiscina');
         $('#btnMinimize').hide();
         $("#titulo").html('<i class="glyphicon glyphicon-bullhorn"></i> Comunicados - Noticias');
         //primero borramos el contenido anterior
@@ -2777,6 +2844,19 @@ $(document).ready(function () {
         notyErrorAcceso();
       }
     });
+  });
+
+
+  $(document).on("click", "#btnPiscina", function (e) {
+
+      sharedFunction('btnNoticias');
+      $('#btnMinimize').hide();
+      $("#titulo").html('<i class="glyphicon glyphicon-bullhorn"></i> Registros de temperatura de la piscina');
+      //primero borramos el contenido anterior
+      $("#contenido").html(' ');
+      //despues devolvemos la tabla construida de roles
+      sitio.construirTabla("piscina");
+
   });
 
   $(document).on("click", "#btnSocios", function (e) {

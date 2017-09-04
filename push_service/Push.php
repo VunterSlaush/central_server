@@ -13,17 +13,19 @@ class PushCaller extends RestIonicCaller
     $data = array();
     $data['profile'] = 'prod';
     $data['send_to_all'] = true;
-    $data['notification'] = $jsonDecodificado['PUSH']['data']; // TODO add to database
+    $data['notification'] = array(); // TODO add to database
+    $data['notification']["title"] = $jsonDecodificado['data']['title'];
+    $data['notification']['message'] = $jsonDecodificado['data']['title'];
+    $data['notification']['image'] = $jsonDecodificado['data']['image'];
+    $data['notification']['payload']["image"] = $jsonDecodificado['data']['image'];
 
-    /* TODO!
-    $query = "INSERT INTO notificaciones (titulo, imagen, fecha) VALUES (? , ? , ?)";
+    $query = "INSERT INTO notificaciones (titulo, imagen) VALUES (? , ?)";
 
     $conexion = Conexion::conectar();
-    error_log("PUSH TO ALLL DB CONECCTED", 0);
 
-    $stmt = $conexion->prepare($query);*/
+    $stmt = $conexion->prepare($query);
 
-    $stmt->bind_param('sss', $jsonDecodificado['PUSH']['data']['title'], $jsonDecodificado['PUSH']['data']['image'], date("Y-m-d"));
+    $stmt->bind_param('ss', $jsonDecodificado['data']['title'], $jsonDecodificado['data']['image']);
     $stmt->execute();
 
     $response = $this->call("POST",self::URL_BASE.'/notifications', json_encode($data));

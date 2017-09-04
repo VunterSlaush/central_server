@@ -43,7 +43,7 @@ var Noticias = {
     delete: function (id) {
         json = {
             ws: 'eNoticia',
-            idDev: idDisp
+            id: id
         };
         return Requester.getService(json);
     },

@@ -14,14 +14,11 @@ if (empty($_POST["json"]))
 }
 else
 {
+
     $decodificado = json_decode($_POST["json"], TRUE);
-    //
-    //
-    //  SERVICIOS CLIENTE
-    //
-    if (array_key_exists("PUSH", $decodificado) && array_key_exists("fun", $decodificado["PUSH"]))
+    if (array_key_exists("fun", $decodificado))
     {
-        $servicio       = $decodificado["PUSH"]["fun"];
+        $servicio       = $decodificado["fun"];
         $jsonCodificado = json_encode($decodificado, TRUE);
         switch ($servicio) {
             case "push_all":

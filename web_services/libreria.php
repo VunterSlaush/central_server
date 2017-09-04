@@ -3557,3 +3557,66 @@ function noticias()
         echo json_encode(array("s" => 0, "m" => "Error al buscar las noticias"));
     }
 }
+
+function eNoticia($id)
+{
+    $sql = " DELETE FROM notificaciones WHERE id = '$id'";
+    if (updateSQL($sql) == 0)
+        echo json_encode(array("s" => 0, "m" => "la noticia no pudo ser eliminada"));
+    else
+        echo json_encode(array("s" => 1, "m" => "Noticia eliminada con exito"));
+}
+
+function aPiscina($temp)
+{
+  $sql = "INSERT INTO temperatura_piscina (temperatura) VALUES ('$temp') ";
+  if(insertaSQL($sql))
+      echo json_encode(array("s" => 1, "m" => "temperatura añadida con exito"));
+  else
+      echo json_encode(array("s"=> 0, "m"=> "No se pudo agregar la Temperatura"));
+}
+
+function piscinas()
+{
+  $sql = "SELECT * FROM temperatura_piscina";
+  $piscinas = [];
+  $i = 0;
+  if($r = ejecutaSQL($sql))
+  {
+      while ($row = mysqli_fetch_array($r))
+      {
+          $piscinas[$i] = $row;
+          $i++;
+      }
+      echo json_encode(array("s" => 1, "m" => "registros de temperatura encontrados satisfactoriamente", "d" => $piscinas));
+  }
+  else {
+      echo json_encode(array("s" => 0, "m" => "Error al buscar los registros"));
+  }
+}
+
+function piscinaActual()
+{
+  $sql = "SELECT * FROM temperatura_piscina order by id DESC LIMIT 1";
+
+  $i = 0;
+  if($r = ejecutaSQL($sql))
+  {
+      $row = mysqli_fetch_array($r);
+      $piscina = $row;
+      echo json_encode(array("s" => 1, "m" => "registros de temperatura encontrados satisfactoriamente", "d" => $piscina));
+  }
+  else {
+      echo json_encode(array("s" => 0, "m" => "Error al buscar los registros"));
+  }
+}
+
+
+function ePiscina($id)
+{
+  $sql = " DELETE FROM temperatura_piscina WHERE id = '$id'";
+  if (updateSQL($sql) == 0)
+      echo json_encode(array("s" => 0, "m" => "el registro no pudo ser eliminada"));
+  else
+      echo json_encode(array("s" => 1, "m" => "registro eliminado con exito"));
+}

@@ -952,6 +952,24 @@ var sitio = {
         $('#myModal').attr("class", "modal fade modal-normal").modal('show');
         break;
 
+        case "piscina":
+           $(".modal-header").html('<button type="button" class="close" data-dismiss="modal">×</button><h3>' + mensajeH + ' Registro de temperatura </h3>');
+           $(".modal-body").html(
+             '<div class="row">' +
+               '<div class="col-xs-10 col-xs-offset-1"> ' +
+                 '<div id="mE1" class="form-group"> ' +
+                   '<label class="control-label" for="titulo">Registro de temperatura</label>' +
+                   '<input class="form-control" id="temp_piscina" placeholder="Registro de temperatura" type="number"> ' +
+                 '</div>' +
+               '</div>' +
+               '</div>' +
+             '</div>');
+
+             $(".modal-footer").html('<a href="#" class="btn btn-default" data-dismiss="modal">Cancelar</a> ' +
+             '<a href="#" class="btn btn-primary" id="btnSaveReg" tipo="piscina"  accion="' + accion + '" > Guardar </a>');
+             $('#myModal').attr("class", "modal fade modal-normal").modal('show');
+             break;
+
         case "alberca":
         $(".modal-header").html('<button type="button" class="close" data-dismiss="modal">×</button><h3>' + mensajeH + ' Temperatura Alberca </h3>');
         $(".modal-body").html(
@@ -1689,8 +1707,63 @@ var sitio = {
                 '<td>'+data.d[i].fecha+'</td>'+
                 '<td>'+data.d[i].titulo+'</td>'+
                 '<td>'+
-                '<a class="btn btn-success btn-setting" id="btnVerNoticia" href="#" id-tipo="noti'+data.d[i].id+'" fecha-tipo="'+data.d[i].fecha+'" titulo-tipo="'+data.d[i].titulo+'"><i class="glyphicon glyphicon-barcode icon-white"></i>  Ver </a> ' +
                 '<a class="btn btn-danger" id="btnEliminar" href="#" tipo="noticias" id-tipo="noti'+data.d[i].id+'"><i class="glyphicon glyphicon-trash icon-white"></i> Eliminar    </a> '+
+                '</td></tr>';
+              }
+
+
+              tablaHTML+='</tbody></table>';
+              $('#contenido').html(tablaHTML);
+              var tabla = $('#tabla-noticias').dataTable({
+                "sDom": "<'row'<'col-md-6 text-left'l><'col-md-6 text-right'f>r>t<'row'<'col-md-12'i><'col-md-12 center-block'p>>",
+                "sPaginationType": "bootstrap",
+                "oLanguage": {
+                  "sLengthMenu": "Registros por página: _MENU_ ",
+                  "sInfo": "Mostrando _START_ al _END_ de _TOTAL_ registros",
+                  "sZeroRecords": "No se encontró ningún registro",
+                  "sInfoEmpty": "No existen registros",
+                  "sInfoFiltered": "(Filtrado de _MAX_ total de registros)",
+                  "sSearch": "Búsqueda: ",
+                  "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Último",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+                  }
+                }
+              });
+            }
+          });
+          break;
+          case "piscina":
+          $("#btnAgregar").attr('tipo', 'piscina').show();
+          Piscina.getAll().done(function (data) {
+            if (data.s == 0) {
+              if (data.m == 'No has iniciado sesión') {
+                alert(data.m);
+                window.location.href = "";
+              }
+              else {
+                showSimpleNoty(data.m, "center", "error", 0);
+              }
+            }else {
+              var tablaHTML = '<table id="tabla-noticias" class="table table-striped table-bordered bootstrap-datatable datatable responsive">'+
+              '<thead>'+
+              '<tr><th> ID </th>'+
+              '<th> Fecha </th>'+
+              '<th> Temperatura °C </th>'+
+              '<th> Acciones </th></tr>'+
+              '</thead><tbody>';
+
+              for (var i = 0; i < data.d.length; i++) {
+
+                tablaHTML += ''+
+                '<tr>'+
+                '<td>'+data.d[i].id+'</td>'+
+                '<td>'+data.d[i].fecha+'</td>'+
+                '<td>'+data.d[i].temperatura+'</td>'+
+                '<td>'+
+                '<a class="btn btn-danger" id="btnEliminar" href="#" tipo="piscina" id-tipo="noti'+data.d[i].id+'"><i class="glyphicon glyphicon-trash icon-white"></i> Eliminar    </a> '+
                 '</td></tr>';
               }
 

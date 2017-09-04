@@ -65,6 +65,9 @@ else {
         case "noticias":
             noticias();
             break;
+        case "eNoticia":
+              eNoticia($_POST["id"]);
+              break;
         case "roles":
             roles();
             break;
@@ -274,6 +277,22 @@ else {
         case "sessionChk":
             echo json_encode(array("s" => 1, "m" => "Sesion vigente"));
             break;
+
+        case "piscinas":
+          piscinas();
+        break;
+
+        case "aPiscina":
+          aPiscina($_POST['temperatura']);
+        break;
+
+        case "ePiscina":
+          ePiscina($_POST['id']);
+        break;
+
+        case "piscinaActual":
+          piscinaActual();
+        break;
         default:
             echo json_encode(array("s" => 0, "m" => "El servicio no existe"));
             break;
