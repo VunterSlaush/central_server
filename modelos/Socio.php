@@ -1,6 +1,6 @@
 <?php
 
-include_once(__DIR__.'/../Conexion.php');
+include_once('../conexion.php');
 
 /**
 * A model which represents a table in the database for storing user information. 
