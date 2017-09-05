@@ -2,6 +2,7 @@
 
 include_once('modelos/Socio.php');
 include_once('utilities/Mailer.php');
+include_once('conexion.php');
 
 class SocioController
 {
