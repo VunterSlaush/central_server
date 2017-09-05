@@ -1,5 +1,5 @@
 <?php
-require __DIR__.'/PHPMailer/PHPMailerAutoload.php';
+require __DIR__.'/PHPMailer/PHPMailer.php';
 
 class Mailer extends PHPMailer
 {
