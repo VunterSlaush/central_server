@@ -1,7 +1,7 @@
 <?php
 
 include_once('modelos/Socio.php');
-include_once('controladores/socioController.php');
+include_once('controladores/SocioController.php');
 
 class LoginController{
 
