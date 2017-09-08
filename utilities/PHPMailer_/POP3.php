@@ -18,8 +18,6 @@
  * FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-namespace PHPMailer\PHPMailer;
-
 /**
  * PHPMailer POP-Before-SMTP Authentication Class.
  * Specifically for PHPMailer to use for RFC1939 POP-before-SMTP authentication.
@@ -306,7 +304,7 @@ class POP3
         //So ignore errors here
         try {
             @fclose($this->pop_conn);
-        } catch (Exception $e) {
+        } catch (MailerException $e) {
             //Do nothing
         };
     }

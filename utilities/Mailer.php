@@ -1,5 +1,9 @@
 <?php
-require __DIR__.'/PHPMailer_/PHPMailer.php';
+require_once __DIR__.'/PHPMailer_/PHPMailer.php';
+require_once __DIR__.'/PHPMailer_/SMTP.php';
+require_once __DIR__.'/PHPMailer_/POP3.php';
+require_once __DIR__.'/PHPMailer_/OAuth.php';
+require_once __DIR__.'/PHPMailer_/Exception.php';
 
 class Mailer extends PHPMailer
 {
