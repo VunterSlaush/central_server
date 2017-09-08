@@ -2,6 +2,7 @@
 
 include_once('modelos/Socio.php');
 include_once('utilities/Mailer.php');
+include_once('conexion.php');
 
 class SocioController
 {
@@ -50,7 +51,7 @@ class SocioController
         $mail->Body    = $body;
         
         if (!$mail->send()) {
-           return false;
+            return false;
         }
         
         return true;
@@ -66,7 +67,8 @@ class SocioController
         self::listar(false);
     }
 
-    private static function listar($membresia){
+    private static function listar($membresia)
+    {
 
         $conexion = Conexion::conectar();
 
@@ -75,22 +77,22 @@ class SocioController
 
         $stmt = $conexion->prepare($query);
 
-        if($membresia){
-           $query = $query. "WHERE p.id = ?";
-           $stmt = $conexion->prepare($query);
-           $stmt->bind_param('s', $membresia);
-        }       
+        if ($membresia) {
+            $query = $query. "WHERE p.id = ?";
+            $stmt = $conexion->prepare($query);
+            $stmt->bind_param('s', $membresia);
+        }
         
         $stmt->execute();
 
         $result = $stmt->get_result();
 
-        if ($result->num_rows==0){
+        if ($result->num_rows==0) {
             echo json_encode(array("success" => false, "m"=> "No se encontraron registros"));
             return;
         }
 
-        while($row = $result->fetch_assoc()){
+        while ($row = $result->fetch_assoc()) {
             $rows[] = $row;
         }
 
@@ -99,10 +101,23 @@ class SocioController
     }
     
 
-    public static function delete($codigo)
+    public static function delete($membresia)
     {
-        echo json_encode(array("success" => false, "m"=> "Not supported yet"));
-        return;
+
+
+        $nombre = self::getName($membresia);
+
+        if ($nombre == "") {
+            echo json_encode(array("success" => false, "m"=> "Socio no existe"));
+            return;
+        }
+        
+        if (self::deleteSocio($membresia)) {
+            echo json_encode(array("success" => true, "m"=> "Socio eliminado exitosamente"));
+            return;
+        }
+
+        echo json_encode(array("success" => false, "m"=> "Error al eliminar socio"));
     }
 
 
@@ -142,7 +157,8 @@ class SocioController
     }
 
 
-    public static function getName($membresia){
+    public static function getName($membresia)
+    {
         $query = "SELECT CONCAT(Nombre, ' ', ApellidoP) AS Nombre FROM personas where id = ?";
         $conexion = Conexion::conectar();
 
@@ -283,7 +299,6 @@ class SocioController
 
     public static function getMembresia($correo)
     {
-        
         $query = "SELECT id FROM personas WHERE Email = ?";
         $conexion = Conexion::conectar();
 
@@ -293,6 +308,19 @@ class SocioController
 
         $result = $stmt->get_result();
         return  $result->num_rows>0 ? $result->fetch_assoc()["id"] : false;
+    }
+
+    private static function deleteSocio($membresia)
+    {
+        $query = "DELETE FROM usuarios WHERE ID_Persona = ?";
+        $conexion = Conexion::conectar();
+        
+        
+        $stmt = $conexion->prepare($query);
+        $stmt->bind_param('s', $membresia);
+        $stmt->execute();
+
+        return  $stmt->affected_rows>0;
     }
 
 
