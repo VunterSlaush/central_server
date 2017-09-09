@@ -2158,7 +2158,7 @@ $(document).ready(function () {
         {
           Noticias.add(titulo, imagen).done(function (data)
           {
-            if (data.s == 1) {
+            if (data.s == 1 || data.success == "true" || data.success) {
               $("#myModal").modal("hide");
               $("#btnNoticias").click();
             }
