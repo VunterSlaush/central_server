@@ -120,7 +120,7 @@ class SocioController
         $conexion = Conexion::conectar();
         
 
-        $query = "SELECT p.Nombre, vp.parentesco FROM personas AS p 
+        $query = "SELECT p.Nombre, vp.parentesco, vp.idVinculado FROM personas AS p 
             JOIN vinculacion_persona AS vp ON vp.idVinculado= p.id
             WHERE vp.idPersona = ?";
 
