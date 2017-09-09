@@ -28,7 +28,11 @@ class LoginController{
         $socio = Socio::createLogin($correo,$contrasena);
         
         if(self::dataMatches($socio)){
-            echo json_encode(array("success" => true, "m"=> "Login exitoso"));
+
+            $membresia = SocioController::getMembresia($correo);
+            $_SESSION["id"] = $membresia;
+            $data = SocioController::getSocio($membresia);
+            echo json_encode(array("success" => true, "m"=> "Login exitoso", "d" => $data[0]));
             return;
         }
 
