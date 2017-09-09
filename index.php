@@ -9,6 +9,8 @@
     header("Content-Type: application/json; charset=utf-8");    
     include("routes/SociosRouter.php");
     include("routes/LoginRouter.php");
+
+    session_start();
     
     $base_url = getCurrentUri();
     $routes = array();
@@ -30,7 +32,11 @@
     //Sends each requests accordingly to its router
     switch($routes[1]){
         case "socio":
-            SociosRouter::enrutar($request,$routes);
+            if(isset($_SESSION["id"]) || $request == "POST"){
+                SociosRouter::enrutar($request,$routes);
+            }else{
+                sendSessionMessage();
+            }
             break;
         case "login":
             LoginRouter::enrutar($request,$routes);
@@ -42,6 +48,10 @@
 
     function sendErrorMessage(){
         echo json_encode(array("success" => false, "m" => "Petición incorrecta"));
+    }
+
+    function sendSessionMessage(){
+        echo json_encode(array("success" => false, "m" => "No se ha inciado sesión"));
     }
 
     /**

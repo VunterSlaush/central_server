@@ -59,21 +59,35 @@ class SocioController
 
     public static function findOne($membresia)
     {
-        self::listar($membresia);
+        $data = self::getSocio($membresia);
+        
+        if (!$data) {
+            echo json_encode(array("success" => false, "m"=> "No se encontraron registros"));
+            return;
+        }
+
+        echo json_encode(array("success" => true, "d"=> $data));
     }
 
     public static function findAll()
     {
-        self::listar(false);
+        $data = self::getSocio(false);
+
+        if (!$data) {
+            echo json_encode(array("success" => false, "m"=> "No se encontraron registros"));
+            return;
+        }
+
+        echo json_encode(array("success" => true, "d"=> $data));
     }
 
-    private static function listar($membresia)
+    public static function getSocio($membresia)
     {
 
         $conexion = Conexion::conectar();
 
-        $query = "SELECT CONCAT(Nombre, ' ', ApellidoP) AS Nombre, Email AS Correo FROM personas AS p
-        JOIN usuarios AS usr ON usr.ID_Persona = p.id ";
+        $query = "SELECT CONCAT(Nombre, ' ', ApellidoP) AS Nombre, Email AS Correo , p.ID AS membresia, Activo, tipo_membresia AS tipoMembresia FROM personas AS p
+        JOIN usuarios AS usr ON usr.ID_Persona = p.ID ";
 
         $stmt = $conexion->prepare($query);
 
@@ -87,17 +101,46 @@ class SocioController
 
         $result = $stmt->get_result();
 
-        if ($result->num_rows==0) {
-            echo json_encode(array("success" => false, "m"=> "No se encontraron registros"));
-            return;
-        }
+        if ($result->num_rows==0)
+            return array();
 
         while ($row = $result->fetch_assoc()) {
+            $membresia = $row["membresia"];
+            $row["vinculados"] = self::getVinculados($membresia);
+
             $rows[] = $row;
         }
 
-        echo json_encode(array("success" => true, "d"=> $rows));
-        return;
+      
+        return $rows;
+    }
+
+    private static function getVinculados($membresia){
+
+        $conexion = Conexion::conectar();
+        
+
+        $query = "SELECT p.Nombre, vp.parentesco FROM personas AS p 
+            JOIN vinculacion_persona AS vp ON vp.idVinculado= p.id
+            WHERE vp.idPersona = ?";
+
+        $stmt = $conexion->prepare($query);
+        $stmt->bind_param('i', $membresia);
+        $stmt->execute();
+
+
+        $result = $stmt->get_result();
+        $vinculados = array();
+
+        while($row = $result->fetch_assoc()){
+            
+            array_push($vinculados,$row);
+
+        } 
+
+        return $vinculados;
+   
+
     }
     
 
@@ -136,10 +179,14 @@ class SocioController
     public static function update($codigo)
     {
 
-        if (!self::codigoValido($codigo)) {
+        $membresia = self::codigoValido($codigo);   
+
+        if (!$membresia) {
             echo json_encode(array("success" => false, "m"=> "Código incorrecto"));
             return;
         }
+
+        
 
         $query = "UPDATE usuarios SET activado = 1 WHERE codigo = ? ";
         $conexion = Conexion::conectar();
@@ -149,7 +196,8 @@ class SocioController
         $stmt->execute();
 
         if ($conexion->affected_rows==1) {
-            echo json_encode(array("success" => true, "m"=> "Código confirmado"));
+            $data = self::getSocio($membresia);
+            echo json_encode(array("success" => true, "m"=> "Código confirmado", "d" => $data[0]));
             return;
         }
 
@@ -182,7 +230,7 @@ class SocioController
     */
     private static function codigoValido($codigo)
     {
-        $query = "SELECT codigo FROM usuarios where codigo = ?";
+        $query = "SELECT codigo, ID_Persona FROM usuarios where codigo = ?";
         $conexion = Conexion::conectar();
 
         $stmt = $conexion->prepare($query);
@@ -191,7 +239,12 @@ class SocioController
 
         $result = $stmt->get_result();
 
-        return ( $result->num_rows > 0 );
+        if ($result->num_rows > 0){
+            $membresia = $result->fetch_assoc()["ID_Persona"];
+            return $membresia;
+        }
+            
+        return false;
     }
     
 
