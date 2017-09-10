@@ -12,7 +12,7 @@ global $MY_SESSION_ID;
 global $menuDashboard;
 
 //Verifica si existe una sesión, si no existe ofrece la posibilidad de poder iniciar una.
-if (!isset($_SESSION[$MY_SESSION_ADMIN])) {
+if (!isset($_SESSION["id"])) {
     if ($_POST["ws"] == "login") {
         $user = $_POST["usuario"];
         $password = $_POST["password"];
@@ -26,6 +26,7 @@ if (!isset($_SESSION[$MY_SESSION_ADMIN])) {
                 $_SESSION[$MY_SESSION_ACCESS] = $estado['access'];
                 error_log("SETEANDO ACCESSOS". $estado['access'],0);
                 $_SESSION[$MY_SESSION_ID] = $estado['id_person'];
+                $_SESSION["id"] = $estado['id_person'];
                 echo json_encode(array("s" => 1, "m" => "Login Correcto"));
             } else
                 echo json_encode(array("s" => 0, "m" => "Usuario o Contraseña Incorrecta"));
@@ -226,6 +227,7 @@ else {
             unset($_SESSION[$MY_SESSION_PERSON]);
             unset($_SESSION[$MY_SESSION_ACCESS]);
             unset($_SESSION[$MY_SESSION_ID]);
+            unset($_SESSION["id"]);
 
             echo json_encode(array("s" => 1, "m" => "Sesíon Cerrada"));
             break;
