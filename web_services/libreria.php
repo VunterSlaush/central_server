@@ -2266,7 +2266,7 @@ function mPersona($persona)
 
 function aPersona()
 {
-    if ($_POST["administrador"] == 1) {
+    if (isset($_POST["administrador"]) && $_POST["administrador"] == 1) {
         aAdmin();
     }else{
         $sql = " SELECT NSS, Activo FROM personas WHERE NSS = '{$_POST['nss']}' ";
