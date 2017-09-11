@@ -2264,13 +2264,34 @@ function mPersona($persona)
 
 function aPersona()
 {
+
+    /* 
+    
+    ws:aPersona
+    nombre:Joan
+    apaterno:Gil
+    amaterno:Gil
+    direccion:erdkfQW
+    tipoMem:Individual
+    telefono:QASDNJSADS
+    correo:SADAS
+    fecha:
+    genero:masculino
+    nMembresia:1234
+    nip:ASD
+    idr:2
+    
+    
+    
+    
+    */
     if (isset($_POST["administrador"]) && $_POST["administrador"] == 1) {
         aAdmin();
     }else{
-        $sql = " SELECT NSS, Activo FROM personas WHERE NSS = '{$_POST['nss']}' ";
+        $sql = " SELECT NSS, Activo FROM personas WHERE NSS = '{$_POST['nip']}' ";
         $r = ejecutaSQL($sql);
         if (mysqli_num_rows($r) == 1){
-            $sql = " UPDATE personas SET Activo = 1  WHERE NSS = '{$_POST['nss']}' ";
+            $sql = " UPDATE personas SET Activo = 1  WHERE NSS = '{$_POST['nip']}' ";
             $rs = updateSQL($sql);
             if ($rs == 1)
                 echo json_encode(array("s" => 1, "m" => "Persona activada con &eacute;xito"));
@@ -2286,15 +2307,15 @@ function aPersona()
             $nom = strtoupper(trim(utf8_decode($_POST["nombre"])));
             $ap = strtoupper(trim(utf8_decode($_POST["apaterno"])));
             $am = strtoupper(trim(utf8_decode($_POST["amaterno"])));
-            $sql = "INSERT INTO personas (NSS,Titulo, Nombre, ApellidoP, ApellidoM, Email, Celular, Telefono, Detalle )
-                      VALUES ('{$_POST["nss"]}', '{$_POST["titulo"]}', '$nom', '$ap', '$am', '{$_POST["email"]}',
-                '{$_POST["movil"]}', '{$_POST["fijo"]}', '{$_POST["detalle"]}') ";
+            $sql = "INSERT INTO personas (NSS, tipo_membresia, Genero, Nombre, ApellidoP, ApellidoM, Email, Telefono, fecha_nacimiento )
+                      VALUES ('{$_POST["nip"]}', '{$_POST["genero"]}', '{$_POST["tipo_mem"]}', '$nom', '$ap', '$am', '{$_POST["correo"]}',
+                                '{$_POST["telefono"]}', '{$_POST["fecha"]}') ";
             $id = insertaSQL($sql);
             //Agrega los identificadores a la tabla identificador
-            $sql = " INSERT INTO identificador VALUES ({$id}, '{$_POST["id1"]}', '{$_POST["id2"]}', '{$_POST["id3"]}' ) ";
+            $sql = " INSERT INTO identificador (ID_Persona, ID1) VALUES ({$id}, '{$_POST["nip"]}') ";
             insertaSQL($sql);
             //Agrega el rol de la persona a la tabla asignacion_roles
-            if ($_POST["idr"] == "") {
+            if (!isset($_POST["idr"])) {
                 $sql = " INSERT INTO asignacion_roles VALUES ('1', {$id}) ";
             } else {
                 $sql = " INSERT INTO asignacion_roles VALUES ('{$_POST["idr"]}', {$id}) ";
@@ -3256,10 +3277,10 @@ function setCarrusel(){
 
 
 function aAdmin(){
-    $sql = " SELECT NSS, Activo, ID FROM personas WHERE NSS = '{$_POST['nss']}' ";
+    $sql = " SELECT NSS, Activo, ID FROM personas WHERE NSS = '{$_POST['nip']}' ";
     $r = ejecutaSQL($sql);
     if (mysqli_num_rows($r) == 1){
-        $sql = " UPDATE personas SET Activo = 1  WHERE NSS = '{$_POST['nss']}' ";
+        $sql = " UPDATE personas SET Activo = 1  WHERE NSS = '{$_POST['nip']}' ";
         $rs = updateSQL($sql);
         if ($rs == 1 || mysql_result($r,0,'Activo') == 1){
             $sql = " SELECT * FROM administradores WHERE ID_Persona = ".mysql_result($r,0,'ID');
@@ -3281,18 +3302,15 @@ function aAdmin(){
         //Agrega a la persona a la tabla personas
         $nom = strtoupper(trim(utf8_decode($_POST["nombre"])));
         $ap = strtoupper(trim(utf8_decode($_POST["apaterno"])));
-        $am = strtoupper(trim(utf8_decode($_POST["amaterno"])));
-        $sql = "INSERT INTO personas (NSS,Titulo, Nombre, ApellidoP, ApellidoM, Email, Celular, Telefono, Detalle )
-                  VALUES ('{$_POST["nss"]}', '{$_POST["titulo"]}', '$nom', '$ap', '$am', '{$_POST["email"]}',
-            '{$_POST["movil"]}', '{$_POST["fijo"]}', '{$_POST["detalle"]}') ";
+        $sql = "INSERT INTO personas (NSS, tipo_membresia, Genero, Nombre, ApellidoP, ApellidoM, Email, Telefono, fecha_nacimiento )
+        VALUES ('{$_POST["nip"]}', '{$_POST["genero"]}', '{$_POST["tipo_mem"]}', '$nom', '$ap', '$am', '{$_POST["correo"]}',
+                  '{$_POST["telefono"]}', '{$_POST["fecha"]}') ";
         $id = insertaSQL($sql);
+//Agrega los identificadores a la tabla identificador
+       
         //Agrega los identificadores a la tabla identificador
         if($id != 0){
-            $id1 = (isset($_POST["id1"])) ? $_POST["id1"] : $_POST["nss"];
-            $id2 = (isset($_POST["id2"])) ? $_POST["id2"] : "";
-            $id3 = (isset($_POST["id3"])) ? $_POST["id3"] : "";
-
-            $sql = " INSERT INTO identificador VALUES ({$id}, '$id1', '$id2', '$id3' ) ";
+            $sql = " INSERT INTO identificador (ID_Persona, ID1) VALUES ({$id}, '{$_POST["nip"]}') ";
             insertaSQL($sql);
             //Agrega el rol de la persona a la tabla asignacion_roles
             if (isset($_POST["idr"]) AND $_POST["idr"] == "") {
