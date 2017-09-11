@@ -2285,7 +2285,7 @@ function aPersona()
     
     
     */
-    if (isset($_POST["administrador"]) && $_POST["administrador"] == 1) {
+    if ($_POST["idr"] == 3) {
         aAdmin();
     }else{
         $sql = " SELECT NSS, Activo FROM personas WHERE NSS = '{$_POST['nip']}' ";
@@ -3285,10 +3285,7 @@ function aAdmin(){
         if ($rs == 1 || mysql_result($r,0,'Activo') == 1){
             $sql = " SELECT * FROM administradores WHERE ID_Persona = ".mysql_result($r,0,'ID');
             if(mysqli_num_rows(ejecutaSQL($sql)) != 0){
-                if($_POST['pss'] != "")
-                    $sql = " INSERT INTO administradores (Username, Password, ID_Persona, Acceso) VALUES ('{$_POST["usuario"]}', '{$_POST["pss"]}', {$id} ,'".pAccesos($_POST['accesos'],true)."') ";
-                else
-                    $sql = " INSERT INTO administradores (Username, Password, ID_Persona, Acceso) VALUES ('{$_POST["usuario"]}', '{$_POST["nss"]}', {$id} ,'".pAccesos($_POST['accesos'],true)."') ";
+                $sql = " INSERT INTO administradores (Username, Password, ID_Persona) VALUES ('{$_POST["user"]}', '{$_POST["pass"]}', {$id}) ";
                 $ida = insertaSQL($sql);
                 if($ida != 0)
                     echo json_encode(array("s" => 1, "m" => "Persona activada y a&ntilde;adida con &eacute;xito", "d" => array("idp" => mysql_result($r,0,'ID'), "ida" => $ida)));
@@ -3319,10 +3316,7 @@ function aAdmin(){
                 $sql = " INSERT INTO asignacion_roles VALUES ('{$_POST["idr"]}', {$id}) ";
             }
             insertaSQL($sql);
-            if($_POST['pss'] != "")
-                $sql = " INSERT INTO administradores (Username, Password, ID_Persona,Acceso) VALUES ('{$_POST["usuario"]}', '{$_POST["pss"]}', {$id} ,'".pAccesos($_POST['accesos'],true)."') ";
-            else
-                $sql = " INSERT INTO administradores (Username, Password, ID_Persona,Acceso) VALUES ('{$_POST["usuario"]}', '{$_POST["nss"]}', {$id} ,'".pAccesos($_POST['accesos'],true)."') ";
+            $sql = " INSERT INTO administradores (Username, Password, ID_Persona) VALUES ('{$_POST["user"]}', '{$_POST["pass"]}', {$id}) ";
             $ida = insertaSQL($sql);
             if($ida != 0)
                 echo json_encode(array("s" => 1, "m" => "Persona a&ntilde;adida con &eacute;xito", "d" => array("idp" => $id, "ida" => $ida)));
