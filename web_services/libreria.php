@@ -2089,10 +2089,8 @@ function aPsaGrupo ($grupo, $personas){
 
 function lPersona()
 {
-    if (isset($_POST["idr"]))
-        $sql = " SELECT p.ID, p.Nombre, p.ApellidoP, p.ApellidoM, p.NSS, r.Nombre AS Rol, r.ID AS idRol FROM personas p, asignacion_roles ar, roles r WHERE p.ID = ar.ID_Persona  AND r.ID = ar.ID_Rol AND ID_Rol = '{$_POST["idr"]}' AND p.Nombre LIKE '{$_POST["filtro"]}%' AND p.Activo = 1 ORDER BY p.ApellidoP, p.ApellidoM, p.NSS ";
-    else
-        $sql = " SELECT p.ID, p.Nombre, p.ApellidoP, p.ApellidoM, p.NSS, r.Nombre AS Rol, r.ID AS idRol FROM personas p, asignacion_roles ar, roles r WHERE p.ID = ar.ID_Persona AND r.ID = ar.ID_Rol AND p.Nombre LIKE '{$_POST["filtro"]}%' AND p.Activo = 1 ORDER BY p.ApellidoP, p.ApellidoM, p.NSS ";
+
+    $sql = " SELECT p.ID, p.Nombre, p.ApellidoP, p.ApellidoM, p.NSS, r.Nombre AS Rol, r.ID AS idRol FROM personas p, asignacion_roles ar, roles r WHERE p.ID = ar.ID_Persona AND r.ID = ar.ID_Rol AND p.Nombre LIKE '{$_POST["filtro"]}%' AND p.Activo = 1 ORDER BY p.ApellidoP, p.ApellidoM, p.NSS ";
         #$sql = " SELECT ID, Nombre, ApellidoP, ApellidoM, NSS FROM personas WHERE Nombre like '{$_POST["filtro"]}%' AND Activo = 1 ORDER BY ApellidoP, ApellidoM, NSS  ";
     $r = ejecutaSQL($sql);
     $j1 = array();

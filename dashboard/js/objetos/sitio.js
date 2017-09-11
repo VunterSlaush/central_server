@@ -1877,47 +1877,28 @@ var sitio = {
               '<thead>'+
               '<tr><th> # Membresia </th>'+
                 '<th> Nombre </th>'+
-                '<th> Cuenta </th>'+
-                '<th> Estatus </th>'+
                 '<th> Acciones </th></tr>'+
-              '</thead></table>';
+              '</thead><tbody>';
 
               var statusCode = ["Inactivo","Activo"];
               for (var i = 0; i < data.d.personas.length; i++) {
                 var rowData = [];
                 if (data.d.personas[i].RolID != '3'){
-                  var btnAsociadoCode = "";
-
-                  if(data.d.personas[i].rol == "Asociado" || data.d.personas[i].rol == "Visita"){
-                    btnAsociadoCode = '<a class="btn btn-warning btn-setting disabled" id="btnAsociados" href="#" tipo="socios" id-tipo="'+ data.d.personas[i].id +'" nombre-tipo="'+ data.d.personas[i].nombre +'"><i class="glyphicon glyphicon-tags icon-white"></i> Asociados    </a> ';
-                  }else{
-                    btnAsociadoCode = '<a class="btn btn-warning btn-setting" id="btnAsociados" href="#" tipo="socios" id-tipo="'+ data.d.personas[i].id +'" nombre-tipo="'+ data.d.personas[i].nombre +'"><i class="glyphicon glyphicon-tags icon-white"></i> Asociados    </a> ';
-                  }
-
-                  var btnVisitasCode = "";
-
-                  if(data.d.personas[i].rol == "Visita"){
-                    btnVisitasCode ='<a class="btn btn-success btn-setting disabled" id="btnVisita" href="#" id-tipo="'+ data.d.personas[i].id +'" nombre-tipo="'+ data.d.personas[i].nombre +'" ><i class="glyphicon glyphicon-barcode icon-white"></i>  Visitas </a> ';
-                  }else{
-                    btnVisitasCode ='<a class="btn btn-success btn-setting" id="btnVisita" href="#" id-tipo="'+ data.d.personas[i].id +'" nombre-tipo="'+ data.d.personas[i].nombre +'" ><i class="glyphicon glyphicon-barcode icon-white"></i>  Visitas </a> ';
-                  }
-
-                  rowData.push(data.d.personas[i].nMembresia);
-                  rowData.push(data.d.personas[i].nombre);
-                  rowData.push(data.d.personas[i].rol);
-                  rowData.push(statusCode[data.d.personas[i].estatus]);
-                  rowData.push(btnVisitasCode+btnAsociadoCode+'<a class="btn btn-info btn-setting" id="btnModificar" href="#" tipo="socios" id-tipo="'+ data.d.personas[i].id +'"  nombre-tipo="'+ data.d.personas[i].nombre+'" membre-tipo="'+ data.d.personas[i].tipo_membresia +'" estatus-tipo="'+ data.d.personas[i].estatus+'" ><i class="glyphicon glyphicon-edit icon-whitecon"></i>   Modificar  </a>');
-
-                  tableData.push(rowData);
+                    tablaHTML += ''+
+                    '<tr>'+
+                    '<td>'+data.d.personas[i].id+'</td>'+
+                    '<td>'+data.d.personas[i].nombre+'</td>'+
+                    '<td>'+
+                    '<a class="btn btn-danger" id="btnEliminar" href="#" tipo="socio" id-tipo="'+data.d.personas[i].id+'"><i class="glyphicon glyphicon-trash icon-white"></i> Eliminar    </a> '+
+                    '</td></tr>';
                 }
               }
-
+              tablaHTML+='</tbody></table>';
               $('#contenido').html(tablaHTML);
 
               var tabla = $('#tabla-socios').dataTable({
                 "sDom": "<'row'<'col-md-6 text-left'l><'col-md-6 text-right'f>r>t<'row'<'col-md-12'i><'col-md-12 center-block'p>>",
                 "sPaginationType": "bootstrap",
-                data: tableData,
                 "deferRender": true,
                 "oLanguage": {
                   "sLengthMenu": "Registros por página: _MENU_ ",
@@ -2070,7 +2051,7 @@ var sitio = {
           break;
           case "empleados":
           $("#btnAgregar").attr('tipo', 'empleados').show();
-          Personas.consultPersonaRol(3).done(function (data) {
+          Personas.consultPersona("").done(function (data) {
             if (data.s == 0) {
               if (data.m == 'No has iniciado sesión') {
                 alert(data.m);
@@ -2084,30 +2065,29 @@ var sitio = {
               '<thead>'+
               '<tr><th> # Empleado </th>'+
               '<th> Nombre </th>'+
-              '<th> Estatus </th>'+
               '<th> Acciones </th></tr>'+
-              '</thead><table>';
+              '</thead><tbody>';
 
               var statusCode = ["Inactivo","Activo"];
 
               var tableData = [];
 
               for (var i = 0; i < data.d.personas.length; i++) {
-                var row = [];
-                row.push(data.d.personas[i].nMembresia);
-                row.push(data.d.personas[i].nombre);
-                row.push(statusCode[data.d.personas[i].estatus]);
-                row.push('<a class="btn btn-success btn-setting" id="btnPrivilegio" href="#" id-tipo="'+ data.d.personas[i].id +'"  nombre-tipo="'+ data.d.personas[i].nombre +'" rol-tipo="'+ data.d.personas[i].rol +'"><i class="glyphicon glyphicon-barcode icon-white"></i>  Privilegios </a> ' +
-                         '<a class="btn btn-info btn-setting" id="btnModificar" href="#" tipo="empleados" id-tipo="'+ data.d.personas[i].id +'"  nombre-tipo="'+ data.d.personas[i].nombre +'" rol-tipo="'+ data.d.personas[i].rol +'" ><i class="glyphicon glyphicon-edit icon-whitecon"></i>   Modificar  </a> ');
-
-                tableData.push(row);
+                if (data.d.personas[i].RolID == 3){
+                    tablaHTML += ''+
+                    '<tr>'+
+                    '<td>'+data.d.personas[i].id+'</td>'+
+                    '<td>'+data.d.personas[i].nombre+'</td>'+
+                    '<td>'+
+                    '<a class="btn btn-danger" id="btnEliminar" href="#" tipo="empleado" id-tipo="'+data.d.personas[i].id+'"><i class="glyphicon glyphicon-trash icon-white"></i> Eliminar    </a> '+
+                    '</td></tr>';
+                }
               }
-
+              tablaHTML+='</tbody></table>';
               $('#contenido').html(tablaHTML);
               var tabla = $('#tabla-empleados').dataTable({
                 "sDom": "<'row'<'col-md-6 text-left'l><'col-md-6 text-right'f>r>t<'row'<'col-md-12'i><'col-md-12 center-block'p>>",
                 "sPaginationType": "bootstrap",
-                "data": tableData,
                 "oLanguage": {
                   "sLengthMenu": "Registros por página: _MENU_ ",
                   "sInfo": "Mostrando _START_ al _END_ de _TOTAL_ registros",

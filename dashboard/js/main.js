@@ -1232,11 +1232,9 @@ $(document).ready(function () {
       });
       break;
       case "persona":
-      Administradores.ConsultAccess(id_admin, navMenus[3], 'esc').done(function (data) {
-        if(data.s == 1){
+
           sitio.construirModal(tipo, 'add',{"rol":$(btnElement).attr("rol")});
-        }else notyErrorAcceso();
-      });
+
       break;
       case "espacio":
       Administradores.ConsultAccess(id_admin, navMenus[4], 'esc').done(function (data) {
@@ -1293,18 +1291,13 @@ $(document).ready(function () {
       break;
 
       case "notPush":
-      Administradores.ConsultAccess(id_admin, navMenus[3], 'esc').done(function (data) {
-        if(data.s == 1){
+
           sitio.construirModal(tipo, 'add');
-        }else notyErrorAcceso();
-      });
+
       break;
       case "empleados":
-      Administradores.ConsultAccess(id_admin, navMenus[7], 'esc').done(function (data) {
-        if(data.s == 1){
           ControlEmpleados.construirModal('add');
-        }else notyErrorAcceso();
-      });
+
       break;
       case "alberca":
       Administradores.ConsultAccess(id_admin, navMenus[9], 'esc').done(function (data) {
@@ -1314,11 +1307,9 @@ $(document).ready(function () {
       });
       break;
       case "socios":
-      Administradores.ConsultAccess(id_admin, navMenus[4], 'esc').done(function (data) {
-        if(data.s == 1){
+
           ControlSocios.construirModal('add');
-        }else notyErrorAcceso();
-      });
+
       break;
     }
   });
@@ -1854,15 +1845,13 @@ $(document).ready(function () {
         var apellidoM = $('#apellidoM').val();
         var direccion = $('#direccion').val();
         var telefono = $('#telefono').val();
-        var celular = $('#celular').val();
         var correo = $('#correo').val();
-        var rfc = $('#rfc').val();
         var fecha_nac = $('#fecha-nac').val();
         var tipo_sangre = $('#tipo-sangre').val();
         var genero = $('#genero').val();
         var nMembresia = $('#nMembresia').val();
         var nip = $('#nip').val();
-        var estatus = $('#estatus').val();
+
         var imageData = $('#userImage').attr('src');
         var tipoMemb = $('#tipo-memb').val();
 
@@ -2860,8 +2849,7 @@ $(document).ready(function () {
   });
 
   $(document).on("click", "#btnSocios", function (e) {
-    Administradores.ConsultAccess(id_admin, navMenus[4], 'leer').done(function (data) {
-      if(data.s == 1){
+
         sharedFunction('btnSocios');
         $('#btnMinimize').hide();
         $("#titulo").html('<i class="glyphicon glyphicon-bookmark"></i> Socios');
@@ -2869,10 +2857,7 @@ $(document).ready(function () {
         $("#contenido").html(' ');
         //despues devolvemos la tabla construida de roles
         sitio.construirTabla("socios");
-      }else{
-        notyErrorAcceso();
-      }
-    });
+
   });
 
   $(document).on("click", "#btnPagos", function (e) {
@@ -3433,8 +3418,7 @@ $(document).ready(function () {
   });
 
   $(document).on("click", "#btnEmpleados", function (e) {
-    Administradores.ConsultAccess(id_admin, navMenus[7], 'leer').done(function (data) {
-      if(data.s == 1){
+
         sharedFunction('btnEmpleados');
         $('#btnMinimize').hide();
         $("#titulo").html('<i class="glyphicon glyphicon-user"></i> Empleados');
@@ -3443,10 +3427,6 @@ $(document).ready(function () {
         //despues devolvemos la tabla construida de roles
         sitio.construirTabla("empleados");
 
-      }else{
-        notyErrorAcceso();
-      }
-    });
   });
 
   $(document).on("click", "#btnAlberca", function (e) {

@@ -33,9 +33,8 @@ var ControlEmpleados = {
       '<div role="tabpanel">' +
       '<ul class="nav nav-tabs" role="tablist">' +
       '<li role="presentation" class="active"><a id="hyperDatos" href="#datos" aria-controls="datos" role="tab" data-toggle="tab"><h4>Datos</h4> </a></li> ' +
-      '<li role="presentation"><a id="hyperHuellas" href="#huellas" aria-controls="huellas" role="tab" data-toggle="tab"><h4>Biometrico</h4></a></li>' +
-      '<li role="presentation"><a id="hyperRfdi" href="#rfdi" aria-controls="docs" role="tab" data-toggle="tab"><h4>RFID</h4> </a></li>' +
-      '<li role="presentation"><a id="hyperDocumentos" href="#docs" aria-controls="docs" role="tab" data-toggle="tab"><h4>Documentos</h4> </a></li></ul>' +
+
+      '</ul>' +
       '<div class="tab-content"> ' +
       '<div role="tabpanel" class="tab-pane in active" id="datos"><p id="datosCont" style="margin-top: 20px;"></p></div>' +
       '<div role="tabpanel" class="tab-pane in active" id="docs"><p id="docsCont" style="margin-top: 20px;"></p></div>' +
@@ -390,18 +389,8 @@ var ControlEmpleados = {
   showDatosTab: function (tipo,idp, nombre) {
     $("#datosCont").html(''+
     '<div class="row">'+
-      '<div class="col-xs-3"> '+
-        '<div class="camera-container" style="width: 200px;height: 200px;margin: 0;border: solid;position: relative;top: 0;left: 0;"> '+
-          '<div style="width: 100%;height: 100%;position: absolute;top: 0;left: 0;">'+
-            '<a id="btnUpload" class="btn btn-primary" style="position: absolute;z-index: 1;height: 20%;bottom: 5px;width: 95%;left: 2.5%;">Examinar</a>'+
-            '<input type="file" id="uploadInput" name="uploadInput"  value="" style="display:none" accept="image/jpg, image/jpeg">'+
-          '</div>'+
-          '<a href="#" id="btnImageAdd"> <img src="img/photo-camera.png" style="width: 25px;height: 25px;float: right;position: relative;z-index: 1;margin-right: 5px;margin-top: 5px;"></a>'+
-          '<a href="#" id="btnImageDelete" style=""> <img src="img/delete.png" style="width: 25px;height: 25px;float: right;z-index: 1;position: relative;margin-right: 5px;margin-top: 5px;top: 0;left: 0;"></a>'+
-          '<img id="userImage" src="" style="width: 100%;height: 100%;position: absolute;top: 0;left: 0;">'+
-        '</div>'+
-      '</div>'+
-      '<div class="col-xs-9"> '+
+
+      '<div class="col-xs-12"> '+
         '<div class="form-container col-xs-4"> '+
           '<div id="mE1" class="form-group">'+
             '<label class="control-label" for="user">Usuario*</label>'+
@@ -421,7 +410,7 @@ var ControlEmpleados = {
           '</div>'+
         '</div>'+
       '</div>'+
-      '<div class="col-xs-9"> '+
+      '<div class="col-xs-12"> '+
         '<div class="form-container col-xs-4"> '+
           '<div id="mE4" class="form-group">'+
             '<label class="control-label" for="nombre">Nombre*</label>'+
@@ -441,23 +430,18 @@ var ControlEmpleados = {
           '</div>'+
         '</div>'+
       '</div>'+
-      '<div class="col-xs-9"> '+
+      '<div class="col-xs-12"> '+
       '<div class="form-container col-xs-4"> '+
         '<div id="mE14" class="form-group">'+
           '<label class="control-label" for="genero">Genero</label>'+
           '<select class="form-control" id="genero" name="genero"><option value="masculino"> Masculino </option><option value="femenino"> Femenino </option></select> '+
         '</div>'+
       '</div>'+
-        '<div class="form-container col-xs-4"> '+
-          '<div id="mE17" class="form-group">'+
-            '<label class="control-label" for="estatus">Estatus</label>'+
-            '<select class="form-control" id="estatus" name="estatus"><option value="1"> Activo </option><option value="0"> Inactivo </option></select> '+
-          '</div>'+
-        '</div>'+
+
         '<div class="form-container col-xs-4"> '+
           '<div id="mE16" class="form-group">'+
-            '<label class="control-label" for="nip">NIP Acceso</label>'+
-            '<input type="text" class="form-control" id="nip" name="nip" placeholder="Ingrese NIP"> '+
+            '<label class="control-label" for="nip">NSS Acceso</label>'+
+            '<input type="text" class="form-control" id="nip" name="nip" placeholder="Ingrese NSS"> '+
           '</div>'+
         '</div>'+
       '</div>'+
@@ -468,18 +452,6 @@ var ControlEmpleados = {
           '<div id="mE7" class="form-group">'+
             '<label class="control-label" for="direccion">Dirección</label>'+
             '<input type="text" class="form-control" id="direccion" name="direccion" placeholder="Ingrese dirección"> '+
-          '</div>'+
-        '</div>'+
-        '<div class="form-container col-xs-3"> '+
-          '<div id="mE8" class="form-group">'+
-            '<label class="control-label" for="telefono">Teléfono</label>'+
-            '<input type="text" class="form-control" id="telefono" name="telefono" placeholder="Ingrese teléfono"> '+
-          '</div>'+
-        '</div>'+
-        '<div class="form-container col-xs-3"> '+
-          '<div id="mE9" class="form-group">'+
-            '<label class="control-label" for="celular">Celular</label>'+
-            '<input type="text" class="form-control" id="celular" name="celular" placeholder="Ingrese celular"> '+
           '</div>'+
         '</div>'+
       '</div>'+
@@ -493,21 +465,9 @@ var ControlEmpleados = {
           '</div>'+
         '</div>'+
         '<div class="form-container col-xs-3"> '+
-          '<div id="mE11" class="form-group">'+
-            '<label class="control-label" for="rfc">RFC</label>'+
-            '<input type="text" class="form-control" id="rfc" name="rfc" placeholder="Ingrese RFC"> '+
-          '</div>'+
-        '</div>'+
-        '<div class="form-container col-xs-3"> '+
           '<div id="mE12" class="form-group">'+
             '<label class="control-label" for="fecha-nac">Fecha Nacimiento</label>'+
             '<input type="date" class="form-control" id="fecha-nac" name="fecha-nac"> '+
-          '</div>'+
-        '</div>'+
-        '<div class="form-container col-xs-3"> '+
-          '<div id="mE13" class="form-group">'+
-            '<label class="control-label" for="tipo-sangre">Tipo de Sangre</label>'+
-            '<select class="form-control" id="tipo-sangre" name="tipo-sangre"> <option value="O-"> O- </option> <option value="O"> O </option> <option value="A-"> A- </option> <option value="A"> A </option> <option value="B-"> B- </option> <option value="B"> B </option> <option value="AB-"> AB- </option> <option value="AB"> AB </option> </select> '+
           '</div>'+
         '</div>'+
       '</div>'+
