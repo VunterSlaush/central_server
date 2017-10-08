@@ -141,6 +141,9 @@ function deleteSQL($sql)
 }
 /* Funciones propias del sistema, seccion DEBUG */
 
+
+
+
 function analizar_imp($nss, $fecha)
 {
     /*funcion que analiza las incidencias de un elemento que tiene asignado un NSS en la fecha indicada
@@ -3621,6 +3624,18 @@ function piscinaActual()
   }
 }
 
+function resetLicencia(){
+    $maquina = filter_input(INPUT_POST, "maquina");
+    if (!$maquina){
+        echo json_encode(array("s" => 0, "m" => "Bad request"));
+        return;
+    }
+    $sql = "UPDATE dispositivos SET licencia = 0 WHERE Maquina = '$maquina'";
+    if (updateSQL($sql) == 0)
+        echo json_encode(array("s" => 0, "m" => "Error al reiniciar licencia"));
+    else
+        echo json_encode(array("s" => 1, "m" => "Licencia reiniciada exitosamente"));
+}
 
 function ePiscina($id)
 {

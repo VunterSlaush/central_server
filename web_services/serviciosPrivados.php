@@ -292,6 +292,10 @@ else {
           ePiscina($_POST['id']);
         break;
 
+        case "licencia":
+            resetLicencia();
+        break;
+
         case "piscinaActual":
           piscinaActual();
         break;
