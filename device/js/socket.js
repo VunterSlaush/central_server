@@ -2,6 +2,7 @@ var socket = io('https://devicescontroller.herokuapp.com');
 
 socket.on('connect', function()
 {
+  console.log("Device connected!");
   socket.emit('type', 'device');
 });
 
@@ -10,7 +11,7 @@ socket.on('reconnect',function ()
   auth();
 });
 
-/*
+
 socket.on('connect_error', function(error){
     $.confirm({
       title: 'Alerta',
@@ -24,8 +25,8 @@ socket.on('connect_error', function(error){
           }
       }
   });
-});*/
-/*
+});
+
 socket.on('connect_timeout', function(error){
     $.confirm({
       title: 'Alerta',
@@ -39,7 +40,7 @@ socket.on('connect_timeout', function(error){
           }
       }
   });
-});*/
+});
 
 socket.on('open',function()
 {
@@ -58,6 +59,7 @@ socket.on('loggedIn',function(data)
     //mostrarChecador();
   /*else
    mostrarLogin();*/
+   console.log("LOOGEED IN");
 });
 
 function cambiarEstado(id)
@@ -76,9 +78,10 @@ function cambiarEstado(id)
 }
 
 
-function auth(user,password)
+function auth()
 {
-  socket.emit('auth_device',{username:localStorage.getItem('host', user),
-                             password:localStorage.getItem('sesion', password)
+
+  socket.emit('auth_device',{username:localStorage.getItem("host"),
+                             password:localStorage.getItem("password")
                             });
 }

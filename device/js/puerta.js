@@ -1,6 +1,6 @@
-var socketPuerta = io('http://localhost:1234'); // TODO CAMBIAR ESTO SI ES NECESARIO!
+/*var socketPuerta = io('http://localhost:1234'); // TODO CAMBIAR ESTO SI ES NECESARIO!*/
 const ESPERA_TIMEOUT = 10000;
-
+/*
 socketPuerta.on('puertoAbierto', function(data)
 {
   $('#puertaButton').button('reset');
@@ -37,7 +37,7 @@ socketPuerta.on('errorGeneral', function(data)
 socketPuerta.on('disconnect', function(data)
 {
   desconectar();
-});
+});*/
 
 function modalPuerta()
 {

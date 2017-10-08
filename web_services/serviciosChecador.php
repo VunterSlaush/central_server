@@ -15,7 +15,7 @@ date_default_timezone_set('America/Mexico_City');
 
 if (isset($_GET['servicio'])) {
     #---------------------------------------------------------
-    # NEW RELIC                                             -- 
+    # NEW RELIC                                             --
     #                                                       --
     if (extension_loaded('newrelic')) {
         newrelic_set_appname($base . "_" . $_GET['servicio']);
@@ -61,7 +61,7 @@ if (isset($_GET['servicio'])) {
             break;
         case "getMatriculas":
             getMatriculas();
-            break;            
+            break;
         case "getTime":
             getTime();
             break;
@@ -160,9 +160,9 @@ function checadoPubOnline()
     $nss = $_POST['nss'];
     $idPub = $_POST['pub'];
     $hostName = $_POST['hostName'];
-    $sql = "SELECT a.id_persona, b.nombre, b.apellidoP, b.apellidoM FROM identificador a, personas b WHERE a.id1='$nss' AND b.id=a.id_persona";
+    $sql = "SELECT * FROM personas  WHERE NSS= ".$nss;
     $result = mysqli_fetch_array(mysqli_query($con, $sql));
-    $nombre = $result['apellidoP'] . " " . $result['apellidoM'] . " " . $result['nombre'];
+    $nombre = $result['ApellidoP'] . " " . $result['ApellidoM'] . " " . $result['Nombre'];
     $rs = $result[0];
     if ($rs) {
         $sql = "SELECT ID FROM dispositivos WHERE Maquina = '$hostName' ";

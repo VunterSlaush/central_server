@@ -115,6 +115,7 @@ function login(maquina,password,phase)
       success: function (data) {
           if (data.s == 1) {
               localStorage.setItem("host",maquina);
+              localStorage.setItem("password",password);
               auth();
               mostrarChecador();
           }
@@ -174,7 +175,7 @@ function mostrarChecador()
 
     getServerTime();
 
-    autoConectarPuerta();
+    //autoConectarPuerta();
 
     //Obtener lista de profesores para checadas offline
     //getProfesores();
@@ -407,7 +408,6 @@ function checadaLector(nss) {
  */
 function checarOnline(nss, pubId, devId) {
 
-    if (onLine == 2) {
         $.ajax({
             url: "../web_services/serviciosChecador.php?servicio=checadoPubOnline",
             data: {nss: nss, pub: pubId, devID: devId, hostName: localStorage.getItem('host')},
@@ -426,13 +426,12 @@ function checarOnline(nss, pubId, devId) {
             },
             error: function () {
                 semaforoAmarillo();
-                checarOffline(nss, pubId, devId);
+                checadaError();
+                //checarOffline(nss, pubId, devId);
             }
         }); // Fin petición AJAX
-    } //Fin IF onLine
-    else {
-        checarOffline(nss, pubId, devId);
-    }
+
+
 }
 
 
@@ -442,7 +441,7 @@ function checadaSuccess(nombre)
         $('#user_name').text(nombre)
 
       $('#checada_success').modal();
-      abrirPuerta();
+      //abrirPuerta();
       setTimeout(function ()
       {   // ocultar modal
           $('#checada_success').modal('hide');
@@ -534,14 +533,14 @@ function setClockTime(time) {
 */
 function abrirPuerta()
 {
-  enviarComando('1',function (data) {
-    let stringBuffer = String.fromCharCode.apply(null, new Uint16Array(data));
-    console.log('data on puerta:'+stringBuffer);
-    if(data.success == 'true' && data.res == 'OK')
-      showPuertaAbiertaModal(false);
-    else
-      showPuertaAbiertaModal(true);
-  });
+  ///*enviarComando('1',function (data) {
+    //let stringBuffer = String.fromCharCode.apply(null, new Uint16Array(data));
+    //console.log('data on puerta:'+stringBuffer);
+    //if(data.success == 'true' && data.res == 'OK')
+     showPuertaAbiertaModal(false);
+    //else
+      //showPuertaAbiertaModal(true);
+  //});
 }
 
 /**
