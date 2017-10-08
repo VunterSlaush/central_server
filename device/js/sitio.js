@@ -441,7 +441,7 @@ function checadaSuccess(nombre)
         $('#user_name').text(nombre)
 
       $('#checada_success').modal();
-      abrirPuerta();
+      //abrirPuerta();
       setTimeout(function ()
       {   // ocultar modal
           $('#checada_success').modal('hide');
