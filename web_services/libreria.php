@@ -2268,8 +2268,8 @@ function mPersona($persona)
 function aPersona()
 {
 
-    /* 
-    
+    /*
+
     ws:aPersona
     nombre:Joan
     apaterno:Gil
@@ -2283,10 +2283,10 @@ function aPersona()
     nMembresia:1234
     nip:ASD
     idr:2
-    
-    
-    
-    
+
+
+
+
     */
     if ($_POST["idr"] == 3) {
         aAdmin();
@@ -3307,7 +3307,7 @@ function aAdmin(){
                   '{$_POST["telefono"]}', '{$_POST["fecha"]}') ";
         $id = insertaSQL($sql);
 //Agrega los identificadores a la tabla identificador
-       
+
         //Agrega los identificadores a la tabla identificador
         if($id != 0){
             $sql = " INSERT INTO identificador (ID_Persona, ID1) VALUES ({$id}, '{$_POST["nip"]}') ";
@@ -3630,7 +3630,7 @@ function resetLicencia(){
         echo json_encode(array("s" => 0, "m" => "Bad request"));
         return;
     }
-    $sql = "UPDATE dispositivos SET licencia = 0 WHERE Maquina = '$maquina'";
+    $sql = "UPDATE dispositivos SET licencia = 0 WHERE ID = '$maquina'";
     if (updateSQL($sql) == 0)
         echo json_encode(array("s" => 0, "m" => "Error al reiniciar licencia"));
     else

@@ -31,7 +31,7 @@ var Dispositivos = {
             idDev: idDisp
         };
         return Requester.getService(json);
-    },    
+    },
 
     deleteDispositivo: function (id) {
         json = {
@@ -75,9 +75,10 @@ var Dispositivos = {
     },
 
     resetLicencia: function(idDev){
+
         json={
-            ws:'rDispositivo',
-            idDisp:idDev,
+            ws:'licencia',
+            maquina:idDev,
         };
         return Requester.getService(json);
     },

@@ -141,6 +141,9 @@ $(document).ready(function () {
     return i;
   }
 
+
+
+
   //iniciar fecha
   startTime();
 
@@ -256,13 +259,6 @@ $(document).ready(function () {
     }
   });
 
-  $(document).on("click", "#btnResetDev", function () {
-    showOptionNoty('¿Seguro que quieres reiniciar la licencia de este dispositivo?', 'center', 'warning', '',
-    "Dispositivos.resetLicencia(" + $(this).attr('id-tipo') + ").done(function (data) { " +
-    "if(data.s == 1) {" +
-    "showSimpleNoty(data.m, 'center', 'success', '5000');" +
-    "} else{ showSimpleNoty(data.m, 'center', 'error', '0');}}); ");
-  });
 
   $(document).on("click", "#btnIni", function () {
     if ($('#upInicio').val().length) {

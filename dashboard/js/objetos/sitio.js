@@ -785,6 +785,7 @@ var sitio = {
           $(".modal-footer").html('<a href="#" class="btn btn-default" data-dismiss="modal">Cancelar</a> ' +
           '<a href="#" class="btn btn-primary" id="btnSaveReg" tipo="dispositivo" accion="' + accion + '"> Guardar </a>');
         }else{
+          console.log("INFOO:",modInfo.dev);
           var idDev=document.getElementById(modInfo.dev).getAttribute("idDev");
           var dev=document.getElementById(modInfo.dev).getAttribute("maquina");
           var pass=document.getElementById(modInfo.dev).getAttribute("pass");
@@ -798,7 +799,7 @@ var sitio = {
             $('#selectSpace').val(ub).trigger('chosen:updated');
             $(".modal-footer").html(''+
             '<a class="btn btn-danger" id="btnEliminar" href="#" tipo="device" id-tipo="' + idDev + '"><i class="glyphicon glyphicon-trash icon-white"></i>    Eliminar    </a> '+
-            '<a class="btn btn-primary" id="btnResetDev" href="#" id-tipo="' + idDev + '"><i class="glyphicon glyphicon-repeat"></i>    Reiniciar licencia    </a> '+
+            '<a class="btn btn-primary" id="btnResetDev" href="#" id-tipo="' + idDev + '" onClick="resetLicenciaAction('+idDev.substring(3,idDev.length)+')"><i class="glyphicon glyphicon-repeat"></i>    Reiniciar licencia    </a> '+
             '<a class="btn btn-default" data-dismiss="modal" >Cancelar</a> ' +
             '<a id="btnSaveDisp" class="btn btn-primary" id-tipo="' + idDev + '"> Guardar </a>'
           );
@@ -922,7 +923,7 @@ var sitio = {
 
         $(".modal-footer").html(''+
         '<a class="btn btn-danger" id="btnEliminar" href="#" tipo="device" id-tipo="' + idDev + '"><i class="glyphicon glyphicon-trash icon-white"></i>    Eliminar    </a> '+
-        '<a class="btn btn-primary" id="btnResetDev" href="#" id-tipo="' + idDev + '"><i class="glyphicon glyphicon-repeat"></i>    Reiniciar licencia    </a> '+
+        '<a class="btn btn-primary" id="btnResetDev" href="#" id-tipo="' + idDev + '"  onClick="resetLicenciaAction('+idDev.substring(3,idDev.length)+')"><i class="glyphicon glyphicon-repeat"></i>    Reiniciar licencia    </a> '+
         '<a class="btn btn-default" data-dismiss="modal" >Cancelar</a> ' +
         '<a id="btnSaveDisp" class="btn btn-primary" id-tipo="' + idDev + '"> Guardar </a>'
       );
@@ -2411,7 +2412,7 @@ var sitio = {
           //   showSimpleNoty(data.m, "center", "information", 0);
           // }
           // else{
-            var tablaHTML = '<hr><div style="margin-left: 10px; margin-bottom: 15px; text-align: right;"> <a href="#" id="btnGenerarPDF" class="btn btn-primary"> PDF</a> <a href="#" id="btnGenerarXLS" class="btn btn-primary">XLS</a></div>'+
+            var tablaHTML = '<hr><div style="margin-left: 10px; margin-bottom: 15px; text-align: right;"> </div>'+
             '<table id="tabla-reporteC" class="table table-striped table-bordered bootstrap-datatable datatable responsive">'+
             '<thead>'+
             '<tr><th> Dia </th>'+
@@ -2492,7 +2493,7 @@ var sitio = {
             //   showSimpleNoty(data.m, "center", "information", 0);
             // }
             // else{
-              var tablaHTML = '<hr><div style="margin-left: 10px; margin-bottom: 15px; text-align: right;"> <a href="#" id="btnGenerarPDF" class="btn btn-primary"> PDF</a> <a href="#" id="btnGenerarXLS" class="btn btn-primary">XLS</a></div>'+
+              var tablaHTML = '<hr><div style="margin-left: 10px; margin-bottom: 15px; text-align: right;"> </div>'+
               '<table id="tabla-reporteS" class="table table-striped table-bordered bootstrap-datatable datatable responsive">'+
               '<thead>'+
               '<tr><th> Dia </th>'+
@@ -2568,7 +2569,7 @@ var sitio = {
               //   showSimpleNoty(data.m, "center", "information", 0);
               // }
               // else{
-                var tablaHTML = '<hr><div style="margin-left: 10px; margin-bottom: 15px; text-align: right;"> <a href="#" id="btnGenerarPDF" class="btn btn-primary"> PDF</a> <a href="#" id="btnGenerarXLS" class="btn btn-primary">XLS</a></div>'+
+                var tablaHTML = '<hr><div style="margin-left: 10px; margin-bottom: 15px; text-align: right;"> </div>'+
                 '<table id="tabla-reporteA" class="table table-striped table-bordered bootstrap-datatable datatable responsive">'+
                 '<thead>'+
                 '<tr><th> Fecha - Hora </th>'+
@@ -3917,6 +3918,16 @@ var sitio = {
       }
       img.src = imgUrl;
     }
+
+    function resetLicenciaAction(id) {
+        console.log("CLICK");
+        showOptionNoty('¿Seguro que quieres reiniciar la licencia de este dispositivo?', 'center', 'warning', '',
+        "Dispositivos.resetLicencia(" + id + ").done(function (data) { " +
+        "if(data.s == 1) {" +
+        "showSimpleNoty(data.m, 'center', 'success', '5000');" +
+        "} else{ showSimpleNoty(data.m, 'center', 'error', '0');}}); ");
+    }
+
     function modifyDevice (idDev) {
       $('#btnModificar').attr('id-dev',idDev);
       $('#btnModificar').click();
