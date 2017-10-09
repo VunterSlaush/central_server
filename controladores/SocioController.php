@@ -279,6 +279,7 @@ class SocioController
         
         $body = "Estimado socio, su código de activación es ".$socio->key;
         $subject = "Active su cuenta";
+        $_SESSION["id"] = $socio->membresia;
         $mailSent = self::sendMail($body, $subject, $socio);
         if ($conexion->affected_rows==1 && $mailSent) {
             echo json_encode(array("success" => true, "m"=> "Usuario registrado exitosamente"));
